@@ -7,6 +7,7 @@ import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema, registerSchema } from '../../schemas/registerSchema';
 import ErrorMessage from '../utils/ErrorMessage';
+import { Link } from 'react-router-dom';
 
 const RegisterForm = () => {
   const form = useForm<RegisterSchema>({
@@ -17,6 +18,7 @@ const RegisterForm = () => {
       birthDate: '',
       password: '',
       confirmPassword: '',
+      role: 'chessPlayer',
     },
     resolver: zodResolver(registerSchema),
   });
@@ -126,7 +128,12 @@ const RegisterForm = () => {
             </div>
           )}
         />
-
+        <Link
+          className='text-xs text-right underline text-blue-500'
+          to='/auth/login'
+        >
+          Do you have an account? Sign in!
+        </Link>
         <Button type='submit'>Create an account!</Button>
       </form>
     </Form>
