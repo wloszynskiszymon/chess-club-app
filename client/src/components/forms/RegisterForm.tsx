@@ -1,128 +1,134 @@
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Form, FormField, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { RegisterSchema, registerSchema } from '../../schemas/registerSchema';
+import ErrorMessage from '../utils/ErrorMessage';
 
 const RegisterForm = () => {
-  const form = useForm({
+  const form = useForm<RegisterSchema>({
     defaultValues: {
       firstName: '',
+      lastName: '',
       email: '',
       birthDate: '',
       password: '',
       confirmPassword: '',
-      role: 'chessPlayer',
-      club: '',
     },
+    resolver: zodResolver(registerSchema),
   });
 
-  const selectedRole = form.watch('role');
+  const onSubmit: SubmitHandler<RegisterSchema> = data => {
+    console.log(data);
+  };
+
+  const errors = form.formState.errors;
 
   return (
     <Form {...form}>
-      <FormField
-        control={form.control}
-        name='firstName'
-        render={({ field }) => (
-          <div>
-            <FormLabel>First Name</FormLabel>
-            <Input {...field} type='text' placeholder='First name...' />
-          </div>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name='email'
-        render={({ field }) => (
-          <div>
-            <FormLabel>Email</FormLabel>
-            <Input {...field} type='email' placeholder='Enter your email...' />
-          </div>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name='birthDate'
-        render={({ field }) => (
-          <div>
-            <FormLabel>Enter your birthdate</FormLabel>
-            <Input {...field} type='date' />
-          </div>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name='password'
-        render={({ field }) => (
-          <div>
-            <FormLabel>Password</FormLabel>
-            <Input
-              {...field}
-              type='password'
-              placeholder='Enter your password...'
-            />
-          </div>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name='confirmPassword'
-        render={({ field }) => (
-          <div>
-            <FormLabel>Confirm Password</FormLabel>
-            <Input
-              {...field}
-              type='password'
-              placeholder='Repeat your password...'
-            />
-          </div>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name='role'
-        render={({ field }) => (
-          <div>
-            <Label>Choose your role</Label>
-            <RadioGroup
-              {...field}
-              value={field.value}
-              onValueChange={field.onChange}
-              className='flex gap-4'
-            >
-              <div className='flex items-center space-x-2'>
-                <RadioGroupItem value='chessPlayer' id='chessPlayer' />
-                <Label htmlFor='chessPlayer'>Chess Player</Label>
-              </div>
-              <div className='flex items-center space-x-2'>
-                <RadioGroupItem value='coordinator' id='coordinator' />
-                <Label htmlFor='coordinator'>Coordinator</Label>
-              </div>
-            </RadioGroup>
-          </div>
-        )}
-      />
-
-      {selectedRole === 'coordinator' && (
+      <form
+        className='flex flex-col gap-3'
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
-          name='club'
+          name='firstName'
           render={({ field }) => (
             <div>
-              <FormLabel>Choose your club name</FormLabel>
-              <Input
-                {...field}
-                type='text'
-                placeholder='Enter your club name...'
-              />
+              <FormLabel>First Name</FormLabel>
+              <Input {...field} type='text' placeholder='Your first name...' />
+              <ErrorMessage>{errors?.firstName?.message}</ErrorMessage>
             </div>
           )}
         />
-      )}
 
-      <Button type='submit'>Create an account!</Button>
+        <FormField
+          control={form.control}
+          name='lastName'
+          render={({ field }) => (
+            <div>
+              <FormLabel>Last name</FormLabel>
+              <Input {...field} type='text' placeholder='Your last name...' />
+              <ErrorMessage>{errors?.lastName?.message}</ErrorMessage>
+            </div>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='email'
+          render={({ field }) => (
+            <div>
+              <FormLabel>Email</FormLabel>
+              <Input {...field} type='email' placeholder='example@gmail.com' />
+              <ErrorMessage>{errors?.email?.message}</ErrorMessage>
+            </div>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='birthDate'
+          render={({ field }) => (
+            <div>
+              <FormLabel>Enter your birthdate</FormLabel>
+              <Input {...field} type='date' />
+              <ErrorMessage>{errors?.birthDate?.message}</ErrorMessage>
+            </div>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='password'
+          render={({ field }) => (
+            <div>
+              <FormLabel>Password</FormLabel>
+              <Input {...field} type='password' placeholder='********' />
+              <ErrorMessage>{errors?.password?.message}</ErrorMessage>
+            </div>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='confirmPassword'
+          render={({ field }) => (
+            <div>
+              <FormLabel>Confirm Password</FormLabel>
+              <Input {...field} type='password' placeholder='*********' />
+              <ErrorMessage>{errors?.confirmPassword?.message}</ErrorMessage>
+            </div>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='role'
+          render={({ field }) => (
+            <div>
+              <Label>Choose your role</Label>
+              <RadioGroup
+                {...field}
+                value={field.value}
+                onValueChange={field.onChange}
+                className='flex gap-4'
+              >
+                <div className='flex items-center space-x-2'>
+                  <RadioGroupItem value='chessPlayer' id='chessPlayer' />
+                  <Label htmlFor='chessPlayer'>Chess Player</Label>
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <RadioGroupItem value='coordinator' id='coordinator' />
+                  <Label htmlFor='coordinator'>Coordinator</Label>
+                </div>
+              </RadioGroup>
+              <ErrorMessage>{errors?.role?.message}</ErrorMessage>
+            </div>
+          )}
+        />
+
+        <Button type='submit'>Create an account!</Button>
+      </form>
     </Form>
   );
 };

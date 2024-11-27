@@ -5,7 +5,7 @@ import AppLayout from '../components/utils/AppLayout';
 const RegisterPage = () => {
   return (
     <AppLayout className='flex-center'>
-      <Card className='w-1/2 p-4 flex flex-col gap-4'>
+      <Card className='w-[30rem] h-full p-4'>
         <h1 className='text-center font-bold text-2xl uppercase'>Sign up!</h1>
         <RegisterForm />
       </Card>

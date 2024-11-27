@@ -6,7 +6,7 @@ const AppLayout = ({ children, className = '', ...props }: AppLayoutProps) => {
   return (
     <main
       {...props}
-      className={cn(`${className} min-h-[30rem] h-screen p-4 bg-gray-100`)}
+      className={cn(`${className} min-h-screen p-4 bg-gray-100`)}
     >
       {children}
     </main>

@@ -10,9 +10,10 @@ export const registerSchema = z.object({
     .refine(date => refineBirthDate(date)),
   password: z.string().min(6).max(50),
   confirmPassword: z.string().min(6).max(50),
-  role: z.enum(['chess player', 'coordinator']),
-  clubName: z.string().min(2).max(50),
+  role: z.enum(['chessPlayer', 'coordinator']),
 });
+
+export type RegisterSchema = z.infer<typeof registerSchema>;
 
 const refineBirthDate = (date: string) => {
   const today = new Date();
