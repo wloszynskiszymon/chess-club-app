@@ -1,5 +1,7 @@
 import { z } from 'zod';
+import prisma from '../prisma/prisma';
 
+// Zod schema
 export const registerSchema = z
   .object({
     firstName: z
@@ -31,7 +33,17 @@ export const registerSchema = z
   .refine(data => data.password === data.confirmPassword, {
     message: 'Passwords do not match!',
     path: ['confirmPassword'],
-  });
+  })
+  .refine(
+    async data => {
+      const isEmailTaken = await checkIsEmailTaken(data.email);
+      return !isEmailTaken;
+    },
+    {
+      message: 'Email is already taken!',
+      path: ['email'],
+    }
+  );
 
 export type RegisterSchema = z.infer<typeof registerSchema>;
 
@@ -50,4 +62,16 @@ const refineBirthdate = (date: string) => {
   }
   // valid
   return age >= 7 && age <= 99;
+};
+
+const checkIsEmailTaken = async (email: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    return !!user;
+  } catch (err) {
+    console.error(err);
+    return true;
+  }
 };

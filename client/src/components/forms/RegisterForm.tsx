@@ -7,24 +7,50 @@ import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema, registerSchema } from '../../schemas/registerSchema';
 import ErrorMessage from '../utils/ErrorMessage';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
+import z from 'zod';
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
+
   const form = useForm<RegisterSchema>({
     defaultValues: {
       firstName: '',
       lastName: '',
       email: '',
-      birthDate: '',
+      birthdate: '',
       password: '',
       confirmPassword: '',
-      role: 'chessPlayer',
+      role: 'CHESS_PLAYER',
     },
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit: SubmitHandler<RegisterSchema> = data => {
-    console.log(data);
+  const onSubmit: SubmitHandler<RegisterSchema> = async data => {
+    try {
+      const res = await axios.post('http://127.0.0.1:3000/auth/register', data);
+      if (res.status === 201) {
+        navigate('/auth/login', { replace: true });
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      const errorData = err.response?.data as {
+        errors: z.inferFlattenedErrors<typeof registerSchema>;
+      };
+
+      if (errorData?.errors) {
+        Object.entries(errorData.errors).forEach(([field, messages]) => {
+          form.setError(field as keyof RegisterSchema, {
+            type: 'manual',
+            message: messages.toString(),
+          });
+        });
+      } else {
+        // Sooner to be added later
+        alert('Notification here - different error');
+      }
+    }
   };
 
   const errors = form.formState.errors;
@@ -72,12 +98,12 @@ const RegisterForm = () => {
         />
         <FormField
           control={form.control}
-          name='birthDate'
+          name='birthdate'
           render={({ field }) => (
             <div>
               <FormLabel>Enter your birthdate</FormLabel>
               <Input {...field} type='date' />
-              <ErrorMessage>{errors?.birthDate?.message}</ErrorMessage>
+              <ErrorMessage>{errors?.birthdate?.message}</ErrorMessage>
             </div>
           )}
         />
@@ -116,11 +142,11 @@ const RegisterForm = () => {
                 className='flex gap-4'
               >
                 <div className='flex items-center space-x-2'>
-                  <RadioGroupItem value='chessPlayer' id='chessPlayer' />
+                  <RadioGroupItem value='CHESS_PLAYER' id='chessPlayer' />
                   <Label htmlFor='chessPlayer'>Chess Player</Label>
                 </div>
                 <div className='flex items-center space-x-2'>
-                  <RadioGroupItem value='coordinator' id='coordinator' />
+                  <RadioGroupItem value='COORDINATOR' id='coordinator' />
                   <Label htmlFor='coordinator'>Coordinator</Label>
                 </div>
               </RadioGroup>

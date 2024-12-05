@@ -13,6 +13,7 @@ model User {
   firstName String
   lastName  String
   email     String   @unique
+  birthdate DateTime
   password  String
   role      Role
   clubOwned Club?    @relation("ClubOwner")

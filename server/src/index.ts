@@ -1,14 +1,21 @@
 import express from 'express';
-import prisma from './prisma/prisma';
+import cors from 'cors';
+import { authRouter } from './routes/authRoute';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const port = 3000;
 
-app.get('/', async (req, res) => {
-  const user = await prisma.user.findMany();
-  console.log(user);
-  res.send('Hello World!');
-});
+const corsOptions = {
+  origin: '*',
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
+// Routes
+app.use('/auth', authRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
