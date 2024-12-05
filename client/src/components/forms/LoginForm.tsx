@@ -6,6 +6,8 @@ import { Input } from '../ui/input';
 import ErrorMessage from '../utils/ErrorMessage';
 import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
+import z from 'zod';
 
 const LoginForm = () => {
   const form = useForm<LoginSchema>({
@@ -16,8 +18,31 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const handleSubmit = (data: LoginSchema) => {
-    console.log(data);
+  const handleSubmit = async (data: LoginSchema) => {
+    try {
+      const res = await axios.post('http://127.0.0.1:3000/auth/login', data);
+      if (res.status === 201) {
+        // navigate('/auth/login', { replace: true });
+        console.log(res.data);
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      const errorData = err.response?.data as {
+        errors: z.inferFlattenedErrors<typeof loginSchema>;
+      };
+
+      if (errorData?.errors) {
+        Object.entries(errorData.errors).forEach(([field, messages]) => {
+          form.setError(field as keyof LoginSchema, {
+            type: 'manual',
+            message: messages.toString(),
+          });
+        });
+      } else {
+        // Sooner to be added later
+        alert('Notification here - different error');
+      }
+    }
   };
 
   const errors = form.formState.errors;

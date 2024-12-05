@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { RegisterSchema, registerSchema } from '../zod/registerSchema';
 import { ZodError } from 'zod';
 import bcrypt from 'bcrypt';
+import prisma from '../prisma/prisma';
 
 // Middleware to validate the user registration data
 export const validateRegisterUser = async (
@@ -39,6 +40,28 @@ export const prepareRegistrationData = async (
   };
 
   req.body = newUser;
+
+  next();
+};
+
+export const validateLoginCredentials = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { email, password } = req.body;
+  // Email, password
+  const user = await prisma.user.findUnique({ where: { email } });
+
+  if (!user) {
+    return res.status(401).json({ message: 'Incorrect credentials' });
+  }
+
+  const passwordsMatch = await bcrypt.compare(password, user.password);
+
+  if (!passwordsMatch) {
+    return res.status(401).json({ message: 'Incorrect credentials' });
+  }
 
   next();
 };
