@@ -63,5 +63,7 @@ export const validateLoginCredentials = async (
     return res.status(401).json({ message: 'Incorrect credentials' });
   }
 
+  res.locals.user = user;
+
   next();
 };

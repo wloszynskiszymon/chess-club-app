@@ -20,7 +20,9 @@ const LoginForm = () => {
 
   const handleSubmit = async (data: LoginSchema) => {
     try {
-      const res = await axios.post('http://127.0.0.1:3000/auth/login', data);
+      const res = await axios.post('http://127.0.0.1:3000/auth/login', data, {
+        withCredentials: true,
+      });
       if (res.status === 201) {
         // navigate('/auth/login', { replace: true });
         console.log(res.data);
@@ -30,6 +32,8 @@ const LoginForm = () => {
       const errorData = err.response?.data as {
         errors: z.inferFlattenedErrors<typeof loginSchema>;
       };
+
+      console.error(errorData);
 
       if (errorData?.errors) {
         Object.entries(errorData.errors).forEach(([field, messages]) => {

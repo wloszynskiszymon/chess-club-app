@@ -4,7 +4,9 @@ import {
   validateLoginCredentials,
   validateRegisterUser,
 } from '../middleware/auth';
+
 import prisma from '../prisma/prisma';
+import { generateToken, setCookie } from '../middleware/jwt';
 
 export const authRouter = Router();
 
@@ -17,11 +19,9 @@ authRouter.post(
     try {
       const user = req.body;
 
-      const response = await prisma.user.create({
+      await prisma.user.create({
         data: user,
       });
-
-      console.log(response);
       return res.status(201).json({ message: 'User registered successfully!' });
     } catch (err) {
       return res.status(500).json({
@@ -34,6 +34,8 @@ authRouter.post(
 authRouter.post(
   '/login',
   validateLoginCredentials,
+  generateToken,
+  setCookie,
   async (req: Request, res: Response) => {
     try {
       return res.status(201).json({ message: 'User logged in successfully!' });
