@@ -27,6 +27,7 @@ authRouter.post(
       await prisma.user.create({
         data: user,
       });
+
       return res.status(201).json({ message: 'User registered successfully!' });
     } catch (err) {
       return res.status(500).json({
@@ -42,6 +43,7 @@ authRouter.post(
   generateToken,
   setCookie,
   async (req: Request, res: Response) => {
+    console.log(res.locals.user);
     if (!res.locals.accessToken) {
       return res.status(403).json({ message: 'Unauthorized' });
     }
@@ -56,6 +58,13 @@ authRouter.get(
     return res.status(200).json({ token: res.locals.accessToken });
   }
 );
+
+authRouter.get('/logout', (req: Request, res: Response) => {
+  if (!req.cookies.refreshToken)
+    return res.status(400).json({ message: 'No refresh token found' });
+  res.clearCookie('refreshToken');
+  return res.status(200).json({ message: 'Logged out successfully!' });
+});
 
 authRouter.get('/test', authenticate, (req: Request, res: Response) => {
   return res.status(200).json({ message: 'Authenticated!' });
