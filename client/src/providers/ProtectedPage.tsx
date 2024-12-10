@@ -19,6 +19,7 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
         const { data } = await api.get('/auth/refresh');
         setToken(data.token);
       } catch (error) {
+        setToken(undefined);
         navigate('/auth/login', { replace: true });
       }
     };
@@ -61,6 +62,7 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
             originalRequest._retry = true;
             return api(originalRequest);
           } catch (refreshError) {
+            setToken(undefined);
             navigate('/auth/login', { replace: true });
           }
         }

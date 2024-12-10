@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AuthProvider from './providers/AuthProvider';
 import ProtectedPage from './providers/ProtectedPage';
+import { checkIsNotAuthenticated } from './pages/loaders/authLoader';
 
 const router = createBrowserRouter([
   {
@@ -17,10 +18,12 @@ const router = createBrowserRouter([
   {
     path: '/auth/login',
     element: <LoginPage />,
+    loader: checkIsNotAuthenticated,
   },
   {
     path: '/auth/register',
     element: <RegisterPage />,
+    loader: checkIsNotAuthenticated,
   },
 ]);
 

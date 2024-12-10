@@ -59,7 +59,7 @@ authRouter.get(
   }
 );
 
-authRouter.get('/logout', (req: Request, res: Response) => {
+authRouter.get('/logout', authenticate, (req: Request, res: Response) => {
   if (!req.cookies.refreshToken)
     return res.status(400).json({ message: 'No refresh token found' });
   res.clearCookie('refreshToken');
