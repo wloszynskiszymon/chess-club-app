@@ -48,7 +48,9 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
     const responseInterceptor = api.interceptors.response.use(
       (response: AxiosResponse) => response,
       async (error: AxiosError) => {
-        if (error.response?.status === 401) {
+        const originalRequest =
+          error.config as CustomInternalAxiosRequestConfig;
+        if (error.response?.status === 401 && !originalRequest?._retry) {
           try {
             const { data } = await api.get('/auth/refresh');
             setToken(data.token);
@@ -60,7 +62,6 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
             return api(originalRequest);
           } catch (refreshError) {
             navigate('/auth/login', { replace: true });
-            return Promise.reject(refreshError);
           }
         }
 

@@ -89,10 +89,8 @@ export const refreshAccessToken = (
   // Extract refreshToken from cookies
   const refreshToken = req.cookies.refreshToken;
 
-  console.log('REFRESH TOKEN RECIEVED IN REFRESH');
-
   if (!refreshToken) {
-    return res.status(401).json({ error: 'No refresh token found' });
+    return res.status(403).json({ error: 'No refresh token found' });
   }
 
   // Verify the refreshToken
