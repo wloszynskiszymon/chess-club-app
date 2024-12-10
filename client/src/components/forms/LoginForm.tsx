@@ -5,11 +5,14 @@ import { Form, FormField, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import ErrorMessage from '../utils/ErrorMessage';
 import { Button } from '../ui/button';
-import { Link } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import z from 'zod';
+import api from '../../api/axios';
+import useAuth from '../../hooks/useAuth';
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const form = useForm<LoginSchema>({
     defaultValues: {
       email: '',
@@ -18,22 +21,18 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const { setToken } = useAuth();
+
   const handleSubmit = async (data: LoginSchema) => {
     try {
-      const res = await axios.post('http://127.0.0.1:3000/auth/login', data, {
-        withCredentials: true,
-      });
-      if (res.status === 201) {
-        // navigate('/auth/login', { replace: true });
-        console.log(res.data);
-      }
+      const res = await api.post('/auth/login', data);
+      setToken(res.data.token);
+      navigate('/', { replace: true });
     } catch (error) {
       const err = error as AxiosError;
       const errorData = err.response?.data as {
         errors: z.inferFlattenedErrors<typeof loginSchema>;
       };
-
-      console.error(errorData);
 
       if (errorData?.errors) {
         Object.entries(errorData.errors).forEach(([field, messages]) => {

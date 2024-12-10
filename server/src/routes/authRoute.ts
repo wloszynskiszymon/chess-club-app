@@ -6,7 +6,12 @@ import {
 } from '../middleware/auth';
 
 import prisma from '../prisma/prisma';
-import { generateToken, setCookie } from '../middleware/jwt';
+import {
+  authenticate,
+  generateToken,
+  refreshAccessToken,
+  setCookie,
+} from '../middleware/jwt';
 
 export const authRouter = Router();
 
@@ -37,12 +42,21 @@ authRouter.post(
   generateToken,
   setCookie,
   async (req: Request, res: Response) => {
-    try {
-      return res.status(201).json({ message: 'User logged in successfully!' });
-    } catch (err) {
-      return res.status(500).json({
-        message: 'Internal server error! Something unexpected happened.',
-      });
+    if (!res.locals.accessToken) {
+      return res.status(403).json({ message: 'Unauthorized' });
     }
+    return res.status(200).json({ token: res.locals.accessToken });
   }
 );
+
+authRouter.get(
+  '/refresh',
+  refreshAccessToken,
+  (req: Request, res: Response) => {
+    return res.status(200).json({ token: res.locals.accessToken });
+  }
+);
+
+authRouter.get('/test', authenticate, (req: Request, res: Response) => {
+  return res.status(200).json({ message: 'Authenticated!' });
+});

@@ -8,8 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterSchema, registerSchema } from '../../schemas/registerSchema';
 import ErrorMessage from '../utils/ErrorMessage';
 import { Link, useNavigate } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import z from 'zod';
+import api from '../../api/axios';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -29,7 +30,8 @@ const RegisterForm = () => {
 
   const onSubmit: SubmitHandler<RegisterSchema> = async data => {
     try {
-      const res = await axios.post('http://127.0.0.1:3000/auth/register', data);
+      const res = await api.post('http://127.0.0.1:3000/auth/register', data);
+
       if (res.status === 201) {
         navigate('/auth/login', { replace: true });
       }
