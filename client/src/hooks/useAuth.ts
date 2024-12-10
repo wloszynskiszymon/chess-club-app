@@ -1,5 +1,13 @@
 import { createContext, useContext } from 'react';
 
+export interface User {
+  email: string;
+  firstName: string;
+  lastName: string;
+  birthDate: Date;
+  role: string;
+}
+
 interface AuthContextType {
   token?: string;
   setToken: (token: string | undefined) => void;

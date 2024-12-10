@@ -50,20 +50,30 @@ export const validateLoginCredentials = async (
   next: NextFunction
 ) => {
   const { email, password } = req.body;
-  // Email, password
-  const user = await prisma.user.findUnique({ where: { email } });
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
 
-  if (!user) {
-    return res.status(401).json({ message: 'Incorrect credentials' });
+    if (!user) {
+      return res.status(401).json({ message: 'Incorrect credentials' });
+    }
+
+    const passwordsMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordsMatch) {
+      return res.status(401).json({ message: 'Incorrect credentials' });
+    }
+
+    res.locals.user = user;
+    next();
+  } catch (error) {
+    console.error('Error validating credentials:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
+};
 
-  const passwordsMatch = await bcrypt.compare(password, user.password);
-
-  if (!passwordsMatch) {
-    return res.status(401).json({ message: 'Incorrect credentials' });
-  }
-
-  res.locals.user = user;
-
-  next();
+export const logout = (req: Request, res: Response) => {
+  if (!req.cookies.refreshToken)
+    return res.status(400).json({ message: 'No refresh token found' });
+  res.clearCookie('refreshToken');
+  return res.status(200).json({ message: 'Logged out successfully!' });
 };

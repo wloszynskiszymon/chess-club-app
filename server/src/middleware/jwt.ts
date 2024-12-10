@@ -1,20 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import prisma from '../prisma/prisma';
+import { generateAccessToken, generateRefreshToken } from '../controllers/jwt';
 
-export const generateAccessToken = (userId: string) => {
-  return jwt.sign({ id: userId }, process.env.JWT_ACCESS_KEY, {
-    expiresIn: '15m',
-  });
-};
-
-export const generateRefreshToken = (userId: string) => {
-  return jwt.sign({ id: userId }, process.env.JWT_REFRESH_KEY, {
-    expiresIn: '7d',
-  });
-};
-
-export const generateToken = async (
+export const generateTokens = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -22,12 +11,17 @@ export const generateToken = async (
   if (!res.locals.user) {
     return res.status(403).send('Unauthorized');
   }
-  const userId = res.locals.user.id;
-  const accessToken = generateAccessToken(userId);
-  const refreshToken = generateRefreshToken(userId);
-  res.locals.accessToken = accessToken;
-  res.locals.refreshToken = refreshToken;
-  next();
+  try {
+    const userId = res.locals.user.id;
+    const accessToken = generateAccessToken(userId);
+    const refreshToken = generateRefreshToken(userId);
+    res.locals.accessToken = accessToken;
+    res.locals.refreshToken = refreshToken;
+    next();
+  } catch (error) {
+    console.error('Error generating token:', error);
+    return res.status(500).json({ message: 'Failed to generate token' });
+  }
 };
 
 export const setCookie = async (
@@ -52,7 +46,7 @@ export const setCookie = async (
     next();
   } catch (error) {
     console.error('Error setting cookie:', error);
-    return res.status(500).send('Internal server error.');
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -79,37 +73,4 @@ export const authenticate = (
     res.locals.user = dbUser; // Attach user to res.locals
     next();
   });
-};
-
-export const refreshAccessToken = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  // Extract refreshToken from cookies
-  const refreshToken = req.cookies.refreshToken;
-
-  if (!refreshToken) {
-    return res.status(403).json({ error: 'No refresh token found' });
-  }
-
-  // Verify the refreshToken
-  jwt.verify(
-    refreshToken,
-    process.env.JWT_REFRESH_KEY,
-    async (err: any, userId: any) => {
-      if (err) {
-        return res
-          .status(403)
-          .json({ error: 'Invalid or expired refresh token' });
-      }
-
-      // Generate a new accessToken
-      const newAccessToken = generateAccessToken(userId);
-
-      res.locals.accessToken = newAccessToken;
-
-      next();
-    }
-  );
 };

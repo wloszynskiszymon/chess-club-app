@@ -44,6 +44,7 @@ const LoginForm = () => {
       } else {
         // Sooner to be added later
         alert('Notification here - different error');
+        console.log(error);
       }
     }
   };
