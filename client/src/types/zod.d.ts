@@ -1,8 +1,16 @@
+import { ZodIssueCode } from 'zod';
+
 export type CustomZodError = {
-  path: String;
+  path: string[];
   message: String;
+  code: ZodIssueCode;
 };
 
-export type CustomZodErrors = {
-  errors: CustomZodError[];
+export type CustomZodIssue = {
+  issues: CustomZodError[];
+  name: string;
+};
+
+export type ServerZodSyledError = {
+  errors: CustomZodIssue;
 };

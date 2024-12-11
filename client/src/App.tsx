@@ -5,6 +5,7 @@ import RegisterPage from './pages/RegisterPage';
 import AuthProvider from './providers/AuthProvider';
 import ProtectedPage from './providers/ProtectedPage';
 import { checkIsNotAuthenticated } from './pages/loaders/authLoader';
+import { Toaster } from './components/ui/sonner';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ function App() {
   return (
     <AuthProvider>
       <RouterProvider router={router} />
+      <Toaster />
     </AuthProvider>
   );
 }

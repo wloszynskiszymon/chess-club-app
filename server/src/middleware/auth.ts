@@ -3,6 +3,7 @@ import { RegisterSchema, registerSchema } from '../zod/registerSchema';
 import { ZodError } from 'zod';
 import bcrypt from 'bcrypt';
 import prisma from '../prisma/prisma';
+import { generateZodIssue } from '../controllers/errors';
 
 // Middleware to validate the user registration data
 export const validateRegisterUser = async (
@@ -54,19 +55,22 @@ export const validateLoginCredentials = async (
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
-      return res.status(401).json({ message: 'Incorrect credentials' });
+      return res.status(401).json({
+        errors: generateZodIssue(['email'], 'No user with this email found'),
+      });
     }
 
     const passwordsMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordsMatch) {
-      return res.status(401).json({ message: 'Incorrect credentials' });
+      return res.status(401).json({
+        errors: generateZodIssue(['root'], 'Incorrect credentials'),
+      });
     }
 
     res.locals.user = user;
     next();
   } catch (error) {
-    console.error('Error validating credentials:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };

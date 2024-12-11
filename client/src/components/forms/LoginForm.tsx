@@ -7,9 +7,10 @@ import ErrorMessage from '../utils/ErrorMessage';
 import { Button } from '../ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import z from 'zod';
 import api from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
+import { toast } from 'sonner';
+import { isMessageError, isZodError } from '../../utils/helpers';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -29,23 +30,26 @@ const LoginForm = () => {
       setToken(res.data.token);
       navigate('/', { replace: true });
     } catch (error) {
-      const err = error as AxiosError;
-      const errorData = err.response?.data as {
-        errors: z.inferFlattenedErrors<typeof loginSchema>;
-      };
+      const axiosError = error as AxiosError;
+      const errorData = axiosError.response?.data as any;
 
-      if (errorData?.errors) {
-        Object.entries(errorData.errors).forEach(([field, messages]) => {
-          form.setError(field as keyof LoginSchema, {
+      if (isZodError(errorData)) {
+        Object.entries(errorData.errors.issues).forEach(([_, issue]) => {
+          const { path, message } = issue;
+          form.setError(path[0] as keyof LoginSchema, {
             type: 'manual',
-            message: messages.toString(),
+            message: message.toString(),
           });
         });
-      } else {
-        // Sooner to be added later
-        alert('Notification here - different error');
-        console.log(error);
+        return;
       }
+
+      if (isMessageError(errorData)) {
+        toast.error(errorData.message);
+        return;
+      }
+
+      toast.error('An unexpected error occured');
     }
   };
 
@@ -84,6 +88,7 @@ const LoginForm = () => {
                 placeholder='Enter your password...'
               />
               <ErrorMessage>{errors?.password?.message}</ErrorMessage>
+              <ErrorMessage>{errors?.root?.message}</ErrorMessage>
             </div>
           )}
         />

@@ -9,8 +9,9 @@ import { RegisterSchema, registerSchema } from '../../schemas/registerSchema';
 import ErrorMessage from '../utils/ErrorMessage';
 import { Link, useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import z from 'zod';
 import api from '../../api/axios';
+import { isMessageError, isZodError } from '../../utils/helpers';
+import { toast } from 'sonner';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -30,28 +31,32 @@ const RegisterForm = () => {
 
   const onSubmit: SubmitHandler<RegisterSchema> = async data => {
     try {
-      const res = await api.post('http://127.0.0.1:3000/auth/register', data);
+      const res = await api.post('/auth/register', data);
 
       if (res.status === 201) {
         navigate('/auth/login', { replace: true });
       }
     } catch (error) {
       const err = error as AxiosError;
-      const errorData = err.response?.data as {
-        errors: z.inferFlattenedErrors<typeof registerSchema>;
-      };
+      const errorData = err.response?.data;
 
-      if (errorData?.errors) {
-        Object.entries(errorData.errors).forEach(([field, messages]) => {
-          form.setError(field as keyof RegisterSchema, {
+      if (isZodError(errorData)) {
+        Object.entries(errorData.errors.issues).forEach(([_, issue]) => {
+          const { path, message } = issue;
+          form.setError(path[0] as keyof RegisterSchema, {
             type: 'manual',
-            message: messages.toString(),
+            message: message.toString(),
           });
         });
-      } else {
-        // Sooner to be added later
-        alert('Notification here - different error');
+        return;
       }
+
+      if (isMessageError(errorData)) {
+        toast.error(errorData.message);
+        return;
+      }
+
+      toast.error('An unexpected error occured');
     }
   };
 
