@@ -9,6 +9,7 @@ import {
   checkIsNotAuthenticated,
 } from './pages/loaders/authLoader';
 import { Toaster } from './components/ui/sonner';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const router = createBrowserRouter([
   {
@@ -32,12 +33,16 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-      <Toaster theme='light' richColors position='top-center' />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+        <Toaster theme='light' richColors position='top-center' />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

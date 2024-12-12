@@ -3,10 +3,16 @@ import api from '../api/axios';
 import { Button } from '../components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import useUserQuery from '../hooks/useUserQuery';
+import LoadingScreen from '../components/utils/LoadingScreen';
 
 const HomePage = () => {
   const [result, setResult] = useState();
   const navigate = useNavigate();
+
+  const { data, isLoading } = useUserQuery();
+
+  console.log(data);
 
   const handleClick = async () => {
     try {
@@ -24,6 +30,8 @@ const HomePage = () => {
       navigate('/auth/login', { replace: true });
     }
   };
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <div>

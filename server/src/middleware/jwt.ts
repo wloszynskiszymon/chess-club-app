@@ -70,7 +70,7 @@ export const authenticate = (
 
     if (!dbUser) return res.status(404).send('User not found');
 
-    res.locals.user = dbUser; // Attach user to res.locals
+    res.locals.user = dbUser;
     next();
   });
 };
