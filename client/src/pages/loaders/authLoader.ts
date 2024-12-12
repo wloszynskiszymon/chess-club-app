@@ -11,3 +11,14 @@ export async function checkIsNotAuthenticated() {
     return null;
   }
 }
+
+export async function checkIsAuthenticated() {
+  try {
+    const res = await api.get('/auth/refresh');
+    if (res.status === 200) {
+      return null;
+    }
+  } catch (e) {
+    return redirect('/auth/login');
+  }
+}

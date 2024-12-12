@@ -4,7 +4,10 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AuthProvider from './providers/AuthProvider';
 import ProtectedPage from './providers/ProtectedPage';
-import { checkIsNotAuthenticated } from './pages/loaders/authLoader';
+import {
+  checkIsAuthenticated,
+  checkIsNotAuthenticated,
+} from './pages/loaders/authLoader';
 import { Toaster } from './components/ui/sonner';
 
 const router = createBrowserRouter([
@@ -15,6 +18,7 @@ const router = createBrowserRouter([
         <HomePage />
       </ProtectedPage>
     ),
+    loader: checkIsAuthenticated,
   },
   {
     path: '/auth/login',
