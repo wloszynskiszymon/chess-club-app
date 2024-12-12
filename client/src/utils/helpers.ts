@@ -20,3 +20,19 @@ export const isMessageError = (
 ): error is { message: string } => {
   return typeof error === 'object' && error !== null && 'message' in error;
 };
+
+export const setZodErrors = <TSchema>(
+  errorData: ServerZodSyledError,
+  setError: (
+    fieldName: keyof TSchema,
+    error: { type: string; message: string }
+  ) => void
+) => {
+  errorData.errors.issues.forEach(({ path, message }) => {
+    const fieldName = path[0] as keyof TSchema;
+    setError(fieldName, {
+      type: 'manual',
+      message: message.toString(),
+    });
+  });
+};

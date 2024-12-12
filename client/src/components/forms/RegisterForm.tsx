@@ -1,65 +1,15 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { Form, FormField, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { RegisterSchema, registerSchema } from '../../schemas/registerSchema';
 import ErrorMessage from '../utils/ErrorMessage';
-import { Link, useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import api from '../../api/axios';
-import { isMessageError, isZodError } from '../../utils/helpers';
-import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
+
+import useRegisterForm from '../../hooks/useRegisterForm';
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
-
-  const form = useForm<RegisterSchema>({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      birthdate: '',
-      password: '',
-      confirmPassword: '',
-      role: 'CHESS_PLAYER',
-    },
-    resolver: zodResolver(registerSchema),
-  });
-
-  const onSubmit: SubmitHandler<RegisterSchema> = async data => {
-    try {
-      const res = await api.post('/auth/register', data);
-
-      if (res.status === 201) {
-        navigate('/auth/login', { replace: true });
-      }
-    } catch (error) {
-      const err = error as AxiosError;
-      const errorData = err.response?.data;
-
-      if (isZodError(errorData)) {
-        Object.entries(errorData.errors.issues).forEach(([_, issue]) => {
-          const { path, message } = issue;
-          form.setError(path[0] as keyof RegisterSchema, {
-            type: 'manual',
-            message: message.toString(),
-          });
-        });
-        return;
-      }
-
-      if (isMessageError(errorData)) {
-        toast.error(errorData.message);
-        return;
-      }
-
-      toast.error('An unexpected error occured');
-    }
-  };
-
+  const { form, onSubmit } = useRegisterForm();
   const errors = form.formState.errors;
 
   return (

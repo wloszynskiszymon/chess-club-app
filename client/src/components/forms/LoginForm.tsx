@@ -1,58 +1,12 @@
-import { useForm } from 'react-hook-form';
-import { loginSchema, LoginSchema } from '../../schemas/loginSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import ErrorMessage from '../utils/ErrorMessage';
 import { Button } from '../ui/button';
-import { Link, useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import api from '../../api/axios';
-import useAuth from '../../hooks/useAuth';
-import { toast } from 'sonner';
-import { isMessageError, isZodError } from '../../utils/helpers';
+import { Link } from 'react-router-dom';
+import useLoginForm from '../../hooks/useLoginForm';
 
 const LoginForm = () => {
-  const navigate = useNavigate();
-  const form = useForm<LoginSchema>({
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-    resolver: zodResolver(loginSchema),
-  });
-
-  const { setToken } = useAuth();
-
-  const handleSubmit = async (data: LoginSchema) => {
-    try {
-      const res = await api.post('/auth/login', data);
-      setToken(res.data.token);
-      navigate('/', { replace: true });
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      const errorData = axiosError.response?.data as any;
-
-      if (isZodError(errorData)) {
-        Object.entries(errorData.errors.issues).forEach(([_, issue]) => {
-          const { path, message } = issue;
-          form.setError(path[0] as keyof LoginSchema, {
-            type: 'manual',
-            message: message.toString(),
-          });
-        });
-        return;
-      }
-
-      if (isMessageError(errorData)) {
-        toast.error(errorData.message);
-        return;
-      }
-
-      toast.error('An unexpected error occured');
-    }
-  };
-
+  const { form, handleSubmit } = useLoginForm();
   const errors = form.formState.errors;
 
   return (
