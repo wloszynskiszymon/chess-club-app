@@ -4,7 +4,7 @@ import { registerSchema, RegisterSchema } from '../schemas/registerSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import api from '../api/axios';
 import { AxiosError } from 'axios';
-import { isMessageError, isZodError, setZodErrors } from '../utils/helpers';
+import { handleServerValidationErrors } from '../utils/errors';
 import { toast } from 'sonner';
 
 const useRegisterForm = () => {
@@ -26,25 +26,15 @@ const useRegisterForm = () => {
   const onSubmit: SubmitHandler<RegisterSchema> = async data => {
     try {
       const res = await api.post('/auth/register', data);
-
       if (res.status === 201) {
+        toast.success('Account created successfully!');
         navigate('/auth/login', { replace: true });
       }
     } catch (error) {
       const err = error as AxiosError;
       const errorData = err.response?.data;
 
-      if (isZodError(errorData)) {
-        setZodErrors<RegisterSchema>(errorData, form.setError);
-        return;
-      }
-
-      if (isMessageError(errorData)) {
-        toast.error(errorData.message);
-        return;
-      }
-
-      toast.error('An unexpected error occured');
+      handleServerValidationErrors<RegisterSchema>(errorData, form.setError);
     }
   };
 

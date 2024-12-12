@@ -12,10 +12,12 @@ export const validateRegisterUser = async (
   next: NextFunction
 ) => {
   try {
+    console.log(req.body);
     await registerSchema.parseAsync(req.body);
     next();
   } catch (err) {
     if (err instanceof ZodError) {
+      console.log({ errors: err.flatten().fieldErrors });
       return res.status(409).send({ errors: err.flatten().fieldErrors });
     }
     return res.status(500).send({ message: 'Error validating user', err });

@@ -32,7 +32,7 @@ function App() {
   return (
     <AuthProvider>
       <RouterProvider router={router} />
-      <Toaster />
+      <Toaster theme='light' richColors position='top-center' />
     </AuthProvider>
   );
 }

@@ -5,8 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useAuth from './useAuth';
 import api from '../api/axios';
 import { AxiosError } from 'axios';
-import { isMessageError, isZodError, setZodErrors } from '../utils/helpers';
-import { toast } from 'sonner';
+import { handleServerValidationErrors } from '../utils/errors';
 
 const useLoginForm = () => {
   const navigate = useNavigate();
@@ -25,21 +24,11 @@ const useLoginForm = () => {
       const res = await api.post('/auth/login', data);
       setToken(res.data.token);
       navigate('/', { replace: true });
-    } catch (error) {
+    } catch (error: unknown) {
       const axiosError = error as AxiosError;
-      const errorData = axiosError.response?.data as any;
+      const errorData = axiosError.response?.data as unknown;
 
-      if (isZodError(errorData)) {
-        setZodErrors<LoginSchema>(errorData, form.setError);
-        return;
-      }
-
-      if (isMessageError(errorData)) {
-        toast.error(errorData.message);
-        return;
-      }
-
-      toast.error('An unexpected error occured');
+      handleServerValidationErrors<LoginSchema>(errorData, form.setError);
     }
   };
 

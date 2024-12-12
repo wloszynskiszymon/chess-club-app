@@ -1,16 +1,24 @@
 import { ZodIssueCode } from 'zod';
 
-export type CustomZodError = {
+// Represents a single issue in a Zod validation error.
+export type ValidationIssue = {
   path: string[];
-  message: String;
+  message: string; // Use lowercase "string" for consistency.
   code: ZodIssueCode;
 };
 
-export type CustomZodIssue = {
-  issues: CustomZodError[];
+// Represents a collection of validation issues from the server.
+export type ServerValidationIssues = {
+  issues: ValidationIssue[];
   name: string;
 };
 
-export type ServerZodSyledError = {
-  errors: CustomZodIssue;
+// Represents validation errors as a key-value mapping from the server.
+export type ServerValidationErrors = {
+  errors: ServerValidationIssues;
+};
+
+// Represents flattened validation errors mapped to a schema's fields.
+export type FlattenedValidationErrors<TSchema> = {
+  errors: Partial<Record<keyof TSchema, string[]>>;
 };

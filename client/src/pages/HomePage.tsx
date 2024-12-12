@@ -2,6 +2,7 @@ import { useState } from 'react';
 import api from '../api/axios';
 import { Button } from '../components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const HomePage = () => {
   const [result, setResult] = useState();
@@ -11,6 +12,7 @@ const HomePage = () => {
     try {
       const { data } = await api.get('/auth/test');
       setResult(data.message);
+      toast.success('Test successful!');
     } catch (error: any) {
       setResult(error?.message);
     }
