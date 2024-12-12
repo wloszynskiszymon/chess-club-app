@@ -97,26 +97,20 @@ export const handleServerValidationErrors = <TSchema>(
     error: { type: string; message: string }
   ) => void
 ) => {
-  console.log(error);
-
-  console.log('isServerValidationIssue', isServerValidationIssue(error));
   if (isServerValidationIssue(error)) {
     setValidationIssue<TSchema>(error, setError);
     return;
   }
 
-  console.log('isFlattenedValidationError', isFlattenedValidationError(error));
   if (isFlattenedValidationError(error)) {
     setFlattenedValidationErrors<TSchema>(error, setError);
     return;
   }
 
-  console.log('isErrorMessage', isErrorMessage(error));
   if (isErrorMessage(error)) {
     toast.error(error.message);
     return;
   }
 
-  console.log("toast.error('An unexpected error occured')");
   toast.error('An unexpected error occured');
 };
