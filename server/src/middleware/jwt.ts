@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import prisma from '../prisma/prisma';
 import { generateAccessToken, generateRefreshToken } from '../controllers/jwt';
 
@@ -58,18 +58,27 @@ export const authenticate = (
 ) => {
   const authHeader = req.headers['authorization'];
   if (!authHeader) return res.status(401).send('Unauthorized');
+  console.log('authHeader: ', authHeader);
 
   const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
-
-  jwt.verify(token, process.env.JWT_ACCESS_KEY, async (err, userId: any) => {
+  console.log('token: ', token);
+  jwt.verify(token, process.env.JWT_ACCESS_KEY, async (err, decoded) => {
     if (err) return res.status(401).send('Unauthorized');
 
+    if (typeof decoded !== 'object' || decoded === null) {
+      return res.status(401).send('Invalid token');
+    }
+
+    const userId = decoded.id.id;
+    if (!userId) return res.status(401).send('Unauthorized');
+
     const dbUser = await prisma.user.findUnique({
-      where: { id: userId?.id?.id as string },
+      where: { id: userId },
     });
 
     if (!dbUser) return res.status(404).send('User not found');
 
+    console.log('dbUser: ', dbUser);
     res.locals.user = dbUser;
     next();
   });

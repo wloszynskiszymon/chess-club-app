@@ -52,6 +52,9 @@ export const validateLoginCredentials = async (
 ) => {
   const { email, password } = req.body;
   try {
+    if (!email || !password)
+      return res.status(401).json({ message: 'No credentials provided!' });
+
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
