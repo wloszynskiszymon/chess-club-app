@@ -22,3 +22,13 @@ export type ServerValidationErrors = {
 export type FlattenedValidationErrors<TSchema> = {
   errors: Partial<Record<keyof TSchema, string[]>>;
 };
+
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthdate: string;
+  role: string;
+  club: string;
+};

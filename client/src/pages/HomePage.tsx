@@ -6,6 +6,8 @@ import { toast } from 'sonner';
 import useUserQuery from '../hooks/useUserQuery';
 import LoadingScreen from '../components/utils/LoadingScreen';
 
+import Logo from '../../public/photos/logo.png';
+
 const HomePage = () => {
   const [result, setResult] = useState();
   const navigate = useNavigate();
@@ -38,6 +40,18 @@ const HomePage = () => {
       <Button onClick={handleClick}>Test</Button>
       <Button onClick={handleLogout}>Logout</Button>
       <div>{result}</div>
+      <p>
+        {data?.role === 'COORDINATOR' &&
+          !data?.club &&
+          'You need to create a club bro'}
+      </p>
+      <p>
+        {data?.role === 'CHESS_PLAYER' &&
+          !data?.club &&
+          'You need to join a club bro'}
+      </p>
+
+      <img className='h-28' src={Logo} />
     </div>
   );
 };
