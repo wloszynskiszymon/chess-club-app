@@ -16,6 +16,8 @@ export const filterUserSensetiveData = (
     email: user.email,
     birthdate: user.birthdate,
     role: user.role,
+    club: user.club,
+    clubId: user.clubId,
   } satisfies SafeUser;
 
   res.locals.user = filteredUser;

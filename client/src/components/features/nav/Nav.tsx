@@ -17,9 +17,10 @@ const Nav = () => {
     }
   };
   return (
-    <nav className='w-full h-16 px-8 fixed bg-white z-50 overflow-hidden flex items-center justify-between'>
+    <nav className='w-full h-16 px-8 fixed top-0 bg-white z-50 overflow-hidden flex items-center justify-between'>
       <Logo className='h-16' />
-      <div className='flex-center gap-4'>
+      <div className='flex-center gap-6'>
+        <p className='text-xs font-bold lowercase'>{data?.role}</p>
         <p className=''>Hi, {data?.firstName}</p>
         <Button onClick={handleLogout} variant='outline'>
           Logout

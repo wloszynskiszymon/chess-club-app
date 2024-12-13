@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import prisma from '../prisma/prisma';
 import { generateAccessToken, generateRefreshToken } from '../controllers/jwt';
+import { User } from '@prisma/client';
+import { getFullUserData, getUserData } from '../controllers/user';
 
 export const generateTokens = async (
   req: Request,
@@ -72,9 +74,7 @@ export const authenticate = (
     const userId = decoded.id.id;
     if (!userId) return res.status(401).send('Unauthorized');
 
-    const dbUser = await prisma.user.findUnique({
-      where: { id: userId },
-    });
+    const dbUser = await getFullUserData(userId);
 
     if (!dbUser) return res.status(404).send('User not found');
 
