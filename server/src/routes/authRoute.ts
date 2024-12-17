@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import {
   logout,
   prepareRegistrationData,
@@ -34,7 +34,3 @@ authRouter.get('/logout', authenticate, logout);
 
 // Route to refresh the access token
 authRouter.get('/refresh', refreshAccessToken);
-
-authRouter.get('/test', authenticate, (req: Request, res: Response) => {
-  return res.status(200).json({ message: 'Authenticated!' });
-});
