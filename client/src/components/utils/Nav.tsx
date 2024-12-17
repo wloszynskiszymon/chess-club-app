@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import api from '../../../api/axios';
-import useUserQuery from '../../../hooks/useUserQuery';
-import { Button } from '../../ui/button';
-import Logo from '../../utils/Logo';
-import { queryClient } from '../../../App';
+import api from '../../api/axios';
+import useUserQuery from '../../hooks/useUserQuery';
+import { Button } from '../ui/button';
+import Logo from './Logo';
+import { queryClient } from '../../App';
 
 const Nav = () => {
   const { data } = useUserQuery();
