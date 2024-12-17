@@ -1,5 +1,5 @@
 import { Button } from '../../../ui/button';
-import { Club } from '../Columns';
+import { Club } from '../columns/ClubListColumns';
 import api from '../../../../api/axios';
 import { toast } from 'sonner';
 import { isErrorMessage } from '../../../../utils/errors';

@@ -1,4 +1,5 @@
 import { ZodIssueCode } from 'zod';
+import { Club } from '../components/features/data-table/columns/ClubListColumns';
 
 // Represents a single issue in a Zod validation error.
 export type ValidationIssue = {
@@ -30,5 +31,5 @@ export type User = {
   email: string;
   birthdate: string;
   role: string;
-  club: string;
+  club: Club;
 };

@@ -60,10 +60,7 @@ export const authenticate = (
 ) => {
   const authHeader = req.headers['authorization'];
   if (!authHeader) return res.status(401).send('Unauthorized');
-  console.log('authHeader: ', authHeader);
-
   const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
-  console.log('token: ', token);
   jwt.verify(token, process.env.JWT_ACCESS_KEY, async (err, decoded) => {
     if (err) return res.status(401).send('Unauthorized');
 
@@ -78,7 +75,6 @@ export const authenticate = (
 
     if (!dbUser) return res.status(404).send('User not found');
 
-    console.log('dbUser: ', dbUser);
     res.locals.user = dbUser;
     next();
   });

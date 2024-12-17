@@ -1,7 +1,5 @@
-'use client';
-
 import { ColumnDef } from '@tanstack/react-table';
-import JoinClubButton from './button/JoinClubButton';
+import JoinClubButton from '../button/JoinClubButton';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -19,7 +17,7 @@ export type Club = {
   members: SafeUser[];
 };
 
-export const columns: ColumnDef<Club>[] = [
+export const clubColumns: ColumnDef<Club>[] = [
   {
     accessorFn: (_, i) => i + 1,
     header: 'ID',

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Club } from '../components/features/data-table/Columns';
+import { Club } from '../components/features/data-table/columns/ClubListColumns';
 import api from '../api/axios';
 
 const useClubsQuery = () => {

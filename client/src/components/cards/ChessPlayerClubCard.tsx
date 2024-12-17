@@ -1,6 +1,9 @@
 import { JoinClubProvider } from '../features/data-table/button/JoinClubContext';
 import DataTable from '../features/data-table/DataTable';
-import { Club, columns } from '../features/data-table/Columns';
+import {
+  Club,
+  clubColumns,
+} from '../features/data-table/columns/ClubListColumns';
 import { Card } from '../ui/card';
 
 const ChessPlayerClubCard = ({ data }: { data: Club[] }) => {
@@ -13,7 +16,7 @@ const ChessPlayerClubCard = ({ data }: { data: Club[] }) => {
         unique and can't be changed later.
       </p>
       <JoinClubProvider>
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={clubColumns} data={data} />
       </JoinClubProvider>
     </Card>
   );
