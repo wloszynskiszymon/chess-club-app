@@ -10,6 +10,7 @@ import {
 } from './pages/loaders/authLoader';
 import { Toaster } from './components/ui/sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import TournamentsPage from './pages/TournamentsPage';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,11 @@ const router = createBrowserRouter([
     path: '/auth/register',
     element: <RegisterPage />,
     loader: checkIsNotAuthenticated,
+  },
+  {
+    path: '/tournaments',
+    element: <TournamentsPage />,
+    loader: checkIsAuthenticated,
   },
 ]);
 

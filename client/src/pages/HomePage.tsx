@@ -30,7 +30,7 @@ const HomePage = () => {
     <AppLayout>
       <Nav />
       <section
-        className={`mt-16 p-2 w-full flex ${
+        className={`pt-16 px-4 w-full flex ${
           isFirstLogin ? 'mt-0 flex-center h-screen' : ''
         }`}
       >
