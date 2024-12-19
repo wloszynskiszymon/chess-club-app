@@ -87,7 +87,7 @@ const TournamentForm = () => {
                   <SelectItem value='11'>11</SelectItem>
                 </SelectContent>
               </Select>
-              <ErrorMessage>{errors?.time?.message}</ErrorMessage>
+              <ErrorMessage>{errors?.rounds?.message}</ErrorMessage>
             </div>
           )}
         />

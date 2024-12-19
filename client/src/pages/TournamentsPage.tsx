@@ -1,10 +1,14 @@
 import TournamentForm from '../components/forms/TournamentForm';
-import { Button } from '../components/ui/button';
-import { Card } from '../components/ui/card';
 import AppLayout from '../components/utils/AppLayout';
+import LoadingScreen from '../components/utils/LoadingScreen';
 import Nav from '../components/utils/Nav';
+import useUserQuery from '../hooks/useUserQuery';
 
 const TournamentsPage = () => {
+  const { data: userData, isFetching: isFetchingUserData } = useUserQuery();
+
+  if (isFetchingUserData && !userData) return <LoadingScreen />;
+
   return (
     <AppLayout>
       <Nav />

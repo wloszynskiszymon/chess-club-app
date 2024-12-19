@@ -34,7 +34,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/tournaments',
-    element: <TournamentsPage />,
+    element: (
+      <ProtectedPage>
+        <TournamentsPage />
+      </ProtectedPage>
+    ),
     loader: checkIsAuthenticated,
   },
 ]);

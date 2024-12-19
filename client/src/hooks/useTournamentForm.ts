@@ -26,11 +26,11 @@ const useTournamentForm = () => {
 
   const handleSubmit: SubmitHandler<TournamentSchema> = async data => {
     try {
-      const res = await api.post('/auth/register', data);
+      const res = await api.post('/api/tournament', data);
       if (res.status === 201) {
         toast.success('Tournament created successfully!');
-        const tournamentId = res.data.tournamentId;
-        navigate(`/tournament/${tournamentId}`);
+        // const tournamentId = res.data.tournamentId;
+        // navigate(`/tournament/${tournamentId}`);
       }
     } catch (error) {
       const err = error as AxiosError;

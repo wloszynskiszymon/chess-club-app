@@ -58,24 +58,28 @@ export const authenticate = (
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader) return res.status(401).send('Unauthorized');
-  const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
-  jwt.verify(token, process.env.JWT_ACCESS_KEY, async (err, decoded) => {
-    if (err) return res.status(401).send('Unauthorized');
+  try {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) return res.status(401).send('Unauthorized');
+    const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
+    jwt.verify(token, process.env.JWT_ACCESS_KEY, async (err, decoded) => {
+      if (err) return res.status(401).send('Unauthorized');
 
-    if (typeof decoded !== 'object' || decoded === null) {
-      return res.status(401).send('Invalid token');
-    }
+      if (typeof decoded !== 'object' || decoded === null) {
+        return res.status(401).send('Invalid token');
+      }
 
-    const userId = decoded.id.id;
-    if (!userId) return res.status(401).send('Unauthorized');
+      const userId = decoded.id.id;
+      if (!userId) return res.status(401).send('Unauthorized');
 
-    const dbUser = await getFullUserData(userId);
+      const dbUser = await getFullUserData(userId);
 
-    if (!dbUser) return res.status(404).send('User not found');
-
-    res.locals.user = dbUser;
-    next();
-  });
+      if (!dbUser) return res.status(404).send('User not found');
+      res.locals.user = dbUser;
+      next();
+    });
+  } catch (error) {
+    console.error('Error in authenticate:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 };

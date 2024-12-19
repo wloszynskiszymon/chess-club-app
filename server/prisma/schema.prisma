@@ -9,42 +9,93 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(cuid())
-  firstName    String
-  lastName     String
-  email        String         @unique
-  birthdate    DateTime
-  password     String
-  role         Role
-  clubOwned    Club?          @relation("ClubOwner")
-  clubId       String?
-  club         Club?          @relation("ClubMembers", fields: [clubId], references: [id])
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  RefreshToken RefreshToken[]
+  id                    String                  @id @default(cuid())
+  firstName             String
+  lastName              String
+  email                 String                  @unique
+  birthdate             DateTime
+  password              String
+  role                  Role
+  clubOwned             Club?                   @relation("ClubOwner")
+  clubId                String?
+  club                  Club?                   @relation("ClubMembers", fields: [clubId], references: [id])
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  Tournament            Tournament[]
+  TournamentParticipant TournamentParticipant[]
+  receivedRatings       UserRating[]            @relation("ReceivedRatings")
+  givenRatings          UserRating[]            @relation("GivenRatings")
 }
 
 model Club {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  ownerId   String   @unique
-  owner     User     @relation("ClubOwner", fields: [ownerId], references: [id])
-  members   User[]   @relation("ClubMembers")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model RefreshToken {
-  id        String   @id @default(cuid())
-  token     String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String       @id @default(cuid())
+  name       String       @unique
+  ownerId    String       @unique
+  owner      User         @relation("ClubOwner", fields: [ownerId], references: [id])
+  members    User[]       @relation("ClubMembers")
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  Tournament Tournament[]
 }
 
 enum Role {
   CHESS_PLAYER
   COORDINATOR
+}
+
+model Tournament {
+  id            String                  @id @default(cuid())
+  title         String
+  description   String
+  date          DateTime
+  time          DateTime
+  rounds        Int
+  clubId        String
+  club          Club                    @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  coordinatorId String
+  coordinator   User                    @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
+  participants  TournamentParticipant[]
+  results       TournamentResult[]
+  status        TournamentStatus        @default(SCHEDULED)
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+}
+
+model TournamentParticipant {
+  id               String             @id @default(cuid())
+  userId           String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tournamentId     String
+  tournament       Tournament         @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  TournamentResult TournamentResult[]
+}
+
+model TournamentResult {
+  id            String                @id @default(cuid())
+  participantId String
+  participant   TournamentParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  gamesPlayed   Int
+  wins          Int
+  draws         Int
+  losses        Int
+  rating        Int?
+  Tournament    Tournament?           @relation(fields: [tournamentId], references: [id])
+  tournamentId  String?
+}
+
+enum TournamentStatus {
+  SCHEDULED
+  ACTIVE
+  FINISHED
+}
+
+model UserRating {
+  id            String   @id @default(cuid())
+  ratedUserId   String
+  ratedUser     User     @relation("ReceivedRatings", fields: [ratedUserId], references: [id], onDelete: Cascade)
+  coordinatorId String
+  coordinator   User     @relation("GivenRatings", fields: [coordinatorId], references: [id], onDelete: Cascade)
+  rating        Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
