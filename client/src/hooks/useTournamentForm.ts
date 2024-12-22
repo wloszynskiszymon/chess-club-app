@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import api from '../api/axios';
 import { AxiosError } from 'axios';
@@ -11,7 +11,7 @@ import {
 } from '../schemas/tournamentSchema';
 
 const useTournamentForm = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const form = useForm<TournamentSchema>({
     defaultValues: {

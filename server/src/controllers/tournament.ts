@@ -42,3 +42,27 @@ export const createTournament = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+export const getClubTournaments = async (req: Request, res: Response) => {
+  try {
+    const user = res.locals.user as User;
+    const tournaments = await prisma.tournament.findMany({
+      where: {
+        clubId: user.clubId as string,
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        date: true,
+        time: true,
+        rounds: true,
+      },
+    });
+
+    return res.status(200).json(tournaments);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};

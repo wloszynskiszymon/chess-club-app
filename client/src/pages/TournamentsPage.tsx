@@ -1,13 +1,25 @@
+import TournamentCard from '../components/cards/TournamentCard';
 import TournamentForm from '../components/forms/TournamentForm';
 import AppLayout from '../components/utils/AppLayout';
 import LoadingScreen from '../components/utils/LoadingScreen';
 import Nav from '../components/utils/Nav';
+import useTournamentsQuery from '../hooks/useTournamentsQuery';
 import useUserQuery from '../hooks/useUserQuery';
 
 const TournamentsPage = () => {
   const { data: userData, isFetching: isFetchingUserData } = useUserQuery();
+  const { data: tournamentData, isFetching: isFetchingTournamentData } =
+    useTournamentsQuery();
 
-  if (isFetchingUserData && !userData) return <LoadingScreen />;
+  if (
+    isFetchingUserData &&
+    !userData &&
+    isFetchingTournamentData &&
+    !tournamentData
+  )
+    return <LoadingScreen />;
+
+  console.log(tournamentData);
 
   return (
     <AppLayout>
@@ -17,6 +29,10 @@ const TournamentsPage = () => {
           <h1 className='text-2xl font-bold uppercase text-gray-800 mb-4'>
             TOURNMANETS
           </h1>
+
+          {tournamentData?.map(tournament => (
+            <TournamentCard key={tournament.id} tournament={tournament} />
+          ))}
 
           <div className='grid grid-cols-3'>
             <p>No tournaments scheduled.</p>
