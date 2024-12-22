@@ -11,6 +11,7 @@ import {
 import { Toaster } from './components/ui/sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import TournamentsPage from './pages/TournamentsPage';
+import TournamentDetailsPage from './pages/TournamentDetailsPage';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,15 @@ const router = createBrowserRouter([
     element: (
       <ProtectedPage>
         <TournamentsPage />
+      </ProtectedPage>
+    ),
+    loader: checkIsAuthenticated,
+  },
+  {
+    path: '/tournament/:tournamentId',
+    element: (
+      <ProtectedPage>
+        <TournamentDetailsPage />
       </ProtectedPage>
     ),
     loader: checkIsAuthenticated,

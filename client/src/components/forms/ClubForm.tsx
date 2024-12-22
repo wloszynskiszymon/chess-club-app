@@ -7,7 +7,6 @@ import useClubForm from '../../hooks/useClubForm';
 const ClubForm = () => {
   const { form, handleSubmit } = useClubForm();
   const errors = form.formState.errors;
-  console.log(errors);
   return (
     <Form {...form}>
       <form className='w-full' onSubmit={form.handleSubmit(handleSubmit)}>

@@ -9,9 +9,11 @@ import {
   tournamentSchema,
   TournamentSchema,
 } from '../schemas/tournamentSchema';
+import useTournamentsQuery from './useTournamentsQuery';
 
 const useTournamentForm = () => {
   // const navigate = useNavigate();
+  const { refetch } = useTournamentsQuery();
 
   const form = useForm<TournamentSchema>({
     defaultValues: {
@@ -28,7 +30,9 @@ const useTournamentForm = () => {
     try {
       const res = await api.post('/api/tournament', data);
       if (res.status === 201) {
+        await refetch();
         toast.success('Tournament created successfully!');
+        form.reset();
         // const tournamentId = res.data.tournamentId;
         // navigate(`/tournament/${tournamentId}`);
       }

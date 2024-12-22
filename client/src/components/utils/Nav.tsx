@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import useUserQuery from '../../hooks/useUserQuery';
 import { Button } from '../ui/button';
@@ -18,7 +18,16 @@ const Nav = () => {
   };
   return (
     <nav className='w-full h-16 px-8 fixed top-0 bg-white z-50 overflow-hidden flex items-center justify-between'>
-      <Logo className='h-16' />
+      <div className='flex-center gap-6'>
+        <Logo className='h-16' />
+        <Link className='font-bold hover:underline' to='/'>
+          Home
+        </Link>
+        <Link className='font-bold hover:underline' to='/tournaments'>
+          Tournaments
+        </Link>
+      </div>
+
       <div className='flex-center gap-6'>
         <p className='text-xs font-bold lowercase'>{data?.role}</p>
         <p className=''>Hi, {data?.firstName}</p>

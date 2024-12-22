@@ -5,40 +5,67 @@ import moment from 'moment';
 
 export const createTournament = async (req: Request, res: Response) => {
   try {
-    // Create a new tournament
+    // Fetch user and data from request
     const user = res.locals.user as User;
     const data = req.body;
 
-    // Is user a club owner (and coordinator)
     if (user.role !== 'COORDINATOR') {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
     const time = moment(data.time, 'HH:mm').toISOString();
 
-    await prisma.tournament.create({
-      data: {
-        title: data.title,
-        description: data.description,
-        date: new Date(data.date),
-        time,
-        rounds: +data.rounds,
-        club: {
-          connect: {
-            id: user.clubId as string,
+    const createdTournament = await prisma.$transaction(async prisma => {
+      // Create the tournament
+      const tournament = await prisma.tournament.create({
+        data: {
+          title: data.title,
+          description: data.description,
+          date: new Date(data.date),
+          time,
+          rounds: +data.rounds,
+          club: {
+            connect: {
+              id: user.clubId as string,
+            },
+          },
+          coordinator: {
+            connect: {
+              id: user.id,
+            },
           },
         },
-        coordinator: {
-          connect: {
-            id: user.id,
-          },
+      });
+
+      // Fetch club members
+      const clubMembers = await prisma.user.findMany({
+        where: {
+          clubId: user.clubId,
+          role: 'CHESS_PLAYER',
         },
-      },
+        select: {
+          id: true,
+        },
+      });
+
+      // Create participants for the tournament
+      const participants = clubMembers.map(member => ({
+        userId: member.id,
+        tournamentId: tournament.id,
+      }));
+
+      await prisma.tournamentParticipant.createMany({
+        data: participants,
+      });
+
+      return tournament;
     });
 
-    return res.status(201).json({ message: 'Tournament created' });
+    return res
+      .status(201)
+      .json({ message: 'Tournament created', tournament: createdTournament });
   } catch (e) {
-    console.log(e);
+    console.log('Error creating tournament:', e);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -46,6 +73,7 @@ export const createTournament = async (req: Request, res: Response) => {
 export const getClubTournaments = async (req: Request, res: Response) => {
   try {
     const user = res.locals.user as User;
+
     const tournaments = await prisma.tournament.findMany({
       where: {
         clubId: user.clubId as string,
@@ -57,6 +85,19 @@ export const getClubTournaments = async (req: Request, res: Response) => {
         date: true,
         time: true,
         rounds: true,
+        participants: {
+          select: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                role: true,
+              },
+            },
+          },
+        },
       },
     });
 
