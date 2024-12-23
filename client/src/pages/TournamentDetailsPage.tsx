@@ -11,6 +11,7 @@ import { Trash } from 'lucide-react';
 import ParticipantsTable from '../components/utils/ParticipantsTable';
 import TournamentSheet from '../components/utils/TournamentSheet';
 import { Tournament } from '../types/server';
+import TournamentDeleteButton from '../components/buttons/TournamentDeleteButton';
 
 const TournamentDetailsPage = () => {
   const { data: tournamentData, isFetching: isFetchingTournamentData } =
@@ -43,9 +44,9 @@ const TournamentDetailsPage = () => {
               >
                 <Button variant='outline'>Edit details</Button>
               </TournamentSheet>
-              <Button variant='destructive'>
+              <TournamentDeleteButton tournamentId={tournament?.id as string}>
                 <Trash />
-              </Button>
+              </TournamentDeleteButton>
             </aside>
           </div>
           <div className='flex gap-2 w-full mb-4'>
