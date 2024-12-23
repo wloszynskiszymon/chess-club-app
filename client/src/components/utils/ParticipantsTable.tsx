@@ -1,12 +1,6 @@
 import { Participant } from '../../types/server';
 import { Badge } from '../ui/badge';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
+
 import {
   Table,
   TableBody,
@@ -16,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/table';
+import NumberSelect from './NumberSelect';
 
 type ParticipantsTableProps = {
   participants: {
@@ -44,52 +39,16 @@ const ParticipantsTable = ({ participants }: ParticipantsTableProps) => {
             <TableCell className='font-medium'>{i + 1}</TableCell>
             <TableCell>{user.firstName + ' ' + user.lastName}</TableCell>
             <TableCell>
-              <Select>
-                <SelectTrigger className='w-20'>
-                  <SelectValue placeholder='0' />
-                </SelectTrigger>
-                <SelectContent className='w-20'>
-                  <SelectItem value='light'>1</SelectItem>
-                  <SelectItem value='dark'>2</SelectItem>
-                  <SelectItem value='system'>3</SelectItem>
-                </SelectContent>
-              </Select>
+              <NumberSelect amount={7} />
             </TableCell>
             <TableCell>
-              <Select>
-                <SelectTrigger className='w-20'>
-                  <SelectValue placeholder='0' />
-                </SelectTrigger>
-                <SelectContent className='w-20'>
-                  <SelectItem value='light'>1</SelectItem>
-                  <SelectItem value='dark'>2</SelectItem>
-                  <SelectItem value='system'>3</SelectItem>
-                </SelectContent>
-              </Select>
+              <NumberSelect amount={7} />
             </TableCell>
             <TableCell>
-              <Select>
-                <SelectTrigger className='w-20'>
-                  <SelectValue placeholder='0' />
-                </SelectTrigger>
-                <SelectContent className='w-20'>
-                  <SelectItem value='light'>1</SelectItem>
-                  <SelectItem value='dark'>2</SelectItem>
-                  <SelectItem value='system'>3</SelectItem>
-                </SelectContent>
-              </Select>
+              <NumberSelect amount={7} />
             </TableCell>
             <TableCell>
-              <Select>
-                <SelectTrigger className='w-20'>
-                  <SelectValue placeholder='0' />
-                </SelectTrigger>
-                <SelectContent className='w-20'>
-                  <SelectItem value='light'>1</SelectItem>
-                  <SelectItem value='dark'>2</SelectItem>
-                  <SelectItem value='system'>3</SelectItem>
-                </SelectContent>
-              </Select>
+              <NumberSelect amount={10} />
             </TableCell>
             <TableCell className='text-right'>
               <Badge variant='outline'>Participates</Badge>

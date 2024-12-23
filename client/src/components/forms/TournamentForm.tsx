@@ -11,10 +11,12 @@ import {
   SelectValue,
 } from '../ui/select';
 import { Button } from '../ui/button';
+import { TournamentSheetProps } from '../../types/sheet';
 
-const TournamentForm = () => {
-  const { form, handleSubmit } = useTournamentForm();
-  const errors = form.formState.errors;
+const TournamentForm = (props: TournamentSheetProps) => {
+  const { form, handleSubmit } = useTournamentForm(props);
+  const { errors, isSubmitting } = form.formState;
+
   return (
     <Form {...form}>
       <form
@@ -91,8 +93,13 @@ const TournamentForm = () => {
             </div>
           )}
         />
-        <Button className='w-full' type='submit'>
-          Create tournament
+        <Button className='w-full' type='submit' disabled={isSubmitting}>
+          {isSubmitting && props.formType === 'ADD' && 'Creating tournament...'}
+          {isSubmitting &&
+            props.formType === 'EDIT' &&
+            'Updating tournament...'}
+          {!isSubmitting && props.formType === 'ADD' && 'Create tournament'}
+          {!isSubmitting && props.formType === 'EDIT' && 'Update tournament'}
         </Button>
       </form>
     </Form>

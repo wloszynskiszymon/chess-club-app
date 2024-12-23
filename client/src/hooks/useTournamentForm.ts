@@ -1,48 +1,88 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-// import { useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import api from '../api/axios';
 import { AxiosError } from 'axios';
-import { handleServerValidationErrors } from '../utils/errors';
 import { toast } from 'sonner';
+
+import { handleServerValidationErrors } from '../utils/errors';
 import {
   tournamentSchema,
   TournamentSchema,
 } from '../schemas/tournamentSchema';
 import useTournamentsQuery from './useTournamentsQuery';
+import { TournamentSheetProps } from '../types/sheet';
+import moment from 'moment';
 
-const useTournamentForm = () => {
-  // const navigate = useNavigate();
+const defaultValues: TournamentSchema = {
+  title: '',
+  description: '',
+  date: '',
+  time: '',
+  rounds: 3,
+};
+
+const useTournamentForm = ({
+  formType,
+  tournament,
+  onSubmitSuccess,
+}: TournamentSheetProps) => {
   const { refetch } = useTournamentsQuery();
 
+  const defaultFormValues =
+    formType === 'ADD'
+      ? defaultValues
+      : tournament
+      ? {
+          ...tournament,
+          time: moment(tournament.time).format('HH:MM'),
+          date: tournament.date.split('T')[0],
+          rounds: +tournament.rounds,
+        }
+      : undefined;
+
   const form = useForm<TournamentSchema>({
-    defaultValues: {
-      title: '',
-      description: '',
-      date: '',
-      time: '',
-      rounds: 3,
-    },
+    defaultValues: defaultFormValues,
     resolver: zodResolver(tournamentSchema),
   });
 
-  const handleSubmit: SubmitHandler<TournamentSchema> = async data => {
+  const handleRequest = async (
+    requestType: 'POST' | 'PUT',
+    endpoint: string,
+    formData: TournamentSchema,
+    successMessage: string
+  ) => {
     try {
-      const res = await api.post('/api/tournament', data);
-      if (res.status === 201) {
+      const response =
+        requestType === 'POST'
+          ? await api.post(endpoint, formData)
+          : await api.put(endpoint, formData);
+
+      if ([200, 201].includes(response.status)) {
         await refetch();
-        toast.success('Tournament created successfully!');
+        toast.success(successMessage);
         form.reset();
-        // const tournamentId = res.data.tournamentId;
-        // navigate(`/tournament/${tournamentId}`);
+        onSubmitSuccess?.();
       }
     } catch (error) {
-      const err = error as AxiosError;
-      const errorData = err.response?.data;
-
-      handleServerValidationErrors<TournamentSchema>(errorData, form.setError);
+      const axiosError = error as AxiosError;
+      handleServerValidationErrors<TournamentSchema>(
+        axiosError.response?.data,
+        form.setError
+      );
     }
   };
+
+  const handleSubmit: SubmitHandler<TournamentSchema> = formData =>
+    handleRequest(
+      formType === 'ADD' ? 'POST' : 'PUT',
+      formType === 'ADD'
+        ? '/api/tournament'
+        : `/api/tournament/${tournament.id}`,
+      formData,
+      formType === 'ADD'
+        ? 'Tournament created successfully!'
+        : 'Tournament updated successfully!'
+    );
 
   return { form, handleSubmit };
 };

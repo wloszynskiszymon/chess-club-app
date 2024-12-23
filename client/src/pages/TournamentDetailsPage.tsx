@@ -9,6 +9,8 @@ import moment from 'moment';
 import { Button } from '../components/ui/button';
 import { Trash } from 'lucide-react';
 import ParticipantsTable from '../components/utils/ParticipantsTable';
+import TournamentSheet from '../components/utils/TournamentSheet';
+import { Tournament } from '../types/server';
 
 const TournamentDetailsPage = () => {
   const { data: tournamentData, isFetching: isFetchingTournamentData } =
@@ -20,8 +22,6 @@ const TournamentDetailsPage = () => {
   const tournament = tournamentData?.find(
     tournament => tournament.id === params.tournamentId
   );
-
-  console.log(tournament);
 
   const date = moment(tournament?.date).format('DD.MM.YYYY');
   const time = moment(tournament?.time).format('HH:MM');
@@ -37,7 +37,12 @@ const TournamentDetailsPage = () => {
               <Button className='self-end' disabled>
                 Save
               </Button>
-              <Button variant='outline'>Edit details</Button>
+              <TournamentSheet
+                formType='EDIT'
+                tournament={tournament as Tournament}
+              >
+                <Button variant='outline'>Edit details</Button>
+              </TournamentSheet>
               <Button variant='destructive'>
                 <Trash />
               </Button>
@@ -51,9 +56,7 @@ const TournamentDetailsPage = () => {
           <p>{tournament?.description}</p>
 
           {tournament && (
-            <div className='flex flex-col gap-2'>
-              <ParticipantsTable participants={tournament.participants} />
-            </div>
+            <ParticipantsTable participants={tournament.participants} />
           )}
         </article>
       </section>

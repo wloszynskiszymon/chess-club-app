@@ -10,7 +10,7 @@ import useRegisterForm from '../../hooks/useRegisterForm';
 
 const RegisterForm = () => {
   const { form, onSubmit } = useRegisterForm();
-  const errors = form.formState.errors;
+  const { errors, isSubmitting } = form.formState;
 
   return (
     <Form {...form}>
@@ -117,7 +117,9 @@ const RegisterForm = () => {
         >
           Do you have an account? Sign in!
         </Link>
-        <Button type='submit'>Create an account!</Button>
+        <Button type='submit' disabled={isSubmitting}>
+          {isSubmitting ? 'Creating account...' : 'Create an account!'}
+        </Button>
       </form>
     </Form>
   );

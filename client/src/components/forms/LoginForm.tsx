@@ -7,7 +7,7 @@ import useLoginForm from '../../hooks/useLoginForm';
 
 const LoginForm = () => {
   const { form, handleSubmit } = useLoginForm();
-  const errors = form.formState.errors;
+  const { errors, isSubmitting } = form.formState;
 
   return (
     <Form {...form}>
@@ -52,7 +52,9 @@ const LoginForm = () => {
         >
           You don't have an account? Sign in!
         </Link>
-        <Button type='submit'>Login</Button>
+        <Button type='submit' disabled={isSubmitting}>
+          {isSubmitting ? 'Logging in...' : 'Login'}
+        </Button>
       </form>
     </Form>
   );

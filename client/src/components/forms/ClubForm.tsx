@@ -6,7 +6,7 @@ import useClubForm from '../../hooks/useClubForm';
 
 const ClubForm = () => {
   const { form, handleSubmit } = useClubForm();
-  const errors = form.formState.errors;
+  const { errors, isSubmitting } = form.formState;
   return (
     <Form {...form}>
       <form className='w-full' onSubmit={form.handleSubmit(handleSubmit)}>
@@ -25,8 +25,8 @@ const ClubForm = () => {
             </div>
           )}
         />
-        <Button className='w-full mt-5' type='submit'>
-          Create club
+        <Button className='w-full mt-5' type='submit' disabled={isSubmitting}>
+          {isSubmitting ? 'Creating club...' : 'Create club'}
         </Button>
       </form>
     </Form>

@@ -70,6 +70,49 @@ export const createTournament = async (req: Request, res: Response) => {
   }
 };
 
+export const updateTournament = async (req: Request, res: Response) => {
+  try {
+    // Fetch user and data from request
+    const user = res.locals.user as User;
+    const data = req.body;
+    const tournamentId = req.params.tournamentId;
+
+    if (user.role !== 'COORDINATOR') {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const tournament = await prisma.tournament.findFirst({
+      where: { id: tournamentId },
+    });
+
+    if (!tournament) {
+      return res
+        .status(400)
+        .json({ message: 'No tournament found with this id' });
+    }
+
+    const time = moment(data.time, 'HH:mm').toISOString();
+
+    const updatedTournament = await prisma.tournament.update({
+      data: {
+        title: data.title,
+        description: data.description,
+        date: new Date(data.date),
+        time,
+        rounds: +data.rounds,
+      },
+      where: { id: tournamentId },
+    });
+
+    return res
+      .status(200)
+      .json({ message: 'Tournament created', tournament: updatedTournament });
+  } catch (e) {
+    console.log('Error creating tournament:', e);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 export const getClubTournaments = async (req: Request, res: Response) => {
   try {
     const user = res.locals.user as User;
