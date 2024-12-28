@@ -8,10 +8,10 @@ import { Badge } from '../components/ui/badge';
 import moment from 'moment';
 import { Button } from '../components/ui/button';
 import { Trash } from 'lucide-react';
-import ParticipantsTable from '../components/utils/ParticipantsTable';
 import TournamentSheet from '../components/utils/TournamentSheet';
 import { Tournament } from '../types/server';
 import TournamentDeleteButton from '../components/buttons/TournamentDeleteButton';
+import TournamentParticipantsTableForm from '../components/forms/TournamentParticipantsTableForm';
 
 const TournamentDetailsPage = () => {
   const { data: tournamentData, isFetching: isFetchingTournamentData } =
@@ -35,9 +35,6 @@ const TournamentDetailsPage = () => {
           <div className='flex justify-between items-center'>
             <Heading className='inline-flex mb-2'>{tournament?.title}</Heading>
             <aside className='flex-center gap-2'>
-              <Button className='self-end' disabled>
-                Save
-              </Button>
               <TournamentSheet
                 formType='EDIT'
                 tournament={tournament as Tournament}
@@ -54,10 +51,10 @@ const TournamentDetailsPage = () => {
             <Badge>{time}</Badge>
             <Badge>{tournament?.rounds} rounds</Badge>
           </div>
-          <p>{tournament?.description}</p>
+          <p className='mb-6'>{tournament?.description}</p>
 
           {tournament && (
-            <ParticipantsTable participants={tournament.participants} />
+            <TournamentParticipantsTableForm tournament={tournament} />
           )}
         </article>
       </section>

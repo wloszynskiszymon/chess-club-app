@@ -18,3 +18,32 @@ export const tournamentSchema = z.object({
 });
 
 export type TournamentSchema = z.infer<typeof tournamentSchema>;
+
+// TOOD: Add sum validation of wins, loses, draws
+// Dynamic schema
+export const generateParticipantsSchema = (
+  participants: { user: { id: string } }[],
+  rounds: number
+) => {
+  const reg = z
+    .number()
+    .nonnegative('Value cannot be negative!')
+    .max(rounds, `Maxmium value is ${rounds}}!`);
+
+  const participantSchema = z.object({
+    wins: reg,
+    losses: reg,
+    draws: reg,
+    rating: z
+      .number()
+      .nonnegative('Value cannot be negative!')
+      .max(10, `Maxmium value is 10!`),
+  });
+
+  const dynamicSchema = participants.reduce((acc, participant) => {
+    acc[participant.user.id] = participantSchema;
+    return acc;
+  }, {} as Record<string, any>);
+
+  return z.object(dynamicSchema);
+};

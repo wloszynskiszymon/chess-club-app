@@ -1,6 +1,4 @@
 import { Participant } from '../../types/server';
-import { Badge } from '../ui/badge';
-
 import {
   Table,
   TableBody,
@@ -13,45 +11,43 @@ import {
 import NumberSelect from './NumberSelect';
 
 type ParticipantsTableProps = {
-  participants: {
-    user: Participant;
-  }[];
+  participants: { user: Participant }[];
+  rounds: number;
 };
 
-const ParticipantsTable = ({ participants }: ParticipantsTableProps) => {
+const ParticipantsTable = ({
+  participants,
+  rounds,
+}: ParticipantsTableProps) => {
   return (
     <Table>
       <TableCaption>List of tournament participants.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className='w-[100px]'></TableHead>
+          <TableHead className='w-[100px]'>#</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Wins</TableHead>
           <TableHead>Loses</TableHead>
           <TableHead>Draws</TableHead>
           <TableHead>Rating</TableHead>
-          <TableHead className='text-right'>Status</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {participants.map(({ user }, i) => (
-          <TableRow>
-            <TableCell className='font-medium'>{i + 1}</TableCell>
+          <TableRow key={user.id}>
+            <TableCell>{i + 1}</TableCell>
             <TableCell>{user.firstName + ' ' + user.lastName}</TableCell>
             <TableCell>
-              <NumberSelect amount={7} />
+              <NumberSelect name={`${user.id}.wins`} amount={rounds} />
             </TableCell>
             <TableCell>
-              <NumberSelect amount={7} />
+              <NumberSelect name={`${user.id}.losses`} amount={rounds} />
             </TableCell>
             <TableCell>
-              <NumberSelect amount={7} />
+              <NumberSelect name={`${user.id}.draws`} amount={rounds} />
             </TableCell>
             <TableCell>
-              <NumberSelect amount={10} />
-            </TableCell>
-            <TableCell className='text-right'>
-              <Badge variant='outline'>Participates</Badge>
+              <NumberSelect name={`${user.id}.rating`} amount={10} />
             </TableCell>
           </TableRow>
         ))}
