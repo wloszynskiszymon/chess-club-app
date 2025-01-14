@@ -181,3 +181,106 @@ export const getClubTournaments = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+export const createTournamentResults = async (req: Request, res: Response) => {
+  try {
+    const results = req.body;
+
+    if (!results) {
+      return res.status(400).json({ message: 'No results provided' });
+    }
+
+    const tournamentId = req.params.tournamentId;
+
+    const tournament = await prisma.tournament.findFirst({
+      where: { id: tournamentId },
+    });
+
+    if (!tournament) {
+      return res
+        .status(400)
+        .json({ message: 'No tournament found with this id' });
+    }
+
+    const participantsInDb = await prisma.tournamentParticipant.findMany({
+      where: { tournamentId },
+      select: { id: true },
+    });
+
+    const validParticipantIds = participantsInDb.map(p => p.id);
+    console.log('Valid Participant IDs:', validParticipantIds);
+
+    const resultsData = validParticipantIds
+      .filter(participantId => results[participantId])
+      .map(participantId => ({
+        ...results[participantId],
+        tournamentId,
+        participantId: participantId,
+        gamesPlayed: +tournament.rounds,
+      }));
+
+    const filteredResultsData = resultsData.filter(result =>
+      validParticipantIds.includes(result.participantId)
+    );
+
+    if (filteredResultsData.length !== resultsData.length) {
+      console.warn(
+        'Filtered out invalid results:',
+        resultsData.length - filteredResultsData.length
+      );
+    }
+
+    await prisma.tournamentResult.createMany({
+      data: resultsData,
+    });
+
+    return res.status(201).json({ message: 'Results saved' });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const getTournamentResults = async (req: Request, res: Response) => {
+  try {
+    const tournamentId = req.params.tournamentId;
+
+    const tournament = await prisma.tournament.findFirst({
+      where: { id: tournamentId },
+    });
+
+    if (!tournament) {
+      return res
+        .status(400)
+        .json({ message: 'No tournament found with this id' });
+    }
+
+    const participants = await prisma.tournamentParticipant.findMany({
+      where: { tournamentId },
+      select: {
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            role: true,
+          },
+        },
+        TournamentResult: {
+          select: {
+            wins: true,
+            losses: true,
+            draws: true,
+            rating: true,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json(participants);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};

@@ -20,7 +20,11 @@ const TournamentParticipantsTableForm = ({
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <div className='w-full flex flex-col justify-between items-center'>
-          <Button type='submit' className='self-end'>
+          <Button
+            type='submit'
+            className='self-end'
+            disabled={form.formState.isSubmitting || !form.formState.isDirty}
+          >
             Save
           </Button>
         </div>
