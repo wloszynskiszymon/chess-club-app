@@ -3,7 +3,6 @@ import AppLayout from '../components/utils/AppLayout';
 import Heading from '../components/utils/Heading';
 import LoadingScreen from '../components/utils/LoadingScreen';
 import Nav from '../components/utils/Nav';
-import useTournamentsQuery from '../hooks/useTournamentsQuery';
 import { Badge } from '../components/ui/badge';
 import moment from 'moment';
 import { Button } from '../components/ui/button';
@@ -12,20 +11,19 @@ import TournamentSheet from '../components/utils/TournamentSheet';
 import { Tournament } from '../types/server';
 import TournamentDeleteButton from '../components/buttons/TournamentDeleteButton';
 import TournamentParticipantsTableForm from '../components/forms/TournamentParticipantsTableForm';
+import useTournamentQuery from '../hooks/useTournamentQuery';
 
 const TournamentDetailsPage = () => {
-  const { data: tournamentData, isFetching: isFetchingTournamentData } =
-    useTournamentsQuery();
   const params = useParams();
+  const { data: tournamentData, isFetching: isFetchingTournamentData } =
+    useTournamentQuery(params.tournamentId as string);
 
   if (isFetchingTournamentData && !tournamentData) return <LoadingScreen />;
 
-  const tournament = tournamentData?.find(
-    tournament => tournament.id === params.tournamentId
-  );
+  console.log(tournamentData);
 
-  const date = moment(tournament?.date).format('DD.MM.YYYY');
-  const time = moment(tournament?.time).format('HH:MM');
+  const date = moment(tournamentData?.date).format('DD.MM.YYYY');
+  const time = moment(tournamentData?.time).format('HH:MM');
 
   return (
     <AppLayout>
@@ -33,15 +31,19 @@ const TournamentDetailsPage = () => {
       <section className='px-4 pt-24 flex gap-2'>
         <article className='w-full  mx-20'>
           <div className='flex justify-between items-center'>
-            <Heading className='inline-flex mb-2'>{tournament?.title}</Heading>
+            <Heading className='inline-flex mb-2'>
+              {tournamentData?.title}
+            </Heading>
             <aside className='flex-center gap-2'>
               <TournamentSheet
                 formType='EDIT'
-                tournament={tournament as Tournament}
+                tournament={tournamentData as Tournament}
               >
                 <Button variant='outline'>Edit details</Button>
               </TournamentSheet>
-              <TournamentDeleteButton tournamentId={tournament?.id as string}>
+              <TournamentDeleteButton
+                tournamentId={tournamentData?.id as string}
+              >
                 <Trash />
               </TournamentDeleteButton>
             </aside>
@@ -49,12 +51,12 @@ const TournamentDetailsPage = () => {
           <div className='flex gap-2 w-full mb-4'>
             <Badge>{date}</Badge>
             <Badge>{time}</Badge>
-            <Badge>{tournament?.rounds} rounds</Badge>
+            <Badge>{tournamentData?.rounds} rounds</Badge>
           </div>
-          <p className='mb-6'>{tournament?.description}</p>
+          <p className='mb-6'>{tournamentData?.description}</p>
 
-          {tournament && (
-            <TournamentParticipantsTableForm tournament={tournament} />
+          {tournamentData && (
+            <TournamentParticipantsTableForm tournament={tournamentData} />
           )}
         </article>
       </section>

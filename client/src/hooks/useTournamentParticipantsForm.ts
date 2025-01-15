@@ -18,7 +18,7 @@ const useTournamentParticipantsForm = ({
   rounds,
 }: Tournament) => {
   const participantsSchema = useMemo(
-    () => generateParticipantsSchema(participants, +rounds),
+    () => generateParticipantsSchema(participants as any, +rounds),
     [participants]
   );
 
@@ -41,6 +41,12 @@ const useTournamentParticipantsForm = ({
     resolver: zodResolver(participantsSchema),
   });
 
+  useEffect(() => {
+    if (Object.values(form.formState.errors).length > 0) {
+      toast.error('Please fill all fields before submitting!');
+    }
+  }, [form.formState.errors]);
+
   const handleSubmit = async (data: ParticipantsSchema) => {
     console.log(data);
     try {
@@ -62,12 +68,6 @@ const useTournamentParticipantsForm = ({
       }
     }
   };
-
-  useEffect(() => {
-    if (Object.values(form.formState.errors).length > 0) {
-      toast.error('Please fill all fields before submitting!');
-    }
-  }, [form.formState.errors]);
 
   return { form, handleSubmit };
 };

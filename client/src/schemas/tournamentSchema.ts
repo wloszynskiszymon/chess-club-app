@@ -22,7 +22,7 @@ export type TournamentSchema = z.infer<typeof tournamentSchema>;
 // TOOD: Add sum validation of wins, loses, draws
 // Dynamic schema
 export const generateParticipantsSchema = (
-  participants: { user: { id: string } }[],
+  participants: { id: string }[],
   rounds: number
 ) => {
   const reg = z
@@ -41,7 +41,7 @@ export const generateParticipantsSchema = (
   });
 
   const dynamicSchema = participants.reduce((acc, participant) => {
-    acc[participant.user.id] = participantSchema;
+    acc[participant.id] = participantSchema;
     return acc;
   }, {} as Record<string, any>);
 

@@ -4,6 +4,7 @@ import {
   createTournament,
   createTournamentResults,
   deleteTournament,
+  getTournament,
   getTournamentResults,
   updateTournament,
 } from '../controllers/tournament';
@@ -32,6 +33,7 @@ tournamentRouter.put(
 tournamentRouter.delete('/:tournamentId', authenticate, deleteTournament);
 
 tournamentRouter.get('/', authenticate, getClubTournaments);
+tournamentRouter.get('/:tournamentId', authenticate, getTournament);
 
 tournamentRouter.post(
   '/:tournamentId/results',

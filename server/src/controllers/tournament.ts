@@ -182,6 +182,63 @@ export const getClubTournaments = async (req: Request, res: Response) => {
   }
 };
 
+export const getTournament = async (req: Request, res: Response) => {
+  try {
+    const tournamentId = req.params.tournamentId;
+
+    const tournament = await prisma.tournament.findFirst({
+      where: {
+        id: tournamentId as string,
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        date: true,
+        time: true,
+        rounds: true,
+        participants: {
+          select: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                role: true,
+              },
+            },
+            TournamentResult: true,
+          },
+        },
+      },
+    });
+
+    if (!tournament) {
+      return res
+        .status(400)
+        .json({ message: 'No tournament found with this id' });
+    }
+
+    const flattenedParticipants = tournament.participants.map(participant => {
+      return {
+        ...participant.user,
+        ...participant.TournamentResult,
+      };
+    });
+
+    const result = {
+      ...tournament,
+      participants: flattenedParticipants,
+    };
+
+    return res.status(200).json(result);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 export const createTournamentResults = async (req: Request, res: Response) => {
   try {
     const results = req.body;
@@ -202,33 +259,23 @@ export const createTournamentResults = async (req: Request, res: Response) => {
         .json({ message: 'No tournament found with this id' });
     }
 
-    const participantsInDb = await prisma.tournamentParticipant.findMany({
+    const participants = await prisma.tournamentParticipant.findMany({
       where: { tournamentId },
-      select: { id: true },
+      select: { id: true, userId: true },
     });
 
-    const validParticipantIds = participantsInDb.map(p => p.id);
-    console.log('Valid Participant IDs:', validParticipantIds);
-
-    const resultsData = validParticipantIds
-      .filter(participantId => results[participantId])
-      .map(participantId => ({
-        ...results[participantId],
+    const resultsData = participants.map(participants => {
+      const participantResults = results[participants.userId];
+      return {
         tournamentId,
-        participantId: participantId,
+        participantId: participants.id,
+        wins: participantResults.wins || 0,
+        losses: participantResults.losses || 0,
+        draws: participantResults.draws || 0,
+        rating: participantResults.rating || 0,
         gamesPlayed: +tournament.rounds,
-      }));
-
-    const filteredResultsData = resultsData.filter(result =>
-      validParticipantIds.includes(result.participantId)
-    );
-
-    if (filteredResultsData.length !== resultsData.length) {
-      console.warn(
-        'Filtered out invalid results:',
-        resultsData.length - filteredResultsData.length
-      );
-    }
+      };
+    });
 
     await prisma.tournamentResult.createMany({
       data: resultsData,
@@ -255,27 +302,8 @@ export const getTournamentResults = async (req: Request, res: Response) => {
         .json({ message: 'No tournament found with this id' });
     }
 
-    const participants = await prisma.tournamentParticipant.findMany({
+    const participants = await prisma.tournamentResult.findMany({
       where: { tournamentId },
-      select: {
-        user: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-            role: true,
-          },
-        },
-        TournamentResult: {
-          select: {
-            wins: true,
-            losses: true,
-            draws: true,
-            rating: true,
-          },
-        },
-      },
     });
 
     return res.status(200).json(participants);
