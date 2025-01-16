@@ -9,10 +9,10 @@ import TournamentSheet from '../components/utils/TournamentSheet';
 import CoordinatorOnly from '../components/utils/CoordinatorOnly';
 
 const TournamentsPage = () => {
-  const { data: tournamentData, isFetching: isFetchingTournamentData } =
+  const { data: tournamentData, isLoading: isLoadingTournamentData } =
     useTournamentsQuery();
 
-  if (isFetchingTournamentData && !tournamentData) return <LoadingScreen />;
+  if (isLoadingTournamentData || !tournamentData) return <LoadingScreen />;
 
   return (
     <AppLayout>
@@ -32,7 +32,7 @@ const TournamentsPage = () => {
           </CoordinatorOnly>
         </div>
 
-        {tournamentData && <Tournaments tournaments={tournamentData} />}
+        <Tournaments tournaments={tournamentData} />
       </section>
     </AppLayout>
   );

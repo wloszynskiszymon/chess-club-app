@@ -19,14 +19,16 @@ import useUserResultsQuery from '../hooks/queries/useUserResultsQuery';
 
 const TournamentDetailsPage = () => {
   const params = useParams();
-  const { data: tournamentData, isFetching: isFetchingTournamentData } =
+  const { data: tournamentData, isLoading: isLoadingTournamentData } =
     useTournamentQuery(params.tournamentId as string);
-  const { data: resultData, isFetching: isFetchingResultsData } =
+  const { data: resultData, isLoading: isLoadingResultsData } =
     useUserResultsQuery(params.tournamentId as string);
 
   if (
-    (isFetchingTournamentData && !tournamentData) ||
-    (isFetchingResultsData && !resultData)
+    isLoadingTournamentData ||
+    !tournamentData ||
+    isLoadingResultsData ||
+    !resultData
   )
     return <LoadingScreen />;
 
@@ -66,15 +68,11 @@ const TournamentDetailsPage = () => {
           <p className='mb-6'>{tournamentData?.description}</p>
 
           <CoordinatorOnly>
-            {tournamentData && (
-              <TournamentParticipantsTableForm tournament={tournamentData} />
-            )}
+            <TournamentParticipantsTableForm tournament={tournamentData} />
           </CoordinatorOnly>
 
           <PlayerOnly>
-            {resultData && (
-              <ParticipantResults tournamentResults={resultData} />
-            )}
+            <ParticipantResults tournamentResults={resultData} />
           </PlayerOnly>
         </article>
       </section>

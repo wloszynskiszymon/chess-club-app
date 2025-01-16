@@ -9,10 +9,14 @@ const useUserResultsQuery = (tournamentId?: string) => {
   return useQuery<ParticipantResult>({
     queryKey: [`results-${tournamentId}-me`],
     queryFn: async () => {
+      // Ignore for coordinators
+      if (data?.role === 'COORDINATOR') {
+        return {};
+      }
       const res = await api.get(`/api/tournament/${tournamentId}/me/results`);
       return res.data;
     },
-    enabled: !!tournamentId && data?.role === 'CHESS_PLAYER',
+    enabled: !!tournamentId,
   });
 };
 

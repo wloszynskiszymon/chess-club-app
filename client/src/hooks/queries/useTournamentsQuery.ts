@@ -10,6 +10,10 @@ const useTournamentsQuery = () => {
       return res.data;
     },
     refetchInterval: 10000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    staleTime: 10000,
   });
 };
 

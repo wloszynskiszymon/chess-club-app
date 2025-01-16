@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
-import logoImg from '../../../public/photos/logo.png';
+import logoImg from '../../photos/logo.png';
 import { useNavigate } from 'react-router-dom';
 
 type LogoProps = React.HTMLProps<HTMLImageElement>;

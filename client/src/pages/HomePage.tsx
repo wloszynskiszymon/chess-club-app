@@ -14,10 +14,10 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 
 const HomePage = () => {
-  const { data: userData, isFetching: isFetchingUserData } = useUserQuery();
-  const { data: clubsData, isFetching: isFetchingClubsData } = useClubsQuery();
+  const { data: userData, isLoading: isLoadingUserData } = useUserQuery();
+  const { data: clubsData, isLoading: isLoadingClubsData } = useClubsQuery();
 
-  if ((isFetchingUserData && !userData) || (isFetchingClubsData && !clubsData))
+  if (isLoadingUserData || !userData || isLoadingClubsData || !clubsData)
     return <LoadingScreen />;
 
   const isFirstCoordinatorLogin =
