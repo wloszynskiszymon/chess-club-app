@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
-import useUserQuery from '../../hooks/useUserQuery';
+import useUserQuery from '../../hooks/queries/useUserQuery';
 import { Button } from '../ui/button';
 import Logo from './Logo';
 import { queryClient } from '../../App';

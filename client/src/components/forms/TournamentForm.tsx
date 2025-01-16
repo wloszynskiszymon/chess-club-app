@@ -1,5 +1,5 @@
 import { Form, FormField, FormLabel } from '../ui/form';
-import useTournamentForm from '../../hooks/useTournamentForm';
+import useTournamentForm from '../../hooks/forms/useTournamentForm';
 import { Input } from '../ui/input';
 import ErrorMessage from '../utils/ErrorMessage';
 import { Textarea } from '../ui/textarea';

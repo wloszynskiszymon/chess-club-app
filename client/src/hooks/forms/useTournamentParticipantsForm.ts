@@ -1,18 +1,18 @@
-import { generateParticipantsDefaultValues } from './../schemas/tournamentSchema';
+import { generateParticipantsDefaultValues } from '../../schemas/tournamentSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import api from '../api/axios';
+import api from '../../api/axios';
 import {
   handleServerValidationErrors,
   isFlattenedValidationError,
-} from '../utils/errors';
+} from '../../utils/errors';
 import { AxiosError } from 'axios';
-import { generateParticipantsSchema } from '../schemas/tournamentSchema';
-import { Tournament } from '../types/server';
+import { generateParticipantsSchema } from '../../schemas/tournamentSchema';
+import { Tournament } from '../../types/server';
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-import useTournamentQuery from './useTournamentQuery';
+import useTournamentQuery from '../queries/useTournamentQuery';
 
 const useTournamentParticipantsForm = ({
   participants,

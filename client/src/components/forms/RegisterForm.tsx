@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import ErrorMessage from '../utils/ErrorMessage';
 import { Link } from 'react-router-dom';
 
-import useRegisterForm from '../../hooks/useRegisterForm';
+import useRegisterForm from '../../hooks/forms/useRegisterForm';
 
 const RegisterForm = () => {
   const { form, onSubmit } = useRegisterForm();

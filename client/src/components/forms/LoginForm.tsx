@@ -3,7 +3,7 @@ import { Input } from '../ui/input';
 import ErrorMessage from '../utils/ErrorMessage';
 import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
-import useLoginForm from '../../hooks/useLoginForm';
+import useLoginForm from '../../hooks/forms/useLoginForm';
 
 const LoginForm = () => {
   const { form, handleSubmit } = useLoginForm();

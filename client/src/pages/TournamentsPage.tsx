@@ -2,7 +2,7 @@ import AppLayout from '../components/utils/AppLayout';
 import LoadingScreen from '../components/utils/LoadingScreen';
 import Nav from '../components/utils/Nav';
 import Tournaments from '../components/utils/Tournaments';
-import useTournamentsQuery from '../hooks/useTournamentsQuery';
+import useTournamentsQuery from '../hooks/queries/useTournamentsQuery';
 import Heading from '../components/utils/Heading';
 import { Button } from '../components/ui/button';
 import TournamentSheet from '../components/utils/TournamentSheet';

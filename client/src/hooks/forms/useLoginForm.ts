@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { loginSchema, LoginSchema } from '../schemas/loginSchema';
+import { loginSchema, LoginSchema } from '../../schemas/loginSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useAuth from './useAuth';
-import api from '../api/axios';
+import useAuth from '../useAuth';
+import api from '../../api/axios';
 import { AxiosError } from 'axios';
-import { handleServerValidationErrors } from '../utils/errors';
+import { handleServerValidationErrors } from '../../utils/errors';
 
 const useLoginForm = () => {
   const navigate = useNavigate();

@@ -1,19 +1,19 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import api from '../api/axios';
+import api from '../../api/axios';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { useMemo, useCallback } from 'react';
 
-import { handleServerValidationErrors } from '../utils/errors';
+import { handleServerValidationErrors } from '../../utils/errors';
 import {
   tournamentSchema,
   TournamentSchema,
-} from '../schemas/tournamentSchema';
-import { TournamentSheetProps } from '../types/sheet';
+} from '../../schemas/tournamentSchema';
+import { TournamentSheetProps } from '../../types/sheet';
 import moment from 'moment';
-import useTournamentQuery from './useTournamentQuery';
-import useTournamentsQuery from './useTournamentsQuery';
+import useTournamentQuery from '../queries/useTournamentQuery';
+import useTournamentsQuery from '../queries/useTournamentsQuery';
 
 const defaultValues: TournamentSchema = {
   title: '',

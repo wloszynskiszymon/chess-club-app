@@ -4,7 +4,7 @@ import api from '../../../../api/axios';
 import { toast } from 'sonner';
 import { isErrorMessage } from '../../../../utils/errors';
 import { Row } from '@tanstack/react-table';
-import useUserQuery from '../../../../hooks/useUserQuery';
+import useUserQuery from '../../../../hooks/queries/useUserQuery';
 import { useMutation } from '@tanstack/react-query';
 import { useJoinClubContext } from './JoinClubContext';
 

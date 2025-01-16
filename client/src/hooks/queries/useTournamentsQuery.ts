@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import api from '../api/axios';
-import { Tournament } from '../types/server';
+import api from '../../api/axios';
+import { Tournament } from '../../types/server';
 
 const useTournamentsQuery = () => {
   return useQuery<Tournament[]>({
@@ -9,6 +9,7 @@ const useTournamentsQuery = () => {
       const res = await api.get('/api/tournament');
       return res.data;
     },
+    refetchInterval: 10000,
   });
 };
 

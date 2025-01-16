@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { ClubSchema, clubSchema } from '../schemas/clubSchema';
-import useUserQuery from './useUserQuery';
-import api from '../api/axios';
+import { ClubSchema, clubSchema } from '../../schemas/clubSchema';
+import useUserQuery from '../queries/useUserQuery';
+import api from '../../api/axios';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
-import { handleServerValidationErrors } from '../utils/errors';
+import { handleServerValidationErrors } from '../../utils/errors';
 
 const useClubForm = () => {
   const form = useForm({

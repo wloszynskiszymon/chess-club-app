@@ -2,7 +2,7 @@ import { Form, FormField, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import ErrorMessage from '../utils/ErrorMessage';
 import { Button } from '../ui/button';
-import useClubForm from '../../hooks/useClubForm';
+import useClubForm from '../../hooks/forms/useClubForm';
 
 const ClubForm = () => {
   const { form, handleSubmit } = useClubForm();

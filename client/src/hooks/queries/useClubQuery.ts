@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { Club } from '../components/features/data-table/columns/ClubListColumns';
-import api from '../api/axios';
+import { Club } from '../../components/features/data-table/columns/ClubListColumns';
+import api from '../../api/axios';
 
 const useClubsQuery = () => {
   return useQuery<Club[]>({

@@ -11,7 +11,7 @@ import TournamentSheet from '../components/utils/TournamentSheet';
 import { Tournament } from '../types/server';
 import TournamentDeleteButton from '../components/buttons/TournamentDeleteButton';
 import TournamentParticipantsTableForm from '../components/forms/TournamentParticipantsTableForm';
-import useTournamentQuery from '../hooks/useTournamentQuery';
+import useTournamentQuery from '../hooks/queries/useTournamentQuery';
 
 const TournamentDetailsPage = () => {
   const params = useParams();

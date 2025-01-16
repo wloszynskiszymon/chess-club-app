@@ -1,11 +1,11 @@
-import useUserQuery from '../hooks/useUserQuery';
+import useUserQuery from '../hooks/queries/useUserQuery';
 import LoadingScreen from '../components/utils/LoadingScreen';
 
 import Nav from '../components/utils/Nav';
 import AppLayout from '../components/utils/AppLayout';
 import { Club } from '../components/features/data-table/columns/ClubListColumns';
 import CoordinatorClubCard from '../components/cards/CoordinatorClubCard';
-import useClubsQuery from '../hooks/useClubQuery';
+import useClubsQuery from '../hooks/queries/useClubQuery';
 import ChessPlayerClubCard from '../components/cards/ChessPlayerClubCard';
 import MembersCard from '../components/cards/MembersCard';
 import { User } from '../types/zod';
