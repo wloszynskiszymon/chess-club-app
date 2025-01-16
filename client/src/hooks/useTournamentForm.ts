@@ -9,9 +9,9 @@ import {
   tournamentSchema,
   TournamentSchema,
 } from '../schemas/tournamentSchema';
-import useTournamentsQuery from './useTournamentsQuery';
 import { TournamentSheetProps } from '../types/sheet';
 import moment from 'moment';
+import useTournamentQuery from './useTournamentQuery';
 
 const defaultValues: TournamentSchema = {
   title: '',
@@ -26,7 +26,7 @@ const useTournamentForm = ({
   tournament,
   onSubmitSuccess,
 }: TournamentSheetProps) => {
-  const { refetch } = useTournamentsQuery();
+  const { refetch } = useTournamentQuery(tournament?.id as string);
 
   const defaultFormValues =
     formType === 'ADD'
@@ -35,7 +35,7 @@ const useTournamentForm = ({
       ? {
           ...tournament,
           time: moment(tournament.time).format('HH:MM'),
-          date: tournament.date.split('T')[0],
+          date: tournament.date.toString().split('T')[0],
           rounds: +tournament.rounds,
         }
       : undefined;

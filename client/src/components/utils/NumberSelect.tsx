@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
   Select,
   SelectContent,
@@ -48,4 +49,4 @@ const NumberSelect = ({ name, amount }: NumberSelectProps) => {
   );
 };
 
-export default NumberSelect;
+export default memo(NumberSelect);
