@@ -6,6 +6,7 @@ import useTournamentsQuery from '../hooks/queries/useTournamentsQuery';
 import Heading from '../components/utils/Heading';
 import { Button } from '../components/ui/button';
 import TournamentSheet from '../components/utils/TournamentSheet';
+import CoordinatorOnly from '../components/utils/CoordinatorOnly';
 
 const TournamentsPage = () => {
   const { data: tournamentData, isFetching: isFetchingTournamentData } =
@@ -24,9 +25,11 @@ const TournamentsPage = () => {
               Here you can see all your tournaments.
             </p>
           </div>
-          <TournamentSheet formType='ADD'>
-            <Button>Create tournament</Button>
-          </TournamentSheet>
+          <CoordinatorOnly>
+            <TournamentSheet formType='ADD'>
+              <Button>Create tournament</Button>
+            </TournamentSheet>
+          </CoordinatorOnly>
         </div>
 
         {tournamentData && <Tournaments tournaments={tournamentData} />}

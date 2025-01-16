@@ -12,15 +12,23 @@ import { Tournament } from '../types/server';
 import TournamentDeleteButton from '../components/buttons/TournamentDeleteButton';
 import TournamentParticipantsTableForm from '../components/forms/TournamentParticipantsTableForm';
 import useTournamentQuery from '../hooks/queries/useTournamentQuery';
+import PlayerOnly from '../components/utils/PlayerOnly';
+import CoordinatorOnly from '../components/utils/CoordinatorOnly';
+import ParticipantResults from '../components/utils/ParticipantResults';
+import useUserResultsQuery from '../hooks/queries/useUserResultsQuery';
 
 const TournamentDetailsPage = () => {
   const params = useParams();
   const { data: tournamentData, isFetching: isFetchingTournamentData } =
     useTournamentQuery(params.tournamentId as string);
+  const { data: resultData, isFetching: isFetchingResultsData } =
+    useUserResultsQuery(params.tournamentId as string);
 
-  if (isFetchingTournamentData && !tournamentData) return <LoadingScreen />;
-
-  console.log(tournamentData);
+  if (
+    (isFetchingTournamentData && !tournamentData) ||
+    (isFetchingResultsData && !resultData)
+  )
+    return <LoadingScreen />;
 
   const date = moment(tournamentData?.date).format('DD.MM.YYYY');
   const time = moment(tournamentData?.time).format('HH:MM');
@@ -34,19 +42,21 @@ const TournamentDetailsPage = () => {
             <Heading className='inline-flex mb-2'>
               {tournamentData?.title}
             </Heading>
-            <aside className='flex-center gap-2'>
-              <TournamentSheet
-                formType='EDIT'
-                tournament={tournamentData as Tournament}
-              >
-                <Button variant='outline'>Edit details</Button>
-              </TournamentSheet>
-              <TournamentDeleteButton
-                tournamentId={tournamentData?.id as string}
-              >
-                <Trash />
-              </TournamentDeleteButton>
-            </aside>
+            <CoordinatorOnly>
+              <aside className='flex-center gap-2'>
+                <TournamentSheet
+                  formType='EDIT'
+                  tournament={tournamentData as Tournament}
+                >
+                  <Button variant='outline'>Edit details</Button>
+                </TournamentSheet>
+                <TournamentDeleteButton
+                  tournamentId={tournamentData?.id as string}
+                >
+                  <Trash />
+                </TournamentDeleteButton>
+              </aside>
+            </CoordinatorOnly>
           </div>
           <div className='flex gap-2 w-full mb-4'>
             <Badge>{date}</Badge>
@@ -55,9 +65,17 @@ const TournamentDetailsPage = () => {
           </div>
           <p className='mb-6'>{tournamentData?.description}</p>
 
-          {tournamentData && (
-            <TournamentParticipantsTableForm tournament={tournamentData} />
-          )}
+          <CoordinatorOnly>
+            {tournamentData && (
+              <TournamentParticipantsTableForm tournament={tournamentData} />
+            )}
+          </CoordinatorOnly>
+
+          <PlayerOnly>
+            {resultData && (
+              <ParticipantResults tournamentResults={resultData} />
+            )}
+          </PlayerOnly>
         </article>
       </section>
     </AppLayout>

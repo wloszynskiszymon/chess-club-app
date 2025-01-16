@@ -15,6 +15,7 @@ import { getClubTournaments } from '../controllers/tournament';
 import {
   createTournamentResults,
   getTournamentResults,
+  getUserTournamentResult,
   updateTournamentResults,
 } from '../controllers/tournamentResults';
 import { coordinatorOnly } from '../middleware/role';
@@ -55,6 +56,12 @@ tournamentRouter.get(
   '/:tournamentId/results',
   authenticate,
   getTournamentResults
+);
+
+tournamentRouter.get(
+  '/:tournamentId/me/results',
+  authenticate,
+  getUserTournamentResult
 );
 
 tournamentRouter.post(

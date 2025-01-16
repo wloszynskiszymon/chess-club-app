@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '../prisma/prisma';
-import { Tournament } from '@prisma/client';
+import { Tournament, User } from '@prisma/client';
 
 export const createTournamentResults = async (req: Request, res: Response) => {
   try {
@@ -11,7 +11,7 @@ export const createTournamentResults = async (req: Request, res: Response) => {
     }
 
     const tournamentId = req.params.tournamentId;
-    const tournament = res.locals.tournamentId as Tournament;
+    const tournament = res.locals.tournament as Tournament;
 
     const participants = await prisma.tournamentParticipant.findMany({
       where: { tournamentId },
@@ -98,7 +98,7 @@ export const updateTournamentResults = async (req: Request, res: Response) => {
           losses: participantResults.losses,
           draws: participantResults.draws,
           rating: participantResults.rating,
-          gamesPlayed: tournament.rounds,
+          gamesPlayed: +tournament.rounds,
         };
       })
       .filter(result => result !== null);
@@ -119,6 +119,34 @@ export const updateTournamentResults = async (req: Request, res: Response) => {
     return res.status(200).json({ message: 'Results updated successfully!' });
   } catch (e) {
     console.error(e);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const getUserTournamentResult = async (req: Request, res: Response) => {
+  try {
+    const user = res.locals.user as User;
+
+    const participant = await prisma.tournamentParticipant.findFirst({
+      where: { userId: user.id },
+      select: { TournamentResult: true },
+    });
+
+    if (!participant) {
+      return res
+        .status(400)
+        .json({ message: 'No results found for this user' });
+    }
+
+    if (!participant.TournamentResult) {
+      return res
+        .status(400)
+        .json({ message: 'No results found for this user' });
+    }
+
+    return res.status(200).json(participant?.TournamentResult[0]);
+  } catch (e) {
+    console.log(e);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
