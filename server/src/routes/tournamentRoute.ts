@@ -2,24 +2,31 @@ import express from 'express';
 import { authenticate } from '../middleware/jwt';
 import {
   createTournament,
-  createTournamentResults,
   deleteTournament,
   getTournament,
-  getTournamentResults,
   updateTournament,
-  updateTournamentResults,
 } from '../controllers/tournament';
 import {
+  findTournament,
   validateResultsData,
   validateTournamentData,
 } from '../middleware/tournament';
 import { getClubTournaments } from '../controllers/tournament';
+import {
+  createTournamentResults,
+  getTournamentResults,
+  updateTournamentResults,
+} from '../controllers/tournamentResults';
+import { coordinatorOnly } from '../middleware/role';
 
 const tournamentRouter = express.Router();
+
+tournamentRouter.get('/:tournamentId', authenticate, getTournament);
 
 tournamentRouter.post(
   '/',
   authenticate,
+  coordinatorOnly,
   validateTournamentData,
   createTournament
 );
@@ -27,18 +34,34 @@ tournamentRouter.post(
 tournamentRouter.put(
   '/:tournamentId',
   authenticate,
+  coordinatorOnly,
+  findTournament,
   validateTournamentData,
   updateTournament
 );
 
-tournamentRouter.delete('/:tournamentId', authenticate, deleteTournament);
+tournamentRouter.delete(
+  '/:tournamentId',
+  authenticate,
+  coordinatorOnly,
+  findTournament,
+  deleteTournament
+);
 
 tournamentRouter.get('/', authenticate, getClubTournaments);
-tournamentRouter.get('/:tournamentId', authenticate, getTournament);
+
+// Tournament results
+tournamentRouter.get(
+  '/:tournamentId/results',
+  authenticate,
+  getTournamentResults
+);
 
 tournamentRouter.post(
   '/:tournamentId/results',
   authenticate,
+  coordinatorOnly,
+  findTournament,
   validateResultsData,
   createTournamentResults
 );
@@ -46,14 +69,10 @@ tournamentRouter.post(
 tournamentRouter.put(
   '/:tournamentId/results',
   authenticate,
+  coordinatorOnly,
+  findTournament,
   validateResultsData,
   updateTournamentResults
-);
-
-tournamentRouter.get(
-  '/:tournamentId/results',
-  authenticate,
-  getTournamentResults
 );
 
 export default tournamentRouter;
