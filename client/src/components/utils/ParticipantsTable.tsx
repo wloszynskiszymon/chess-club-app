@@ -1,4 +1,4 @@
-import { Participant } from '../../types/server';
+import { Tournament } from '../../types/server';
 import {
   Table,
   TableBody,
@@ -11,14 +11,10 @@ import {
 import NumberSelect from './NumberSelect';
 
 type ParticipantsTableProps = {
-  participants: { user: Participant }[];
-  rounds: number;
+  tournament: Tournament;
 };
 
-const ParticipantsTable = ({
-  participants,
-  rounds,
-}: ParticipantsTableProps) => {
+const ParticipantsTable = ({ tournament }: ParticipantsTableProps) => {
   return (
     <Table>
       <TableCaption>List of tournament participants.</TableCaption>
@@ -33,21 +29,21 @@ const ParticipantsTable = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {participants.map(({ user }, i) => (
-          <TableRow key={user.id}>
+        {tournament.participants.map(({ id, firstName, lastName }, i) => (
+          <TableRow key={id}>
             <TableCell>{i + 1}</TableCell>
-            <TableCell>{user.firstName + ' ' + user.lastName}</TableCell>
+            <TableCell>{firstName + ' ' + lastName}</TableCell>
             <TableCell>
-              <NumberSelect name={`${user.id}.wins`} amount={rounds} />
+              <NumberSelect name={`${id}.wins`} amount={tournament.rounds} />
             </TableCell>
             <TableCell>
-              <NumberSelect name={`${user.id}.losses`} amount={rounds} />
+              <NumberSelect name={`${id}.losses`} amount={tournament.rounds} />
             </TableCell>
             <TableCell>
-              <NumberSelect name={`${user.id}.draws`} amount={rounds} />
+              <NumberSelect name={`${id}.draws`} amount={tournament.rounds} />
             </TableCell>
             <TableCell>
-              <NumberSelect name={`${user.id}.rating`} amount={10} />
+              <NumberSelect name={`${id}.rating`} amount={10} />
             </TableCell>
           </TableRow>
         ))}

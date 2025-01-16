@@ -7,6 +7,7 @@ import {
   getTournament,
   getTournamentResults,
   updateTournament,
+  updateTournamentResults,
 } from '../controllers/tournament';
 import {
   validateResultsData,
@@ -40,6 +41,13 @@ tournamentRouter.post(
   authenticate,
   validateResultsData,
   createTournamentResults
+);
+
+tournamentRouter.put(
+  '/:tournamentId/results',
+  authenticate,
+  validateResultsData,
+  updateTournamentResults
 );
 
 tournamentRouter.get(

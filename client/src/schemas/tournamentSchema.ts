@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ParticipantWithResults } from '../types/server';
 
 export const tournamentSchema = z.object({
   title: z
@@ -46,4 +47,31 @@ export const generateParticipantsSchema = (
   }, {} as Record<string, any>);
 
   return z.object(dynamicSchema);
+};
+
+export const generateParticipantsDefaultValues = (
+  participants: ParticipantWithResults[]
+) => {
+  // No results - set to default
+  if (participants[0].results.length === 0) {
+    return participants.reduce((acc, participant) => {
+      acc[participant.id] = {
+        wins: undefined,
+        losses: undefined,
+        draws: undefined,
+        rating: undefined,
+      };
+      return acc;
+    }, {} as Record<string, any>);
+  } else {
+    return participants.reduce((acc, participant) => {
+      acc[participant.id] = {
+        wins: participant.results[0].wins,
+        losses: participant.results[0].losses,
+        draws: participant.results[0].draws,
+        rating: participant.results[0].rating,
+      };
+      return acc;
+    }, {} as Record<string, any>);
+  }
 };

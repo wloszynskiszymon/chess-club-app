@@ -29,10 +29,7 @@ const TournamentParticipantsTableForm = ({
           </Button>
         </div>
 
-        <ParticipantsTable
-          participants={tournament.participants}
-          rounds={+tournament.rounds}
-        />
+        <ParticipantsTable tournament={tournament} />
       </form>
     </Form>
   );

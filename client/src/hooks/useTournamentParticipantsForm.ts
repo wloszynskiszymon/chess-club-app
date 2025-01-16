@@ -1,3 +1,4 @@
+import { generateParticipantsDefaultValues } from './../schemas/tournamentSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import api from '../api/axios';
@@ -9,7 +10,7 @@ import { AxiosError } from 'axios';
 import { generateParticipantsSchema } from '../schemas/tournamentSchema';
 import { Tournament } from '../types/server';
 import { z } from 'zod';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 const useTournamentParticipantsForm = ({
@@ -17,24 +18,9 @@ const useTournamentParticipantsForm = ({
   id,
   rounds,
 }: Tournament) => {
-  const participantsSchema = useMemo(
-    () => generateParticipantsSchema(participants as any, +rounds),
-    [participants]
-  );
-
+  const participantsSchema = generateParticipantsSchema(participants, rounds);
+  const defaultValues = generateParticipantsDefaultValues(participants);
   type ParticipantsSchema = z.infer<typeof participantsSchema>;
-
-  const defaultValues = useMemo(() => {
-    return participants.reduce((acc, participant) => {
-      acc[participant.user.id] = {
-        wins: undefined,
-        losses: undefined,
-        draws: undefined,
-        rating: undefined,
-      };
-      return acc;
-    }, {} as Record<string, any>);
-  }, [participants]);
 
   const form = useForm<ParticipantsSchema>({
     defaultValues,
@@ -48,10 +34,16 @@ const useTournamentParticipantsForm = ({
   }, [form.formState.errors]);
 
   const handleSubmit = async (data: ParticipantsSchema) => {
-    console.log(data);
     try {
-      const res = await api.post(`/api/tournament/${id}/results`, data);
-      console.log(res.data);
+      const method = participants[0].results.length > 0 ? 'put' : 'post';
+      const url = `/api/tournament/${id}/results`;
+
+      await api({
+        method,
+        url,
+        data,
+      });
+
       toast.success('Changes saved successfully!');
       form.reset();
     } catch (error: unknown) {
