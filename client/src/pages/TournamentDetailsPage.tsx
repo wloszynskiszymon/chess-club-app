@@ -24,16 +24,11 @@ const TournamentDetailsPage = () => {
   const { data: resultData, isLoading: isLoadingResultsData } =
     useUserResultsQuery(params.tournamentId as string);
 
-  if (
-    isLoadingTournamentData ||
-    !tournamentData ||
-    isLoadingResultsData ||
-    !resultData
-  )
+  if (isLoadingTournamentData || !tournamentData || isLoadingResultsData)
     return <LoadingScreen />;
 
-  const date = moment(tournamentData?.date).format('DD.MM.YYYY');
-  const time = moment(tournamentData?.time).format('HH:MM');
+  const date = moment(tournamentData?.datetime).format('DD.MM.YYYY');
+  const time = moment(tournamentData?.datetime).format('HH:mm');
 
   return (
     <AppLayout>
@@ -72,7 +67,13 @@ const TournamentDetailsPage = () => {
           </CoordinatorOnly>
 
           <PlayerOnly>
-            <ParticipantResults tournamentResults={resultData} />
+            {resultData ? (
+              <ParticipantResults tournamentResults={resultData} />
+            ) : (
+              <p className='text-muted-foreground text-center'>
+                You did not participate in this tournament.
+              </p>
+            )}
           </PlayerOnly>
         </article>
       </section>

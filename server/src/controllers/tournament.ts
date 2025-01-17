@@ -16,8 +16,7 @@ export const getTournament = async (req: Request, res: Response) => {
         id: true,
         title: true,
         description: true,
-        date: true,
-        time: true,
+        datetime: true,
         rounds: true,
         participants: {
           select: {
@@ -72,16 +71,13 @@ export const createTournament = async (req: Request, res: Response) => {
     const user = res.locals.user as User;
     const data = req.body;
 
-    const time = moment(data.time, 'HH:mm').toISOString();
-
     const createdTournament = await prisma.$transaction(async prisma => {
       // Create the tournament
       const tournament = await prisma.tournament.create({
         data: {
           title: data.title,
           description: data.description,
-          date: new Date(data.date),
-          time,
+          datetime: data.datetime,
           rounds: +data.rounds,
           club: {
             connect: {
@@ -136,14 +132,11 @@ export const updateTournament = async (req: Request, res: Response) => {
     const data = req.body;
     const tournamentId = req.params.tournamentId;
 
-    const time = moment(data.time, 'HH:mm').toISOString();
-
     const updatedTournament = await prisma.tournament.update({
       data: {
         title: data.title,
         description: data.description,
-        date: new Date(data.date),
-        time,
+        datetime: data.datetime,
         rounds: +data.rounds,
       },
       where: { id: tournamentId },
@@ -188,8 +181,7 @@ export const getClubTournaments = async (req: Request, res: Response) => {
         id: true,
         title: true,
         description: true,
-        date: true,
-        time: true,
+        datetime: true,
         rounds: true,
         participants: {
           select: {

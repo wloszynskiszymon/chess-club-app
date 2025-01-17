@@ -16,6 +16,8 @@ const useUserResultsQuery = (tournamentId?: string) => {
       const res = await api.get(`/api/tournament/${tournamentId}/me/results`);
       return res.data;
     },
+    retry: 2,
+    retryDelay: 10,
     enabled: !!tournamentId,
   });
 };

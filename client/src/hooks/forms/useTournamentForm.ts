@@ -1,9 +1,10 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import api from '../../api/axios';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
-import { useMemo, useCallback } from 'react';
+import { useMemo, useEffect } from 'react';
+import moment from 'moment';
 
 import { handleServerValidationErrors } from '../../utils/errors';
 import {
@@ -11,7 +12,6 @@ import {
   TournamentSchema,
 } from '../../schemas/tournamentSchema';
 import { TournamentSheetProps } from '../../types/sheet';
-import moment from 'moment';
 import useTournamentQuery from '../queries/useTournamentQuery';
 import useTournamentsQuery from '../queries/useTournamentsQuery';
 
@@ -39,9 +39,10 @@ const useTournamentForm = ({
     }
     if (tournament) {
       return {
-        ...tournament,
-        time: moment(tournament.time).format('HH:MM'),
-        date: tournament.date.toString().split('T')[0],
+        title: tournament.title,
+        description: tournament.description,
+        date: moment(tournament.datetime).format('YYYY-MM-DD'),
+        time: moment(tournament.datetime).format('HH:mm'),
         rounds: +tournament.rounds,
       };
     }
@@ -53,54 +54,61 @@ const useTournamentForm = ({
     resolver: zodResolver(tournamentSchema),
   });
 
-  const handleRequest = useCallback(
-    async (
-      requestType: 'POST' | 'PUT',
-      endpoint: string,
-      formData: TournamentSchema,
-      successMessage: string
-    ) => {
-      try {
-        const response =
-          requestType === 'POST'
-            ? await api.post(endpoint, formData)
-            : await api.put(endpoint, formData);
+  useEffect(() => {
+    if (Object.values(form.formState.errors).length > 0) {
+      toast.error('Please fill all fields before submitting!');
+    }
+  }, [form.formState.errors]);
 
-        if (response.status === 201) {
-          await refetchTournaments();
-        }
-        if (response.status === 200) {
-          await refetchTournament();
-        }
+  const handleSubmit: SubmitHandler<TournamentSchema> = async formData => {
+    try {
+      const isUpdate = formType === 'EDIT';
+      const method = isUpdate ? 'put' : 'post';
+      const endpoint = isUpdate
+        ? `/api/tournament/${tournament?.id}`
+        : '/api/tournament';
 
-        toast.success(successMessage);
-        form.reset();
-        onSubmitSuccess?.();
-      } catch (error) {
-        const axiosError = error as AxiosError;
-        handleServerValidationErrors<TournamentSchema>(
-          axiosError.response?.data,
-          form.setError
-        );
+      const data = {
+        title: formData.title,
+        description: formData.description,
+        datetime: moment(
+          `${formData.date} ${formData.time}`,
+          'YYYY-MM-DD HH:mm'
+        ).toISOString(),
+        rounds: formData.rounds,
+      };
+
+      await api({
+        method,
+        url: endpoint,
+        data,
+      });
+
+      toast.success(
+        isUpdate
+          ? 'Tournament updated successfully!'
+          : 'Tournament created successfully!'
+      );
+
+      if (isUpdate) {
+        await refetchTournament();
+      } else {
+        await refetchTournaments();
       }
-    },
-    [refetchTournament, refetchTournaments, form, onSubmitSuccess]
-  );
 
-  const handleSubmit: SubmitHandler<TournamentSchema> = useCallback(
-    formData =>
-      handleRequest(
-        formType === 'ADD' ? 'POST' : 'PUT',
-        formType === 'ADD'
-          ? '/api/tournament'
-          : `/api/tournament/${tournament.id}`,
-        formData,
-        formType === 'ADD'
-          ? 'Tournament created successfully!'
-          : 'Tournament updated successfully!'
-      ),
-    [handleRequest, formType, tournament?.id]
-  );
+      form.reset();
+      onSubmitSuccess?.();
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      const errorData = axiosError.response?.data;
+
+      handleServerValidationErrors<TournamentSchema>(errorData, form.setError);
+
+      console.error(errorData);
+
+      toast.error('There was an error processing your request.');
+    }
+  };
 
   return { form, handleSubmit };
 };

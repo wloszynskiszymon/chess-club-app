@@ -10,30 +10,47 @@ export const filterUserSensetiveData = async (
 
   if (!user) return res.status(500).send({ message: 'Error validating user' });
 
-  const club = await prisma.club.findUnique({
-    where: { id: user.clubId },
-    include: {
-      members: true,
-    },
-  });
+  if (user.clubId) {
+    const club = await prisma.club.findUnique({
+      where: { id: user.clubId },
+      include: {
+        members: true,
+      },
+    });
 
-  if (!club) return res.status(500).send({ message: 'Error validating club' });
+    if (!club)
+      return res.status(500).send({ message: 'Error validating club' });
 
-  const filteredUser = {
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    birthdate: user.birthdate,
-    role: user.role,
-    club: {
-      id: club.id,
-      name: club.name,
-      members: club.members,
-    },
-    clubId: user.clubId,
-  } satisfies SafeUser;
+    const filteredUser = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      birthdate: user.birthdate,
+      role: user.role,
+      club: {
+        id: club.id,
+        name: club.name,
+        members: club.members,
+      },
+      clubId: user.clubId,
+    } satisfies SafeUser;
 
-  res.locals.user = filteredUser;
-  next();
+    res.locals.user = filteredUser;
+    next();
+  } else {
+    const filteredUser = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      birthdate: user.birthdate,
+      role: user.role,
+      clubId: user.clubId,
+      club: null,
+    } satisfies SafeUser;
+
+    res.locals.user = filteredUser;
+    next();
+  }
 };

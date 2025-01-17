@@ -23,8 +23,6 @@ model User {
   updatedAt             DateTime                @updatedAt
   Tournament            Tournament[]
   TournamentParticipant TournamentParticipant[]
-  receivedRatings       UserRating[]            @relation("ReceivedRatings")
-  givenRatings          UserRating[]            @relation("GivenRatings")
 }
 
 model Club {
@@ -47,8 +45,7 @@ model Tournament {
   id            String                  @id @default(cuid())
   title         String
   description   String
-  date          DateTime
-  time          DateTime
+  datetime      DateTime
   rounds        Int
   clubId        String
   club          Club                    @relation(fields: [clubId], references: [id], onDelete: Cascade)
@@ -87,15 +84,4 @@ enum TournamentStatus {
   SCHEDULED
   ACTIVE
   FINISHED
-}
-
-model UserRating {
-  id            String   @id @default(cuid())
-  ratedUserId   String
-  ratedUser     User     @relation("ReceivedRatings", fields: [ratedUserId], references: [id], onDelete: Cascade)
-  coordinatorId String
-  coordinator   User     @relation("GivenRatings", fields: [coordinatorId], references: [id], onDelete: Cascade)
-  rating        Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
 }

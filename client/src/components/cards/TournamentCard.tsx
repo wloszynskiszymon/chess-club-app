@@ -7,7 +7,7 @@ import moment from 'moment';
 
 const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
   const navigate = useNavigate();
-  const { title, date, time, description, rounds } = tournament;
+  const { title, datetime, description, rounds } = tournament;
 
   const handleClick = () => {
     navigate(`/tournament/${tournament.id}`);
@@ -19,12 +19,12 @@ const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
         <h3 className='text-gray-800 font-bold text-lg inline-block'>
           {title}
         </h3>
-        <Badge variant='secondary'>{moment(date).fromNow()}</Badge>
+        <Badge variant='secondary'>{moment(datetime).fromNow()}</Badge>
       </div>
 
       <p className='inline-flex gap-4 text-sm mb-2 text-gray-700'>
-        <span>{moment(date).format('DD.MM.YYYY')}</span>{' '}
-        <span>{moment(time).format('HH:MM')}</span>
+        <span>{moment(datetime).format('DD.MM.YYYY')}</span>{' '}
+        <span>{moment(datetime).format('HH:mm')}</span>
         <span>{rounds} rounds</span>
       </p>
       <p className='text-gray-500 flex-1 text-xs line-clamp-3 text-pretty'>

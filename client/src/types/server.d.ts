@@ -22,8 +22,7 @@ export type Tournament = {
   id: string;
   title: string;
   description: string;
-  date: Date;
-  time: Date;
+  datetime: Date;
   rounds: number;
   participants: ParticipantWithResults[];
 };

@@ -1,12 +1,14 @@
 import { JoinClubProvider } from '../features/data-table/button/JoinClubContext';
 import DataTable from '../features/data-table/DataTable';
-import {
-  Club,
-  clubColumns,
-} from '../features/data-table/columns/ClubListColumns';
+import { clubColumns } from '../features/data-table/columns/ClubListColumns';
 import { Card } from '../ui/card';
+import useClubsQuery from '../../hooks/queries/useClubQuery';
 
-const ChessPlayerClubCard = ({ data }: { data: Club[] }) => {
+const ChessPlayerClubCard = () => {
+  const { data: clubsData, isLoading: isLoadingClubsData } = useClubsQuery();
+
+  if (isLoadingClubsData || !clubsData) return null;
+
   return (
     <Card className='p-4 w-[50rem]'>
       <h1 className='text-2xl uppercase font-bold'>Before we start</h1>
@@ -16,7 +18,7 @@ const ChessPlayerClubCard = ({ data }: { data: Club[] }) => {
         unique and can't be changed later.
       </p>
       <JoinClubProvider>
-        <DataTable columns={clubColumns} data={data} />
+        <DataTable columns={clubColumns} data={clubsData} />
       </JoinClubProvider>
     </Card>
   );
