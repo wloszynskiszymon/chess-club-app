@@ -71,6 +71,26 @@ export const createTournament = async (req: Request, res: Response) => {
     const user = res.locals.user as User;
     const data = req.body;
 
+    const club = await prisma.club.findFirst({
+      where: {
+        id: user.clubId as string,
+      },
+      include: {
+        members: true,
+      },
+    });
+
+    if (!club) {
+      return res.status(400).json({ message: 'Club not found' });
+    }
+
+    // Coordinator + two players
+    if (club.members.length < 3) {
+      return res
+        .status(400)
+        .json({ message: 'Club must have at least two players!' });
+    }
+
     const createdTournament = await prisma.$transaction(async prisma => {
       // Create the tournament
       const tournament = await prisma.tournament.create({

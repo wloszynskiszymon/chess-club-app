@@ -103,10 +103,6 @@ const useTournamentForm = ({
       const errorData = axiosError.response?.data;
 
       handleServerValidationErrors<TournamentSchema>(errorData, form.setError);
-
-      console.error(errorData);
-
-      toast.error('There was an error processing your request.');
     }
   };
 
