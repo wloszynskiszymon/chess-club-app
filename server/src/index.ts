@@ -12,7 +12,11 @@ const app = express();
 const port = 3000;
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://chess-player-app-szymon.netlify.app/',
+  ],
   optionsSuccessStatus: 200,
   credentials: true,
 };
