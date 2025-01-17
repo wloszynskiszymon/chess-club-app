@@ -4,16 +4,19 @@ import useUserQuery from '../../hooks/queries/useUserQuery';
 import { Button } from '../ui/button';
 import Logo from './Logo';
 import { queryClient } from '../../App';
+import useAuth from '../../hooks/useAuth';
 
 const Nav = ({ disabled }: { disabled?: boolean }) => {
   const { data } = useUserQuery();
   const navigate = useNavigate();
+  const { setToken } = useAuth();
 
   const handleLogout = async () => {
     const res = await api.get('/auth/logout');
     if (res.status === 200) {
       queryClient.cancelQueries();
       queryClient.clear();
+      setToken(undefined);
       navigate('/auth/login', { replace: true });
     }
   };
