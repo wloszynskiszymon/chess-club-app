@@ -33,6 +33,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.set('trust proxy', true);
 app.use(cookieParser());
 
 // Routes
