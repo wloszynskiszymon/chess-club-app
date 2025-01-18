@@ -60,6 +60,9 @@ export const authenticate = (
   next: NextFunction
 ) => {
   try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.status(403).send('Unauthorized');
+    
     const authHeader = req.headers['authorization'];
     if (!authHeader) return res.status(401).send('Unauthorized');
     const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
