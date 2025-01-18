@@ -17,6 +17,8 @@ export const refreshAccessToken = (req: Request, res: Response) => {
   // Extract refreshToken from cookies
   const refreshToken = req.cookies.refreshToken;
 
+  console.log('RefreshToken: ' + refreshToken);
+
   if (!refreshToken) {
     return res.status(403).json({ error: 'No refresh token found' });
   }
@@ -27,6 +29,8 @@ export const refreshAccessToken = (req: Request, res: Response) => {
     process.env.JWT_REFRESH_KEY,
     async (err: any, userId: any) => {
       if (err) {
+        console.log('Error with token:');
+        console.log(err);
         return res
           .status(403)
           .json({ error: 'Invalid or expired refresh token' });

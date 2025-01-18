@@ -63,7 +63,12 @@ export const authenticate = (
     if (!authHeader) return res.status(401).send('Unauthorized');
     const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
     jwt.verify(token, process.env.JWT_ACCESS_KEY, async (err, decoded) => {
-      if (err) return res.status(401).send('Unauthorized');
+      if (err) {
+        if (err.name === 'TokenExpiredError') {
+          return res.status(401).send('Token expired');
+        }
+        return res.status(401).send('Unauthorized');
+      }
 
       if (typeof decoded !== 'object' || decoded === null) {
         return res.status(401).send('Invalid token');
@@ -74,7 +79,7 @@ export const authenticate = (
 
       const dbUser = await getFullUserData(userId);
 
-      if (!dbUser) return res.status(404).send('User not found');
+      if (!dbUser) return res.status(404).send('User not authenticated');
       res.locals.user = dbUser;
       next();
     });

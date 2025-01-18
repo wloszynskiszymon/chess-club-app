@@ -56,8 +56,6 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
             const { data } = await api.get('/auth/refresh');
             setToken(data.token);
 
-            const originalRequest =
-              error.config as CustomInternalAxiosRequestConfig;
             originalRequest.headers['Authorization'] = `Bearer ${data.token}`;
             originalRequest._retry = true;
             return api(originalRequest);
