@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import api from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
@@ -28,7 +28,7 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   // Set token in Axios request headers
-  useLayoutEffect(() => {
+  useEffect(() => {
     const requestInterceptor = api.interceptors.request.use(
       (config: CustomInternalAxiosRequestConfig) => {
         if (token && !config._retry) {
@@ -45,7 +45,7 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   }, [token]);
 
   // Refresh token on 401 errors
-  useLayoutEffect(() => {
+  useEffect(() => {
     const responseInterceptor = api.interceptors.response.use(
       (response: AxiosResponse) => response,
       async (error: AxiosError) => {

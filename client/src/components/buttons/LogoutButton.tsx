@@ -10,12 +10,11 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     const res = await api.get('/auth/logout');
-
     if (res.status === 200) {
-      queryClient.clear();
-      queryClient.cancelQueries();
-      navigate('/auth/login', { replace: true });
       setToken(undefined);
+      queryClient.clear();
+      queryClient.removeQueries();
+      navigate('/auth/login', { replace: true });
     }
   };
 
