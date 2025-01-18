@@ -42,7 +42,7 @@ export const setCookie = async (
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       httpOnly: true,
       secure: process.env.production === 'true',
-      sameSite: 'none',
+      sameSite: process.env.production === 'true' ? 'none' : 'strict', // for render.com
     });
 
     next();
