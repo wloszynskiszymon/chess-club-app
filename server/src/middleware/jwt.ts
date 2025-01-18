@@ -64,6 +64,7 @@ export const authenticate = (
     const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
     jwt.verify(token, process.env.JWT_ACCESS_KEY, async (err, decoded) => {
       if (err) {
+        console.log(err);
         if (err.name === 'TokenExpiredError') {
           return res.status(401).send('Token expired');
         }
