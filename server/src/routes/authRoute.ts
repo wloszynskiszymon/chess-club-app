@@ -30,7 +30,7 @@ authRouter.post(
 );
 
 // Route to logout a user
-authRouter.get('/logout', authenticate, logout);
+authRouter.get('/logout', logout);
 
 // Route to refresh the access token
 authRouter.get('/refresh', refreshAccessToken);
