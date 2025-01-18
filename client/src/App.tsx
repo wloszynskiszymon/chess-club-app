@@ -4,14 +4,11 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AuthProvider from './providers/AuthProvider';
 import ProtectedPage from './providers/ProtectedPage';
-import {
-  checkIsAuthenticated,
-  checkIsNotAuthenticated,
-} from './pages/loaders/authLoader';
 import { Toaster } from './components/ui/sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import TournamentsPage from './pages/TournamentsPage';
 import TournamentDetailsPage from './pages/TournamentDetailsPage';
+import AuthPage from './providers/AuthPage';
 
 const router = createBrowserRouter([
   {
@@ -21,17 +18,22 @@ const router = createBrowserRouter([
         <HomePage />
       </ProtectedPage>
     ),
-    loader: checkIsAuthenticated,
   },
   {
     path: '/auth/login',
-    element: <LoginPage />,
-    loader: checkIsNotAuthenticated,
+    element: (
+      <AuthPage>
+        <LoginPage />
+      </AuthPage>
+    ),
   },
   {
     path: '/auth/register',
-    element: <RegisterPage />,
-    loader: checkIsNotAuthenticated,
+    element: (
+      <AuthPage>
+        <RegisterPage />
+      </AuthPage>
+    ),
   },
   {
     path: '/tournaments',
@@ -40,7 +42,6 @@ const router = createBrowserRouter([
         <TournamentsPage />
       </ProtectedPage>
     ),
-    loader: checkIsAuthenticated,
   },
   {
     path: '/tournament/:tournamentId',
@@ -49,7 +50,6 @@ const router = createBrowserRouter([
         <TournamentDetailsPage />
       </ProtectedPage>
     ),
-    loader: checkIsAuthenticated,
   },
 ]);
 

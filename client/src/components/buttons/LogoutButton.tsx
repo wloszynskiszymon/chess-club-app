@@ -1,20 +1,16 @@
-import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import useAuth from '@/hooks/useAuth';
-import api from '@/api/axios';
-import { queryClient } from '@/App';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
+  const { logout } = useAuth();
   const navigate = useNavigate();
-  const { setToken } = useAuth();
 
   const handleLogout = async () => {
-    setToken(undefined);
-    queryClient.clear();
-    queryClient.removeQueries();
-
-    const res = await api.get('/auth/logout');
+    const res = await axios.get('/auth/logout', { withCredentials: true });
     if (res.status === 200) {
+      logout();
       navigate('/auth/login', { replace: true });
     }
   };

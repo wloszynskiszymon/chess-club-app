@@ -12,16 +12,19 @@ const app = express();
 const port = 3000;
 
 const frontendUrl = process.env.FRONTEND_URL;
+const devUrl = [
+  'http://localhost:4173',
+  'http://127.0.0.1:4173',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+];
 
 if (!frontendUrl) {
   console.warn('Warning: FRONTEND_URL is not set. Using default local URLs.');
 }
 
 const corsOptions = {
-  origin:
-    process.env.production === 'true'
-      ? frontendUrl
-      : ['http://localhost:4173', 'http://127.0.0.1:4173', `${frontendUrl}`],
+  origin: process.env.production === 'true' ? frontendUrl : devUrl,
   optionsSuccessStatus: 200,
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],

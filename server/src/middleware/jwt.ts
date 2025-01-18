@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import prisma from '../prisma/prisma';
+import jwt from 'jsonwebtoken';
 import { generateAccessToken, generateRefreshToken } from '../controllers/jwt';
-import { User } from '@prisma/client';
-import { getFullUserData, getUserData } from '../controllers/user';
+import { getFullUserData } from '../controllers/user';
 
 export const generateTokens = async (
   req: Request,
@@ -60,9 +58,6 @@ export const authenticate = (
   next: NextFunction
 ) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) return res.status(403).send('Unauthorized');
-    
     const authHeader = req.headers['authorization'];
     if (!authHeader) return res.status(401).send('Unauthorized');
     const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
