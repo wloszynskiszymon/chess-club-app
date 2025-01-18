@@ -11,12 +11,14 @@ import tournamentRouter from './routes/tournamentRoute';
 const app = express();
 const port = 3000;
 
+const frontendUrl = process.env.FRONTEND_URL;
+
+if (!frontendUrl) {
+  console.warn('Warning: FRONTEND_URL is not set. Using default local URLs.');
+}
+
 const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'https://chess-player-app-szymon.netlify.app/',
-  ],
+  origin: frontendUrl || ['http://localhost:3000', 'http://127.0.0.1:3000'],
   optionsSuccessStatus: 200,
   credentials: true,
 };
