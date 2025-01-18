@@ -18,10 +18,10 @@ if (!frontendUrl) {
 }
 
 const corsOptions = {
-  origin: (frontendUrl && process.env.production === 'true') || [
-    'http://localhost:4173',
-    'http://127.0.0.1:4173',
-  ],
+  origin:
+    process.env.production === 'true'
+      ? frontendUrl
+      : ['http://localhost:4173', 'http://127.0.0.1:4173', `${frontendUrl}`],
   optionsSuccessStatus: 200,
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
