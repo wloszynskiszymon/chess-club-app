@@ -9,11 +9,12 @@ const LogoutButton = () => {
   const { setToken } = useAuth();
 
   const handleLogout = async () => {
+    setToken(undefined);
+    queryClient.clear();
+    queryClient.removeQueries();
+
     const res = await api.get('/auth/logout');
     if (res.status === 200) {
-      setToken(undefined);
-      queryClient.clear();
-      queryClient.removeQueries();
       navigate('/auth/login', { replace: true });
     }
   };
