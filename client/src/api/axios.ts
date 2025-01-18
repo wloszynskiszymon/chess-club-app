@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const baseURL =
-  (import.meta.env.REACT_APP_API_URL as string) || 'http://localhost:3000';
+  (import.meta.env.VITE_APP_API_URL as string) || 'http://localhost:3000';
 
 // Extended in AuthProvider.tsx
 export const api: AxiosInstance = axios.create({
