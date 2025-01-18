@@ -51,6 +51,14 @@ const router = createBrowserRouter([
       </ProtectedPage>
     ),
   },
+  {
+    path: '*',
+    element: (
+      <ProtectedPage>
+        <HomePage />
+      </ProtectedPage>
+    ),
+  },
 ]);
 
 export const queryClient = new QueryClient();

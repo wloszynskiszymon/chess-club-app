@@ -1,6 +1,6 @@
+import api from '@/api/axios';
 import { Button } from '../ui/button';
 import useAuth from '@/hooks/useAuth';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
@@ -8,7 +8,7 @@ const LogoutButton = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const res = await axios.get('/auth/logout', { withCredentials: true });
+    const res = await api.get('/auth/logout');
     if (res.status === 200) {
       logout();
       navigate('/auth/login', { replace: true });
