@@ -21,6 +21,11 @@ const corsOptions = {
   origin: frontendUrl || ['http://localhost:3000', 'http://127.0.0.1:3000'],
   optionsSuccessStatus: 200,
   credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  preflightContinue: false,
+  exposedHeaders: ['X-Auth-Token'],
+  maxAge: 86400,
 };
 
 app.use(cors(corsOptions));
