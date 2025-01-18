@@ -43,6 +43,7 @@ export const setCookie = async (
       httpOnly: true,
       secure: process.env.production === 'true',
       sameSite: process.env.production === 'true' ? 'none' : 'strict', // for render.com
+      path: '/',
     });
 
     next();
