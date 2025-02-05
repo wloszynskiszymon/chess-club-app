@@ -5,7 +5,7 @@ import MailNavIcon from './MailNavIcon';
 
 const Nav = ({ disabled }: { disabled?: boolean }) => {
   return (
-    <nav className='w-full h-16 px-8 fixed top-0 bg-white z-50 overflow-hidden flex items-center justify-between'>
+    <nav className='w-full h-16 px-8 fixed top-0 bg-white z-50 overflow-hidden flex items-center justify-between border-b border-gray-200'>
       <div className='flex-center gap-6'>
         <Logo className='h-16' />
         <Link className='font-bold hover:underline' to={disabled ? '' : '/'}>

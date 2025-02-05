@@ -55,9 +55,17 @@ const router = createBrowserRouter([
   {
     path: '/mail/:category',
     element: (
-      // <ProtectedPage>
-      <MailPage />
-      // </ProtectedPage>
+      <ProtectedPage>
+        <MailPage />
+      </ProtectedPage>
+    ),
+  },
+  {
+    path: '/mail/:category/:mailId',
+    element: (
+      <ProtectedPage>
+        <MailPage />
+      </ProtectedPage>
     ),
   },
 

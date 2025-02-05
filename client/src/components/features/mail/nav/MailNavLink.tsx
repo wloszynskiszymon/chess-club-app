@@ -1,11 +1,11 @@
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { MailLink } from '@/types/mail';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const MailNavLink = ({ link }: { link: MailLink }) => {
-  const { pathname } = useLocation();
-  const isActive = link.url === pathname;
+  const { category } = useParams();
+  const isActive = link.url === '/mail/' + category;
 
   return (
     <Link

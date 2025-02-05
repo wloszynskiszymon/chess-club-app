@@ -7,7 +7,7 @@ export type MailLink = {
   url: string;
 };
 
-export type Mail = {
+export type MailContent = {
   id: string;
   from: string;
   subject: string;
