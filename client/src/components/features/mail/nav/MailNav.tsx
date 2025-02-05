@@ -33,8 +33,8 @@ const links: MailLink[] = [
 
 function MailNav() {
   return (
-    <div className='group flex flex-col gap-4 py-2 flex-grow w-full h-full'>
-      <nav className='grid gap-1 px-2'>
+    <div className='group flex flex-col flex-1 gap-4 py-2'>
+      <nav className='flex flex-col flex-1 gap-1 px-2'>
         {links.map((link, index) => (
           <MailNavLink key={index} link={link} />
         ))}
@@ -46,7 +46,7 @@ function MailNav() {
             variant: 'outline',
             size: 'sm',
           }),
-          'dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white justify-center mt-auto mx-2'
+          'dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white mx-2 mt-auto'
         )}
       >
         <MessageSquareIcon className='mr-2 h-4 w-4' />

@@ -6,3 +6,11 @@ export type MailLink = {
   label: string;
   url: string;
 };
+
+export type Mail = {
+  id: string;
+  from: string;
+  subject: string;
+  body: string;
+  date: string;
+};
