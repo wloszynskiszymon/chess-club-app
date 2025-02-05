@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import AppLayout from '../components/utils/AppLayout';
 import Heading from '../components/utils/Heading';
 import LoadingScreen from '../components/utils/LoadingScreen';
-import Nav from '../components/utils/Nav';
+import Nav from '@/components/features/nav/Nav';
 import { Badge } from '../components/ui/badge';
 import moment from 'moment';
 import { Button } from '../components/ui/button';

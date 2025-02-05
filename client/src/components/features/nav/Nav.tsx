@@ -1,11 +1,9 @@
+import LogoutButton from '@/components/buttons/LogoutButton';
 import { Link } from 'react-router-dom';
-import useUserQuery from '../../hooks/queries/useUserQuery';
 import Logo from './Logo';
-import LogoutButton from '../buttons/LogoutButton';
+import MailNavIcon from './MailNavIcon';
 
 const Nav = ({ disabled }: { disabled?: boolean }) => {
-  const { data } = useUserQuery();
-
   return (
     <nav className='w-full h-16 px-8 fixed top-0 bg-white z-50 overflow-hidden flex items-center justify-between'>
       <div className='flex-center gap-6'>
@@ -21,8 +19,8 @@ const Nav = ({ disabled }: { disabled?: boolean }) => {
         </Link>
       </div>
 
-      <div className='flex-center gap-6'>
-        <p className='text-xs font-bold lowercase'>{data?.role}</p>
+      <div className='flex-center gap-8'>
+        <MailNavIcon />
         <LogoutButton />
       </div>
     </nav>

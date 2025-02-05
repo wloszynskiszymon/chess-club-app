@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import TournamentsPage from './pages/TournamentsPage';
 import TournamentDetailsPage from './pages/TournamentDetailsPage';
 import AuthPage from './providers/AuthPage';
+import MailPage from './pages/MailPage';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,15 @@ const router = createBrowserRouter([
       </ProtectedPage>
     ),
   },
+  {
+    path: '/mail',
+    element: (
+      <ProtectedPage>
+        <MailPage />
+      </ProtectedPage>
+    ),
+  },
+
   {
     path: '*',
     element: (

@@ -1,6 +1,6 @@
 import AppLayout from '../components/utils/AppLayout';
 import LoadingScreen from '../components/utils/LoadingScreen';
-import Nav from '../components/utils/Nav';
+import Nav from '@/components/features/nav/Nav';
 import Tournaments from '../components/utils/Tournaments';
 import useTournamentsQuery from '../hooks/queries/useTournamentsQuery';
 import Heading from '../components/utils/Heading';

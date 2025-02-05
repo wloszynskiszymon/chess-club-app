@@ -1,7 +1,7 @@
 import useUserQuery from '../hooks/queries/useUserQuery';
 import LoadingScreen from '../components/utils/LoadingScreen';
 
-import Nav from '../components/utils/Nav';
+import Nav from '@/components/features/nav/Nav';
 import AppLayout from '../components/utils/AppLayout';
 import CoordinatorClubCard from '../components/cards/CoordinatorClubCard';
 import ChessPlayerClubCard from '../components/cards/ChessPlayerClubCard';
