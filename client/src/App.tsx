@@ -53,7 +53,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/mail',
+    path: '/mail/:category',
     element: (
       <ProtectedPage>
         <MailPage />

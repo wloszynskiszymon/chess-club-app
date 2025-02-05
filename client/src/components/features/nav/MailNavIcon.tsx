@@ -5,7 +5,7 @@ const MailNavIcon = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/mail');
+    navigate('/mail/inbox');
   };
 
   return (
