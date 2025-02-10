@@ -6,6 +6,8 @@ import {
 import MailNav from './nav/MailNav';
 import MailListSection from './list/MailListSection';
 import MailDetails from './details/MailDetails';
+import MailForm from '@/components/forms/MailForm';
+import { useLocation } from 'react-router-dom';
 
 const mails = [
   {
@@ -81,6 +83,9 @@ const mails = [
 ];
 
 const Mail = () => {
+  const location = useLocation();
+
+  const isNewMail = location.pathname === '/mail/new';
   return (
     <ResizablePanelGroup
       direction='horizontal'
@@ -98,7 +103,8 @@ const Mail = () => {
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel minSize={40} defaultSize={55}>
-            <MailDetails mails={mails} />
+            {!isNewMail && <MailDetails mails={mails} />}
+            {isNewMail && <MailForm className='p-4' />}
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>

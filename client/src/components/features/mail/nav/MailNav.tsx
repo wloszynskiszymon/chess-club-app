@@ -48,7 +48,7 @@ function MailNav() {
           ))}
         </nav>
         <Link
-          to='#'
+          to='/mail/new'
           className={cn(
             buttonVariants({
               variant: 'outline',
