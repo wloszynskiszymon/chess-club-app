@@ -8,6 +8,8 @@ import MailListSection from './list/MailListSection';
 import MailDetails from './details/MailDetails';
 import MailForm from '@/components/forms/MailForm';
 import { useLocation } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import api from '@/api/axios';
 
 const mails = [
   {
@@ -86,6 +88,17 @@ const Mail = () => {
   const location = useLocation();
 
   const isNewMail = location.pathname === '/mail/new';
+
+  const { data } = useQuery({
+    queryKey: ['mail'],
+    queryFn: async () => {
+      const res = await api.get('/api/mail');
+      return res.data;
+    },
+  });
+
+  console.log(data);
+
   return (
     <ResizablePanelGroup
       direction='horizontal'

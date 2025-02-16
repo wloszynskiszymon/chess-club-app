@@ -23,6 +23,8 @@ model User {
   updatedAt             DateTime                @updatedAt
   Tournament            Tournament[]
   TournamentParticipant TournamentParticipant[]
+  Message               Message[]
+  MessageRecipient      MessageRecipient[]
 }
 
 model Club {
@@ -84,4 +86,33 @@ enum TournamentStatus {
   SCHEDULED
   ACTIVE
   FINISHED
+}
+
+model Message {
+  id          String             @id @default(cuid())
+  subject     String
+  body        String
+  senderId    String
+  sender      User               @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  threadId    String?
+  parent      Message?           @relation("MessageReplies", fields: [threadId], references: [id])
+  replies     Message[]          @relation("MessageReplies")
+  recipients  MessageRecipient[]
+  isForwarded Boolean            @default(false)
+  isDraft     Boolean            @default(false)
+  isDeleted   Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+model MessageRecipient {
+  id          String  @id @default(cuid())
+  messageId   String
+  message     Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  recipientId String
+  recipient   User    @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+  isRead      Boolean @default(false)
+  isArchived  Boolean @default(false)
+  isDeleted   Boolean @default(false)
+  isSaved     Boolean @default(false)
 }

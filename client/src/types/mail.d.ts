@@ -14,3 +14,11 @@ export type MailContent = {
   body: string;
   date: string;
 };
+export type Mail = {
+  id: string;
+  from: string;
+  subject: string;
+  body: string;
+  date: string;
+  recipients: { recipientId: string }[];
+};

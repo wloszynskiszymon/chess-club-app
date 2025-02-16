@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import userRouter from './routes/userRoute';
 import clubRouter from './routes/clubRoute';
 import tournamentRouter from './routes/tournamentRoute';
+import { mailRouter } from './routes/mailRoute';
 
 const app = express();
 const port = 3000;
@@ -44,6 +45,7 @@ app.use('/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/club', clubRouter);
 app.use('/api/tournament', tournamentRouter);
+app.use('/api/mail', mailRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

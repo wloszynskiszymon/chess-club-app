@@ -3,6 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
 import { handleServerValidationErrors } from '../../utils/errors';
 import { mailSchema, MailSchema } from '@/schemas/mailSchema';
+import api from '@/api/axios';
+import { toast } from 'sonner';
 
 const useMailForm = () => {
   const form = useForm<MailSchema>({
@@ -16,7 +18,11 @@ const useMailForm = () => {
 
   const handleSubmit = async (data: MailSchema) => {
     try {
-      console.log(data);
+      const res = await api.post('/api/mail/send', data);
+      if (res.status === 201) {
+        form.reset();
+        toast.success('Mail sent successfully!');
+      }
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
       const errorData = axiosError.response?.data as unknown;
