@@ -1,12 +1,12 @@
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { MailContent } from '@/types/mail';
+import { Message } from '@/types/mail';
 import { SearchIcon } from 'lucide-react';
 import MailsList from './MailsList';
 import MailSectionHeading from '../MailSectionHeading';
 import MailSectionHeader from '../MailSectionHeader';
 
-const MailListSection = ({ mails }: { mails: MailContent[] }) => {
+const MailListSection = ({ mails }: { mails: Message[] }) => {
   return (
     <section className='h-full'>
       <MailSectionHeader>

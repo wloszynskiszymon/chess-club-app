@@ -1,9 +1,10 @@
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MailContent } from '@/types/mail';
+import { Message } from '@/types/mail';
+import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const MailsList = ({ mails }: { mails: MailContent[] }) => {
+const MailsList = ({ mails }: { mails: Message[] }) => {
   const navigate = useNavigate();
   const { category, mailId } = useParams();
 
@@ -26,11 +27,12 @@ const MailsList = ({ mails }: { mails: MailContent[] }) => {
               {mail.subject}
             </h2>
             <p className='text-muted-foreground text-nowrap pl-4 text-sm'>
-              {mail.date}
+              {moment(mail.createdAt).format('DD-MM-YYYY')}
             </p>
           </div>
           <p className='text-muted-foreground line-clamp-1 text-sm mb-2'>
-            From: <span className='text-black text-md'>{mail.from}</span>
+            From:{' '}
+            <span className='text-black text-md'>{mail.sender.email}</span>
           </p>
           <p className='text-muted-foreground line-clamp-3 text-sm mb-2'>
             {mail.body}

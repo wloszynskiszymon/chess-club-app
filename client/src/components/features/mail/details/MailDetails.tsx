@@ -3,14 +3,13 @@ import MailSectionHeading from '../MailSectionHeading';
 import MailSectionHeader from '../MailSectionHeader';
 import { TrashIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { MailContent } from '@/types/mail';
+import { Message } from '@/types/mail';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
 
-const MailDetails = ({ mails }: { mails: MailContent[] }) => {
+const MailDetails = ({ mails }: { mails: Message[] }) => {
   const { mailId } = useParams();
   const mail = mails.find(mail => mail.id === mailId);
-
-  console.log(mail);
 
   if (!mail) {
     return (
@@ -27,7 +26,7 @@ const MailDetails = ({ mails }: { mails: MailContent[] }) => {
   return (
     <section>
       <MailSectionHeader className='justify-between'>
-        <MailSectionHeading>Mail</MailSectionHeading>
+        <MailSectionHeading>Content of your mail</MailSectionHeading>
         <Button variant='destructive' size='sm' className=' mr-4'>
           <TrashIcon className='h-6 w-6' />
         </Button>
@@ -39,16 +38,18 @@ const MailDetails = ({ mails }: { mails: MailContent[] }) => {
         <div className='w-full'>
           <div className='flex w-full justify-between items-center'>
             <h3 className='text-2xl font-bold mb-3'>{mail.subject} </h3>
-            <p className='text-sm text-muted-foreground'>{mail.date}</p>
+            <p className='text-sm text-muted-foreground'>
+              {moment(mail.createdAt).format('DD-MM-YYYY')}
+            </p>
           </div>
           <p className='text-sm text-muted-foreground'>
             From:
-            <span className='font-bold text-md ml-2'>{mail.from}</span>
+            <span className='font-bold text-md ml-2'>{mail.sender.email}</span>
           </p>
           <p className='text-sm text-muted-foreground'>
             To:
             <span className='font-bold text-md ml-2'>
-              Jane Doe, Maria Smith and 4+ more
+              {mail.recipients[0].recipient.email}
             </span>
           </p>
         </div>

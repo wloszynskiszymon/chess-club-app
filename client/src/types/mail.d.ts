@@ -7,18 +7,34 @@ export type MailLink = {
   url: string;
 };
 
-export type MailContent = {
+export type Recipient = {
   id: string;
-  from: string;
-  subject: string;
-  body: string;
-  date: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 };
-export type Mail = {
+
+export type MessageRecipientEntry = {
   id: string;
-  from: string;
+  isRead: boolean;
+  isArchived: boolean;
+  isDeleted: boolean;
+  isSaved: boolean;
+  recipient: Recipient;
+};
+
+export type Message = {
+  id: string;
   subject: string;
   body: string;
-  date: string;
-  recipients: { recipientId: string }[];
+  senderId: string;
+  sender: Recipient;
+  threadId: string | null;
+  parent: Message | null;
+  replies: Message[];
+  recipients: MessageRecipientEntry[];
+  isForwarded: boolean;
+  isDraft: boolean;
+  isDeleted: boolean;
+  createdAt: Date;
 };

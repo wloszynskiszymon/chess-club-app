@@ -6,15 +6,47 @@ export const getMails = async (req: Request, res: Response) => {
     const userId = res.locals.user.id as string;
 
     const messages = await prisma.message.findMany({
-      where: {
-        recipients: {
-          some: { recipientId: userId },
+      select: {
+        id: true,
+        subject: true,
+        body: true,
+        senderId: true,
+        sender: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
         },
+        threadId: true,
+        parent: true,
+        replies: true,
+        recipients: {
+          select: {
+            id: true,
+            isRead: true,
+            isArchived: true,
+            isDeleted: true,
+            isSaved: true,
+            recipient: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          },
+        },
+        isForwarded: true,
+        isDraft: true,
+        isDeleted: true,
+        createdAt: true,
       },
-      include: { recipients: true },
     });
 
-    return res.status(200).json({ messages });
+    return res.status(200).json(messages);
   } catch (error) {
     console.error('Error fetching messages:', error);
     res.status(500).json({ error: 'Internal server error' });
