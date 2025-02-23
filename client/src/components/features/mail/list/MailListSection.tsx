@@ -5,8 +5,22 @@ import { SearchIcon } from 'lucide-react';
 import MailsList from './MailsList';
 import MailSectionHeading from '../MailSectionHeading';
 import MailSectionHeader from '../MailSectionHeader';
+import useUserQuery from '@/hooks/queries/useUserQuery';
+import { useLocation } from 'react-router-dom';
 
 const MailListSection = ({ mails }: { mails: Message[] }) => {
+  const location = useLocation();
+
+  const { data: userData } = useUserQuery();
+
+  const recievedMails = mails.filter(
+    mail => mail.sender.email !== userData?.email
+  );
+  const sentMails = mails.filter(mail => mail.sender.email === userData?.email);
+
+  const isInbox = location.pathname.includes('/mail/inbox');
+  const isSent = location.pathname.includes('/mail/sent');
+
   return (
     <section className='h-full'>
       <MailSectionHeader>
@@ -20,7 +34,8 @@ const MailListSection = ({ mails }: { mails: Message[] }) => {
           <Input placeholder='Search' className='pl-8' />
         </div>
       </div>
-      <MailsList mails={mails} />
+      {isInbox && recievedMails && <MailsList mails={recievedMails} />}
+      {isSent && sentMails && <MailsList mails={sentMails} />}
     </section>
   );
 };

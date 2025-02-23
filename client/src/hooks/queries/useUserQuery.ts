@@ -15,6 +15,7 @@ const useUserQuery = (useQueryOptions?: UseQueryOptions<User, unknown>) => {
     refetchOnWindowFocus: false,
     refetchInterval: Infinity,
     staleTime: Infinity,
+
     ...useQueryOptions,
   });
 };
