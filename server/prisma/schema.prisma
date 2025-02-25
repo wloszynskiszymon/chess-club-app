@@ -94,9 +94,6 @@ model Message {
   body        String
   senderId    String
   sender      User               @relation(fields: [senderId], references: [id], onDelete: Cascade)
-  threadId    String?
-  parent      Message?           @relation("MessageReplies", fields: [threadId], references: [id])
-  replies     Message[]          @relation("MessageReplies")
   recipients  MessageRecipient[]
   isForwarded Boolean            @default(false)
   isDraft     Boolean            @default(false)

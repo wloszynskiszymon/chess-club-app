@@ -18,11 +18,12 @@ const Mail = () => {
   const isNewMail = location.pathname === '/mail/new';
 
   const { data } = useQuery<Message[]>({
-    queryKey: ['mail'],
+    queryKey: ['mails'],
     queryFn: async () => {
       const res = await api.get('/api/mail');
       return res.data;
     },
+    notifyOnChangeProps: 'all',
   });
 
   return (

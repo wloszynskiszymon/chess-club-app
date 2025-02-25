@@ -7,19 +7,24 @@ import MailSectionHeading from '../MailSectionHeading';
 import MailSectionHeader from '../MailSectionHeader';
 import useUserQuery from '@/hooks/queries/useUserQuery';
 import { useLocation } from 'react-router-dom';
+import {
+  findUserReceived,
+  findUserSaved,
+  findUserSent,
+} from '../utils/mailUtils';
 
 const MailListSection = ({ mails }: { mails: Message[] }) => {
   const location = useLocation();
 
   const { data: userData } = useUserQuery();
 
-  const recievedMails = mails.filter(
-    mail => mail.sender.email !== userData?.email
-  );
-  const sentMails = mails.filter(mail => mail.sender.email === userData?.email);
+  const recievedMails = findUserReceived(mails, userData?.email as string);
+  const sentMails = findUserSent(mails, userData?.email as string);
+  const savedMails = findUserSaved(mails, userData?.email as string);
 
   const isInbox = location.pathname.includes('/mail/inbox');
   const isSent = location.pathname.includes('/mail/sent');
+  const isSaved = location.pathname.includes('/mail/saved');
 
   return (
     <section className='h-full'>
@@ -36,6 +41,7 @@ const MailListSection = ({ mails }: { mails: Message[] }) => {
       </div>
       {isInbox && recievedMails && <MailsList mails={recievedMails} />}
       {isSent && sentMails && <MailsList mails={sentMails} />}
+      {isSaved && savedMails && <MailsList mails={savedMails} />}
     </section>
   );
 };

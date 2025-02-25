@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Message } from '@/types/mail';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
+import SaveButton from '../buttons/SaveButton';
 
 const MailDetails = ({ mails }: { mails: Message[] }) => {
   const { mailId } = useParams();
@@ -25,11 +26,15 @@ const MailDetails = ({ mails }: { mails: Message[] }) => {
 
   return (
     <section>
-      <MailSectionHeader className='justify-between'>
+      <MailSectionHeader className='flex justify-between items-center'>
         <MailSectionHeading>Content of your mail</MailSectionHeading>
-        <Button variant='destructive' size='sm' className=' mr-4'>
-          <TrashIcon className='h-6 w-6' />
-        </Button>
+
+        <div className='flex justify-between items-center'>
+          <SaveButton mail={mail} />
+          <Button variant='destructive' size='sm' className=' mr-4'>
+            <TrashIcon className='h-6 w-6' />
+          </Button>
+        </div>
       </MailSectionHeader>
 
       <Separator />

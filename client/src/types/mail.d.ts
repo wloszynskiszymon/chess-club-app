@@ -29,7 +29,6 @@ export type Message = {
   body: string;
   senderId: string;
   sender: Recipient;
-  threadId: string | null;
   parent: Message | null;
   replies: Message[];
   recipients: MessageRecipientEntry[];

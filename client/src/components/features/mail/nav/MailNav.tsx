@@ -1,5 +1,5 @@
 import {
-  ArchiveIcon,
+  HeartIcon,
   InboxIcon,
   MessageSquareIcon,
   SendToBackIcon,
@@ -30,7 +30,7 @@ const links: MailLink[] = [
     title: 'Saved',
     label: '0',
     url: '/mail/saved',
-    icon: ArchiveIcon,
+    icon: HeartIcon,
   },
 ];
 
