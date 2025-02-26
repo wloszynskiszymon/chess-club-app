@@ -5,6 +5,7 @@ import { MiddlePanelProps } from './MiddlePanel';
 // URL: /mail/inbox
 const ReceivedMails = (props: MiddlePanelProps) => {
   const { data } = useMessagesQuery({ type: 'received' });
+  if (!data) return <p>No content</p>;
   return <MailsList mails={data} {...props} />;
 };
 

@@ -1,9 +1,9 @@
 import { Input } from '@/components/ui/input';
 import { SearchIcon } from 'lucide-react';
-import { Category } from '../types/mail';
+import { NavCategory } from '../types/mail';
 
 type SearchMailInputProps = {
-  type: Category;
+  type: NavCategory;
 };
 const SearchMailInput = ({ type }: SearchMailInputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

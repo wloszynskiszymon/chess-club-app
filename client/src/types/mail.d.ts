@@ -1,3 +1,4 @@
+import { NavCategory } from '@/components/features/mail/types/mail';
 import { LucideIcon } from 'lucide-react';
 
 export type MailLink = {
@@ -46,7 +47,7 @@ export type MessageCounts = {
 };
 
 export type MailFilters = {
-  type: 'received' | 'sent' | 'saved';
+  type: NavCategory;
   search?: string;
   page?: number;
   limit?: number;

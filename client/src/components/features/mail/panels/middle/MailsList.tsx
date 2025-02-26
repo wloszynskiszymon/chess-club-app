@@ -6,11 +6,11 @@ import MailSectionHeader from '../../MailSectionHeader';
 import MailSectionHeading from '../../MailSectionHeading';
 import { Separator } from '@radix-ui/react-select';
 import SearchMailInput from '../../components/SearchMailInput';
-import { Category } from '../../types/mail';
+import { NavCategory } from '../../types/mail';
 
 type MailsListProps = {
   mails: Message[];
-  category: Category;
+  category: NavCategory;
   activeMailId: string | undefined;
 };
 

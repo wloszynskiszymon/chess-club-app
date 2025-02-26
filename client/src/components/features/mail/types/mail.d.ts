@@ -1,6 +1,6 @@
-export type Category = 'received' | 'saved' | 'sent';
+export type NavCategory = 'received' | 'saved' | 'sent';
 
 export type MiddlePanelProps = {
-  category: Category;
+  category: NavCategory & 'new';
   mailId: string;
 };

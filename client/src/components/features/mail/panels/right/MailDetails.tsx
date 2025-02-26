@@ -1,16 +1,34 @@
 import { Separator } from '@/components/ui/separator';
-import MailSectionHeading from '../MailSectionHeading';
-import MailSectionHeader from '../MailSectionHeader';
+import MailSectionHeading from '../../MailSectionHeading';
+import MailSectionHeader from '../../MailSectionHeader';
 import { TrashIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Message } from '@/types/mail';
-import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import SaveButton from '../buttons/SaveButton';
+import SaveButton from '../../buttons/SaveButton';
+import useMailUrl from '@/components/features/hooks/useMailUrl';
+import useMessagesQuery from '@/hooks/queries/useMessagesQuery';
+import { NavCategory } from '../../types/mail';
 
-const MailDetails = ({ mails }: { mails: Message[] }) => {
-  const { mailId } = useParams();
-  const mail = mails.find(mail => mail.id === mailId);
+const MailDetails = () => {
+  const { category, mailId } = useMailUrl();
+
+  const { data, isLoading } = useMessagesQuery({
+    type: category as NavCategory,
+  });
+
+  const mail = data?.find(mail => mail.id === mailId);
+
+  if (isLoading) {
+    return (
+      <section>
+        <article className='flex-1 p-4'>
+          <p className='text-sm text-muted-foreground text-center'>
+            Loading...
+          </p>
+        </article>
+      </section>
+    );
+  }
 
   if (!mail) {
     return (
