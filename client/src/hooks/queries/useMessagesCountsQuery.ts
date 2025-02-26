@@ -1,14 +1,12 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import api from '../../api/axios';
 import { MessageCounts } from '@/types/mail';
+import { getMailCounts } from '@/api/mail';
 
 const useMessagesCountsQuery = () => {
   return useSuspenseQuery<MessageCounts>({
     queryKey: ['mails', 'counts'],
-    queryFn: async () => {
-      const res = await api.get('/api/mail/counts');
-      return res.data;
-    },
+    queryFn: getMailCounts,
+    staleTime: 1000 * 60 * 5,
     notifyOnChangeProps: 'all',
   });
 };

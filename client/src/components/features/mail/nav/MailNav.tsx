@@ -13,9 +13,24 @@ import MailSectionHeading from '../MailSectionHeading';
 import { Separator } from '@/components/ui/separator';
 import MailSectionHeader from '../MailSectionHeader';
 import useMessagesCountsQuery from '@/hooks/queries/useMessagesCountsQuery';
+import { useQueryClient, QueryClient } from '@tanstack/react-query';
+import { getMails } from '@/api/mail';
+import { NavCategory } from '../types/mail';
+
+const prefetchMail = (queryClient: QueryClient, mailType: NavCategory) => {
+  const queryKey = ['mails', mailType];
+  const queryState = queryClient.getQueryState(queryKey);
+  if (!queryState) {
+    queryClient.prefetchQuery({
+      queryKey,
+      queryFn: () => getMails(mailType),
+    });
+  }
+};
 
 function MailNav() {
   const { data: counts } = useMessagesCountsQuery();
+  const queryClient = useQueryClient();
 
   const links: MailLink[] = [
     {
@@ -23,18 +38,21 @@ function MailNav() {
       label: counts.total.toString(),
       url: '/mail/inbox',
       icon: InboxIcon,
+      prefetch: () => prefetchMail(queryClient, 'received'),
     },
     {
       title: 'Sent',
       label: counts.sent.toString(),
       url: '/mail/sent',
       icon: SendToBackIcon,
+      prefetch: () => prefetchMail(queryClient, 'sent'),
     },
     {
       title: 'Saved',
       label: counts.saved.toString(),
       url: '/mail/saved',
       icon: HeartIcon,
+      prefetch: () => prefetchMail(queryClient, 'saved'),
     },
   ];
 

@@ -6,6 +6,7 @@ export type MailLink = {
   title: string;
   label: string;
   url: string;
+  prefetch: () => void;
 };
 
 export type Recipient = {

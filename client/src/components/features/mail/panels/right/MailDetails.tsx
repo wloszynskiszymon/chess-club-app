@@ -5,7 +5,7 @@ import { TrashIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import moment from 'moment';
 import SaveButton from '../../buttons/SaveButton';
-import useMailUrl from '@/components/features/hooks/useMailUrl';
+import useMailUrl from '@/components/features/mail/hooks/useMailUrl';
 import useMessagesQuery from '@/hooks/queries/useMessagesQuery';
 import { NavCategory } from '../../types/mail';
 

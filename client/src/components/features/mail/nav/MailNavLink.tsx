@@ -16,6 +16,7 @@ const MailNavLink = ({ link }: { link: MailLink }) => {
           'dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white',
         'justify-start'
       )}
+      onMouseOver={link.prefetch}
     >
       <link.icon className='mr-2 h-4 w-4' />
       {link.title}

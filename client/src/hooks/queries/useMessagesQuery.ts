@@ -13,6 +13,7 @@ const useMessagesQuery = (
       return res.data;
     },
     notifyOnChangeProps: 'all',
+    staleTime: 1000 * 60 * 5,
     ...useQueryParams,
   });
 };
