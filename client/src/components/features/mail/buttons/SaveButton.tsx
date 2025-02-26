@@ -15,7 +15,7 @@ const SaveButton = ({ mail }: { mail: Message }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationKey: ['mail', mail.id],
+    mutationKey: ['mails', mail.id],
     mutationFn: () => saveMail(mail.id),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['mails'] });

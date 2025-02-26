@@ -5,7 +5,7 @@ import {
   SendToBackIcon,
 } from 'lucide-react';
 import MailNavLink from './MailNavLink';
-import { MailLink } from '@/types/mail';
+import { MailLink, MessageCounts } from '@/types/mail';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
@@ -13,28 +13,28 @@ import MailSectionHeading from '../MailSectionHeading';
 import { Separator } from '@/components/ui/separator';
 import MailSectionHeader from '../MailSectionHeader';
 
-const links: MailLink[] = [
-  {
-    title: 'Inbox',
-    label: '0',
-    url: '/mail/inbox',
-    icon: InboxIcon,
-  },
-  {
-    title: 'Sent',
-    label: '0',
-    url: '/mail/sent',
-    icon: SendToBackIcon,
-  },
-  {
-    title: 'Saved',
-    label: '0',
-    url: '/mail/saved',
-    icon: HeartIcon,
-  },
-];
+function MailNav({ counts }: { counts: MessageCounts }) {
+  const links: MailLink[] = [
+    {
+      title: 'Inbox',
+      label: counts.total.toString(),
+      url: '/mail/inbox',
+      icon: InboxIcon,
+    },
+    {
+      title: 'Sent',
+      label: counts.sent.toString(),
+      url: '/mail/sent',
+      icon: SendToBackIcon,
+    },
+    {
+      title: 'Saved',
+      label: counts.saved.toString(),
+      url: '/mail/saved',
+      icon: HeartIcon,
+    },
+  ];
 
-function MailNav() {
   return (
     <section className='flex flex-col flex-1'>
       <MailSectionHeader>

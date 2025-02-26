@@ -37,3 +37,17 @@ export type Message = {
   isDeleted: boolean;
   createdAt: Date;
 };
+
+export type MessageCounts = {
+  total: number;
+  unread: number;
+  saved: number;
+  sent: number;
+};
+
+export type MailFilters = {
+  type: 'received' | 'sent' | 'saved';
+  search?: string;
+  page?: number;
+  limit?: number;
+};

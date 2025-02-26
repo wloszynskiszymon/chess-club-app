@@ -2,21 +2,107 @@ import { Request, Response } from 'express';
 import prisma from '../prisma/prisma';
 import { User } from '@prisma/client';
 
-export const getMails = async (req: Request, res: Response) => {
+export const getMailCounts = async (req: Request, res: Response) => {
   try {
     const userId = res.locals.user.id as string;
 
-    const messages = await prisma.message.findMany({
+    const totalMails = await prisma.message.count({
       where: {
         recipients: {
-          some: { recipientId: userId },
+          some: {
+            recipientId: userId,
+            isDeleted: false,
+          },
         },
       },
+    });
+
+    const unreadMails = await prisma.message.count({
+      where: {
+        recipients: {
+          some: {
+            recipientId: userId,
+            isRead: false,
+          },
+        },
+      },
+    });
+
+    const savedMails = await prisma.message.count({
+      where: {
+        recipients: {
+          some: {
+            recipientId: userId,
+            isSaved: true,
+          },
+        },
+      },
+    });
+
+    const sentMails = await prisma.message.count({
+      where: {
+        senderId: userId,
+        isDeleted: false,
+      },
+    });
+
+    return res.status(200).json({
+      total: totalMails,
+      unread: unreadMails,
+      saved: savedMails,
+      sent: sentMails,
+    });
+  } catch (error) {
+    console.error('Error fetching mail counts:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const getMails = async (req: Request, res: Response) => {
+  try {
+    const userId = res.locals.user.id as string;
+    const { filter } = req.query; // EXPECTED: received, sent, saved
+
+    let whereClause: any = {};
+
+    switch (filter) {
+      case 'sent':
+        whereClause = {
+          senderId: userId,
+          isDeleted: false,
+        };
+        break;
+      case 'saved':
+        whereClause = {
+          recipients: {
+            some: {
+              recipientId: userId,
+              isSaved: true,
+            },
+          },
+        };
+        break;
+      case 'received':
+      default:
+        whereClause = {
+          recipients: {
+            some: {
+              recipientId: userId,
+              isDeleted: false,
+            },
+          },
+        };
+        break;
+    }
+
+    const mails = await prisma.message.findMany({
+      where: whereClause,
       select: {
         id: true,
         subject: true,
         body: true,
         senderId: true,
+        createdAt: true,
         sender: {
           select: {
             id: true,
@@ -25,10 +111,6 @@ export const getMails = async (req: Request, res: Response) => {
             email: true,
           },
         },
-        isForwarded: true,
-        isDraft: true,
-        isDeleted: true,
-        createdAt: true,
         recipients: {
           where: { recipientId: userId },
           select: {
@@ -52,10 +134,10 @@ export const getMails = async (req: Request, res: Response) => {
       },
     });
 
-    return res.status(200).json(messages);
+    return res.status(200).json(mails);
   } catch (error) {
-    console.error('Error fetching messages:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error fetching mails:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
 
