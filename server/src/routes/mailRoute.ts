@@ -5,6 +5,7 @@ import {
   sendMail,
   saveMail,
   getMailCounts,
+  setMailAsRead,
 } from '../controllers/mail';
 import { validateMail } from '../middleware/mail';
 
@@ -14,3 +15,4 @@ mailRouter.get('/', authenticate, getMails);
 mailRouter.get('/counts', authenticate, getMailCounts);
 mailRouter.post('/send', authenticate, validateMail, sendMail);
 mailRouter.post('/:id/save', authenticate, saveMail);
+mailRouter.post('/:id/read', authenticate, setMailAsRead);

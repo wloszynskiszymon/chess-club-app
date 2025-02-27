@@ -7,6 +7,7 @@ import MailSectionHeading from '../../components/MailSectionHeading';
 import { Separator } from '@radix-ui/react-select';
 import SearchMailInput from '../../components/SearchMailInput';
 import { NavCategory } from '../../types/mail';
+import useUserQuery from '@/hooks/queries/useUserQuery';
 
 type MailsListProps = {
   mails: Message[];
@@ -16,6 +17,7 @@ type MailsListProps = {
 
 const MailsList = ({ mails, category, activeMailId }: MailsListProps) => {
   const navigate = useNavigate();
+  const { data } = useUserQuery();
 
   const handleClick = (id: string) => {
     navigate(`/mail/${category}/${id}`);
@@ -33,14 +35,16 @@ const MailsList = ({ mails, category, activeMailId }: MailsListProps) => {
         <SearchMailInput type={category} />
       </div>
       <ScrollArea className='h-full pl-2 pr-4 pb-32'>
-        {mails.map(mail => (
-          <MailCard
-            key={mail.id}
-            activeMailId={activeMailId}
-            mail={mail}
-            handleClick={handleClick}
-          />
-        ))}
+        {data &&
+          mails.map(mail => (
+            <MailCard
+              key={mail.id}
+              activeMailId={activeMailId}
+              mail={mail}
+              handleClick={handleClick}
+              userEmail={data?.email}
+            />
+          ))}
       </ScrollArea>
     </section>
   );

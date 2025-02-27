@@ -9,6 +9,7 @@ const useClubsQuery = () => {
       const res = await api.get('/api/club');
       return res.data;
     },
+    staleTime: 1000 * 60 * 5,
   });
 };
 

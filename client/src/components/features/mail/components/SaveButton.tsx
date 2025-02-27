@@ -107,42 +107,8 @@ const SaveButton = ({ mail }: { mail: Message }) => {
         queryClient.setQueryData(['mails', 'counts'], context.previousCount);
       }
     },
-    onSuccess: (data, _variables, context) => {
-      const newSavedStatus = data.recipient.isSaved;
-
-      // Update 'received' and 'sent' caches with the server-confirmed status.
-      ['received', 'sent'].forEach(cat => {
-        queryClient.setQueryData<Message[]>(['mails', cat], (old = []) =>
-          old.map(m =>
-            m.id === mail.id ? updateMailStatus(m, newSavedStatus) : m
-          )
-        );
-      });
-
-      // Update the 'saved' cache based on the confirmed status.
-      queryClient.setQueryData<Message[]>(['mails', 'saved'], (old = []) => {
-        if (newSavedStatus) {
-          const exists = old.find(m => m.id === mail.id);
-          if (!exists) {
-            return [...old, updateMailStatus(mail, newSavedStatus)];
-          }
-          return old.map(m =>
-            m.id === mail.id ? updateMailStatus(m, newSavedStatus) : m
-          );
-        } else {
-          return old.filter(m => m.id !== mail.id);
-        }
-      });
-
-      if (context && newSavedStatus !== context.optimisticSavedStatus) {
-        const delta =
-          (newSavedStatus ? 1 : -1) - (context.optimisticSavedStatus ? 1 : -1);
-        // Update the 'saved' count based on the confirmed status.
-        queryClient.setQueryData<MessageCounts>(['mails', 'counts'], old => {
-          if (!old) return old;
-          return { ...old, saved: old.saved + delta };
-        });
-      }
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['mails'] });
     },
   });
 

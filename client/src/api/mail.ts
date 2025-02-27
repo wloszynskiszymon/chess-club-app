@@ -15,3 +15,8 @@ export const saveMail = async (mailId: string) => {
   const res = await api.post(`/api/mail/${mailId}/save`, { mailId });
   return res.data;
 };
+
+export const setMailAsRead = async (mailId: string) => {
+  const res = await api.post(`/api/mail/${mailId}/read`, { mailId });
+  return res.data;
+};

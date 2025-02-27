@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Message } from '@/types/mail';
 import moment from 'moment';
@@ -6,11 +7,17 @@ const MailCard = ({
   activeMailId,
   mail,
   handleClick,
+  userEmail,
 }: {
   activeMailId: string | undefined;
   mail: Message;
+  userEmail: string;
   handleClick: (id: string) => void;
 }) => {
+  const isRead = mail.recipients.some(
+    r => r.recipient.email === userEmail && r.isRead
+  );
+
   return (
     <Card
       key={mail.id}
@@ -21,10 +28,14 @@ const MailCard = ({
     >
       <div className='flex items-center justify-between'>
         <h2 className='text-lg font-semibold line-clamp-1'>{mail.subject}</h2>
-        <p className='text-muted-foreground text-nowrap pl-4 text-sm'>
-          {moment(mail.createdAt).format('DD-MM-YYYY')}
-        </p>
+        <div className='flex-center'>
+          {!isRead && <Badge variant='secondary'>New</Badge>}
+          <p className='text-muted-foreground text-nowrap pl-4 text-sm'>
+            {moment(mail.createdAt).format('DD-MM-YYYY')}
+          </p>
+        </div>
       </div>
+
       <p className='text-muted-foreground line-clamp-1 text-sm mb-2'>
         From: <span className='text-black text-md'>{mail.sender.email}</span>
       </p>

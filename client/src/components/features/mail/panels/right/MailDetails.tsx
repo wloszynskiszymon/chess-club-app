@@ -8,6 +8,11 @@ import SaveButton from '../../components/SaveButton';
 import useMailUrl from '@/components/features/mail/hooks/useMailUrl';
 import useMessagesQuery from '@/hooks/queries/useMessagesQuery';
 import { NavCategory } from '../../types/mail';
+import { useEffect } from 'react';
+import useUserQuery from '@/hooks/queries/useUserQuery';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { setMailAsRead } from '@/api/mail';
+import { Message } from '@/types/mail';
 
 const MailDetails = () => {
   const { category, mailId } = useMailUrl();
@@ -15,8 +20,63 @@ const MailDetails = () => {
   const { data, isLoading } = useMessagesQuery({
     type: category as NavCategory,
   });
+  const { data: userData } = useUserQuery();
+  const queryClient = useQueryClient();
 
   const mail = data?.find(mail => mail.id === mailId);
+
+  const mutation = useMutation({
+    mutationKey: ['mails', 'read', mailId],
+    mutationFn: () => setMailAsRead(mailId as string),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['mails', 'received'] });
+      await queryClient.cancelQueries({ queryKey: ['mails', 'counts'] });
+
+      // Snapshot the current state of the caches.
+      const previousReceived = queryClient.getQueryData(['mails', 'received']);
+      const previousCounts = queryClient.getQueryData(['mails', 'counts']);
+
+      // Update the 'received' cache
+      queryClient.setQueryData(['mails', 'received'], (old: Message[] = []) =>
+        old.map(m => (m.id === mailId ? { ...m, isRead: true } : m))
+      );
+
+      // Update the counts cache
+      queryClient.setQueryData(['mails', 'counts'], (old: any) => ({
+        ...old,
+        unread: old.unread - 1,
+      }));
+
+      return { previousReceived, previousCounts };
+    },
+    onError: (_err, _variables, context) => {
+      queryClient.setQueryData(
+        ['mails', 'received'],
+        context?.previousReceived
+      );
+      queryClient.setQueryData(['mails', 'counts'], context?.previousCounts);
+    },
+    onSettled() {
+      queryClient.invalidateQueries({
+        queryKey: ['mails', 'received'],
+      });
+      queryClient.invalidateQueries({ queryKey: ['mails', 'counts'] });
+    },
+  });
+
+  useEffect(() => {
+    if (mail && userData) {
+      const isRead = mail.recipients.some(
+        r => r.recipient.email === userData.email && r.isRead
+      );
+      console.log('Mail is read:', isRead);
+
+      if (!isRead && !mutation.isPending) {
+        console.log('Marking mail as read...');
+        mutation.mutate();
+      }
+    }
+  }, [mail, userData]);
 
   if (isLoading) {
     return (

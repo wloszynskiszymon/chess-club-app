@@ -225,3 +225,50 @@ export const saveMail = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const setMailAsRead = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const user = res.locals.user as User;
+
+    const recipient = await prisma.messageRecipient.findFirst({
+      where: {
+        messageId: id,
+        recipientId: user.id,
+      },
+      select: {
+        isRead: true,
+      },
+    });
+
+    if (!recipient) {
+      return res.status(404).json({ error: 'Recipient not found' });
+    }
+
+    if (recipient.isRead) {
+      return res.status(200).json({ message: 'Mail already read' });
+    }
+
+    const updatedMessage = await prisma.message.update({
+      where: { id },
+      data: {
+        recipients: {
+          updateMany: {
+            where: { recipientId: user.id },
+            data: { isRead: true },
+          },
+        },
+      },
+      include: { recipients: true },
+    });
+
+    const updatedRecipient = updatedMessage.recipients.find(
+      r => r.recipientId === user.id
+    );
+
+    return res.status(200).json({ recipient: updatedRecipient });
+  } catch (error) {
+    console.error('Error setting mail as read:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
