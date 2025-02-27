@@ -1,8 +1,6 @@
 import { Separator } from '@/components/ui/separator';
 import MailSectionHeading from '../../components/MailSectionHeading';
 import MailSectionHeader from '../../components/MailSectionHeader';
-import { TrashIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import moment from 'moment';
 import SaveButton from '../../components/SaveButton';
 import useMailUrl from '@/components/features/mail/hooks/useMailUrl';
@@ -65,11 +63,10 @@ const MailDetails = () => {
   });
 
   useEffect(() => {
-    if (mail && userData) {
+    if (mail && userData && category === 'received') {
       const isRead = mail.recipients.some(
         r => r.recipient.email === userData.email && r.isRead
       );
-      console.log('Mail is read:', isRead);
 
       if (!isRead && !mutation.isPending) {
         console.log('Marking mail as read...');
@@ -108,10 +105,7 @@ const MailDetails = () => {
         <MailSectionHeading>Content of your mail</MailSectionHeading>
 
         <div className='flex justify-between items-center'>
-          <SaveButton mail={mail} />
-          <Button variant='destructive' size='sm' className=' mr-4'>
-            <TrashIcon className='h-6 w-6' />
-          </Button>
+          {category !== 'sent' && <SaveButton mail={mail} />}
         </div>
       </MailSectionHeader>
 
@@ -132,7 +126,7 @@ const MailDetails = () => {
           <p className='text-sm text-muted-foreground'>
             To:
             <span className='font-bold text-md ml-2'>
-              {mail.recipients[0].recipient.email}
+              {mail?.recipients[0]?.recipient?.email}
             </span>
           </p>
         </div>

@@ -2,6 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Message } from '@/types/mail';
 import moment from 'moment';
+import useMailUrl from '../hooks/useMailUrl';
 
 const MailCard = ({
   activeMailId,
@@ -14,6 +15,7 @@ const MailCard = ({
   userEmail: string;
   handleClick: (id: string) => void;
 }) => {
+  const { category } = useMailUrl();
   const isRead = mail.recipients.some(
     r => r.recipient.email === userEmail && r.isRead
   );
@@ -29,7 +31,9 @@ const MailCard = ({
       <div className='flex items-center justify-between'>
         <h2 className='text-lg font-semibold line-clamp-1'>{mail.subject}</h2>
         <div className='flex-center'>
-          {!isRead && <Badge variant='secondary'>New</Badge>}
+          {!isRead && category === 'received' && (
+            <Badge variant='secondary'>New</Badge>
+          )}
           <p className='text-muted-foreground text-nowrap pl-4 text-sm'>
             {moment(mail.createdAt).format('DD-MM-YYYY')}
           </p>
