@@ -10,10 +10,10 @@ export type MiddlePanelProps = {
 };
 
 const MiddlePanel = () => {
-  const { isInbox, isSaved, isSent, mailId, category } = useMailUrl();
+  const { isReceived, isSaved, isSent, mailId, category } = useMailUrl();
   return (
     <>
-      {isInbox && (
+      {isReceived && (
         <ReceivedMails
           category={category as NavCategory}
           activeMailId={mailId}

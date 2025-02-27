@@ -10,3 +10,8 @@ export const getMailCounts = async () => {
   const res = await api.get('/api/mail/counts');
   return res.data;
 };
+
+export const saveMail = async (mailId: string) => {
+  const res = await api.post(`/api/mail/${mailId}/save`, { mailId });
+  return res.data;
+};

@@ -1,10 +1,10 @@
 import { Separator } from '@/components/ui/separator';
-import MailSectionHeading from '../../MailSectionHeading';
-import MailSectionHeader from '../../MailSectionHeader';
+import MailSectionHeading from '../../components/MailSectionHeading';
+import MailSectionHeader from '../../components/MailSectionHeader';
 import { TrashIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import moment from 'moment';
-import SaveButton from '../../buttons/SaveButton';
+import SaveButton from '../../components/SaveButton';
 import useMailUrl from '@/components/features/mail/hooks/useMailUrl';
 import useMessagesQuery from '@/hooks/queries/useMessagesQuery';
 import { NavCategory } from '../../types/mail';

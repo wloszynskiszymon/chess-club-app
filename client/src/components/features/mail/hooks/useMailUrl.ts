@@ -10,13 +10,13 @@ const useMailUrl = () => {
     );
   }
 
-  const isInbox = location.pathname.includes('/mail/inbox');
+  const isReceived = location.pathname.includes('/mail/received');
   const isSent = location.pathname.includes('/mail/sent');
   const isSaved = location.pathname.includes('/mail/saved');
   const isNewMail = location.pathname.includes('/mail/new');
 
   return {
-    isInbox,
+    isReceived,
     isSent,
     isSaved,
     isNewMail,

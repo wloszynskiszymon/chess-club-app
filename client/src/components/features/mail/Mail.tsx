@@ -3,11 +3,13 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
-import MailNav from './nav/MailNav';
+import MailNav from './components/MailNav';
 import MiddlePanel from './panels/middle/MiddlePanel';
 import RightPanel from './panels/right/RightPanel';
+import useMailUrl from './hooks/useMailUrl';
 
 const Mail = () => {
+  const { isNewMail } = useMailUrl();
   return (
     <ResizablePanelGroup
       direction='horizontal'
@@ -20,11 +22,16 @@ const Mail = () => {
       <ResizableHandle />
       <ResizablePanel defaultSize={80}>
         <ResizablePanelGroup direction='horizontal'>
-          <ResizablePanel className='h-full' minSize={25} defaultSize={25}>
-            <MiddlePanel />
-          </ResizablePanel>
+          {!isNewMail && (
+            <ResizablePanel className='h-full' minSize={25} defaultSize={25}>
+              <MiddlePanel />
+            </ResizablePanel>
+          )}
           <ResizableHandle />
-          <ResizablePanel minSize={40} defaultSize={55}>
+          <ResizablePanel
+            minSize={isNewMail ? 80 : 40}
+            defaultSize={isNewMail ? 80 : 55}
+          >
             <RightPanel />
           </ResizablePanel>
         </ResizablePanelGroup>

@@ -8,7 +8,7 @@ const MailNavIcon = () => {
   const queryClient = useQueryClient();
 
   const handleClick = () => {
-    navigate('/mail/inbox');
+    navigate('/mail/received');
   };
 
   const prefetchData = () => {

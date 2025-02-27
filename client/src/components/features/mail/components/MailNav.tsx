@@ -9,9 +9,9 @@ import { MailLink } from '@/types/mail';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
-import MailSectionHeading from '../MailSectionHeading';
+import MailSectionHeading from './MailSectionHeading';
 import { Separator } from '@/components/ui/separator';
-import MailSectionHeader from '../MailSectionHeader';
+import MailSectionHeader from './MailSectionHeader';
 import useMessagesCountsQuery from '@/hooks/queries/useMessagesCountsQuery';
 import { useQueryClient, QueryClient } from '@tanstack/react-query';
 import { getMails } from '@/api/mail';
@@ -34,9 +34,9 @@ function MailNav() {
 
   const links: MailLink[] = [
     {
-      title: 'Inbox',
+      title: 'Received',
       label: counts.total.toString(),
-      url: '/mail/inbox',
+      url: '/mail/received',
       icon: InboxIcon,
       prefetch: () => prefetchMail(queryClient, 'received'),
     },
