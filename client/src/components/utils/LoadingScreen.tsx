@@ -1,5 +1,5 @@
 import AppLayout from './AppLayout';
-import Nav from '../features/nav/Nav';
+import Nav from '../../features/nav/Nav';
 import { PuffLoader } from 'react-spinners';
 
 const LoadingScreen = () => {

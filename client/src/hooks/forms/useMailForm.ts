@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
-import { handleServerValidationErrors } from '../../utils/errors';
+import { handleServerValidationErrors } from '../../api/errors';
 import { mailSchema, MailSchema } from '@/schemas/mailSchema';
 import api from '@/api/axios';
 import { toast } from 'sonner';

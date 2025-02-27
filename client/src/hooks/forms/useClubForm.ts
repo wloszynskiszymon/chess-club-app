@@ -5,7 +5,7 @@ import useUserQuery from '../queries/useUserQuery';
 import api from '../../api/axios';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
-import { handleServerValidationErrors } from '../../utils/errors';
+import { handleServerValidationErrors } from '../../api/errors';
 
 const useClubForm = () => {
   const form = useForm({

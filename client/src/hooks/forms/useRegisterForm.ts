@@ -4,7 +4,7 @@ import { registerSchema, RegisterSchema } from '../../schemas/registerSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import api from '../../api/axios';
 import { AxiosError } from 'axios';
-import { handleServerValidationErrors } from '../../utils/errors';
+import { handleServerValidationErrors } from '../../api/errors';
 import { toast } from 'sonner';
 
 const useRegisterForm = () => {

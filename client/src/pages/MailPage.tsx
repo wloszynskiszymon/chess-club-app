@@ -1,7 +1,7 @@
 import AppLayout from '@/components/utils/AppLayout';
-import Nav from '@/components/features/nav/Nav';
+import Nav from '@/features/nav/Nav';
 
-import Mail from '@/components/features/mail/Mail';
+import Mail from '@/features/mails/Mail';
 
 const MailPage = () => {
   return (

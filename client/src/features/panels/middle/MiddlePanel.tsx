@@ -1,8 +1,8 @@
-import { NavCategory } from '../../types/mail';
+import { NavCategory } from '../../mails/types/mail';
 import ReceivedMails from './ReceivedMails';
 import SentMails from './SentMails';
 import SavedMails from './SavedMails';
-import useMailUrl from '@/components/features/mail/hooks/useMailUrl';
+import useMailUrl from '@/features/mails/hooks/useMailUrl';
 
 export type MiddlePanelProps = {
   category: NavCategory;

@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useAuth from '../useAuth';
 import api from '../../api/axios';
 import { AxiosError } from 'axios';
-import { handleServerValidationErrors } from '../../utils/errors';
+import { handleServerValidationErrors } from '../../api/errors';
 
 const useLoginForm = () => {
   const navigate = useNavigate();

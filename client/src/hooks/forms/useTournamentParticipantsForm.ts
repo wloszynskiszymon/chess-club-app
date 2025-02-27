@@ -5,7 +5,7 @@ import api from '../../api/axios';
 import {
   handleServerValidationErrors,
   isFlattenedValidationError,
-} from '../../utils/errors';
+} from '../../api/errors';
 import { AxiosError } from 'axios';
 import { generateParticipantsSchema } from '../../schemas/tournamentSchema';
 import { Tournament } from '../../types/server';

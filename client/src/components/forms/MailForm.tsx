@@ -4,8 +4,8 @@ import ErrorMessage from '../utils/ErrorMessage';
 import { Button } from '../ui/button';
 import useMailForm from '@/hooks/forms/useMailForm';
 import { Textarea } from '../ui/textarea';
-import MailSectionHeader from '../features/mail/components/MailSectionHeader';
-import MailSectionHeading from '../features/mail/components/MailSectionHeading';
+import MailSectionHeader from '../../features/mails/components/MailSectionHeader';
+import MailSectionHeading from '../../features/mails/components/MailSectionHeading';
 import { Separator } from '../ui/separator';
 
 const MailForm = ({

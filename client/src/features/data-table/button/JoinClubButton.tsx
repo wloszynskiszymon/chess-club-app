@@ -1,10 +1,10 @@
-import { Button } from '../../../ui/button';
+import { Button } from '../../../components/ui/button';
 import { Club } from '../columns/ClubListColumns';
-import api from '../../../../api/axios';
+import api from '../../../api/axios';
 import { toast } from 'sonner';
-import { isErrorMessage } from '../../../../utils/errors';
+import { isErrorMessage } from '../../../api/errors';
 import { Row } from '@tanstack/react-table';
-import useUserQuery from '../../../../hooks/queries/useUserQuery';
+import useUserQuery from '../../../hooks/queries/useUserQuery';
 import { useMutation } from '@tanstack/react-query';
 import { useJoinClubContext } from './JoinClubContext';
 

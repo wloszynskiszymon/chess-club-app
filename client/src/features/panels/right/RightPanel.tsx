@@ -1,6 +1,6 @@
 import MailForm from '@/components/forms/MailForm';
 import MailDetails from './MailDetails';
-import useMailUrl from '@/components/features/mail/hooks/useMailUrl';
+import useMailUrl from '@/features/mails/hooks/useMailUrl';
 
 const RightPanel = () => {
   const { isNewMail } = useMailUrl();

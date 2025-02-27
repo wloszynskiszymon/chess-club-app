@@ -1,4 +1,4 @@
-import { NavCategory } from '@/components/features/mail/types/mail';
+import { NavCategory } from '@/features/mails/types/mail';
 import { LucideIcon } from 'lucide-react';
 
 export type MailLink = {

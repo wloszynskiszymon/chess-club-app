@@ -1,11 +1,11 @@
 import { Separator } from '@/components/ui/separator';
-import MailSectionHeading from '../../components/MailSectionHeading';
-import MailSectionHeader from '../../components/MailSectionHeader';
+import MailSectionHeading from '../../mails/components/MailSectionHeading';
+import MailSectionHeader from '../../mails/components/MailSectionHeader';
 import moment from 'moment';
-import SaveButton from '../../components/SaveButton';
-import useMailUrl from '@/components/features/mail/hooks/useMailUrl';
+import SaveButton from '../../mails/components/SaveButton';
+import useMailUrl from '@/features/mails/hooks/useMailUrl';
 import useMessagesQuery from '@/hooks/queries/useMessagesQuery';
-import { NavCategory } from '../../types/mail';
+import { NavCategory } from '../../mails/types/mail';
 import { useEffect } from 'react';
 import useUserQuery from '@/hooks/queries/useUserQuery';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

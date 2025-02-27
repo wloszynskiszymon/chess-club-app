@@ -1,6 +1,6 @@
-import { JoinClubProvider } from '../features/data-table/button/JoinClubContext';
-import DataTable from '../features/data-table/DataTable';
-import { clubColumns } from '../features/data-table/columns/ClubListColumns';
+import { JoinClubProvider } from '../../features/data-table/button/JoinClubContext';
+import DataTable from '../../features/data-table/DataTable';
+import { clubColumns } from '@/features/data-table/columns/ClubListColumns';
 import { Card } from '../ui/card';
 import useClubsQuery from '../../hooks/queries/useClubQuery';
 

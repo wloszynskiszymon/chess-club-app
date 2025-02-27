@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { useMemo, useEffect } from 'react';
 import moment from 'moment';
 
-import { handleServerValidationErrors } from '../../utils/errors';
+import { handleServerValidationErrors } from '../../api/errors';
 import {
   tournamentSchema,
   TournamentSchema,

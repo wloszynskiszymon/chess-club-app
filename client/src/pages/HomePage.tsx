@@ -1,12 +1,12 @@
 import useUserQuery from '../hooks/queries/useUserQuery';
 import LoadingScreen from '../components/utils/LoadingScreen';
 
-import Nav from '@/components/features/nav/Nav';
+import Nav from '@/features/nav/Nav';
 import AppLayout from '../components/utils/AppLayout';
 import CoordinatorClubCard from '../components/cards/CoordinatorClubCard';
 import ChessPlayerClubCard from '../components/cards/ChessPlayerClubCard';
 import MembersCard from '../components/cards/MembersCard';
-import { Club } from '../components/features/data-table/columns/ClubListColumns';
+import { Club } from '@/features/data-table/columns/ClubListColumns';
 
 const HomePage = () => {
   const { data: userData, isLoading: isLoadingUserData } = useUserQuery();

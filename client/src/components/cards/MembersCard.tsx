@@ -1,4 +1,4 @@
-import { Club } from '../features/data-table/columns/ClubListColumns';
+import { Club } from '@/features/data-table/columns/ClubListColumns';
 import { Card } from '../ui/card';
 
 const MembersCard = ({ club }: { club: Club }) => {
