@@ -5,9 +5,9 @@ import SavedMails from './SavedMails';
 import useMailUrl from '@/features/mails/hooks/useMailUrl';
 import MailSectionHeader from '@/features/mails/components/MailSectionHeader';
 import MailSectionHeading from '@/features/mails/components/MailSectionHeading';
-import { Separator } from '@radix-ui/react-select';
 import SearchInput from '@/features/mails/panels/middle/SearchMailInput';
 import SearchResultMails from './SearchResultMails';
+import { Separator } from '@/components/ui/separator';
 
 export type MiddlePanelProps = {
   category: NavCategory;

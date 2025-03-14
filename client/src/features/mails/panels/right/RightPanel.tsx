@@ -5,12 +5,8 @@ import useMailUrl from '@/features/mails/hooks/useMailUrl';
 const RightPanel = () => {
   const { isNewMail } = useMailUrl();
 
-  return (
-    <>
-      {!isNewMail && <MailDetails />}
-      {isNewMail && <MailForm className='p-4' />}
-    </>
-  );
+  if (isNewMail) return <MailForm className='p-4' />;
+  else return <MailDetails />;
 };
 
 export default RightPanel;
