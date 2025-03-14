@@ -1,11 +1,11 @@
 import { Input } from '@/components/ui/input';
 import { SearchIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { NavCategory } from '../types/mail';
+import useMailUrl from '../hooks/useMailUrl';
 
 const SearchInput = ({ mailType }: { mailType: NavCategory }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { searchParams, setSearchParams, isSearchingMail } = useMailUrl();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [isFocused, setIsFocused] = useState(false);
 
@@ -26,7 +26,7 @@ const SearchInput = ({ mailType }: { mailType: NavCategory }) => {
   }, [searchParams]);
 
   useEffect(() => {
-    if (isFocused && !searchParams.has('q')) {
+    if (isFocused && !isSearchingMail) {
       searchParams.set('q', '');
       setSearchParams(searchParams, { replace: true });
     }
@@ -51,7 +51,7 @@ const SearchInput = ({ mailType }: { mailType: NavCategory }) => {
       />
       <XIcon
         className={`absolute right-2 top-2.5 h-4 w-4 text-muted-foreground cursor-pointer ${
-          searchParams.has('q') ? 'block' : 'hidden'
+          isSearchingMail ? 'block' : 'hidden'
         }`}
         onClick={clearQuery}
       />
