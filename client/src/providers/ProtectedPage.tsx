@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import api from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
@@ -11,6 +11,7 @@ type CustomInternalAxiosRequestConfig = InternalAxiosRequestConfig & {
 export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   const { token, setToken, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   // Fetch initial token
   useEffect(() => {
@@ -20,7 +21,8 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
         setToken(data.token);
       } catch (error) {
         setToken(undefined);
-        navigate('/auth/login', { replace: true });
+      } finally {
+        setIsCheckingAuth(false);
       }
     };
 
@@ -72,9 +74,15 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
     return () => {
       api.interceptors.response.eject(responseInterceptor);
     };
-  }, [token]);
+  }, [token, navigate, setToken]);
 
-  if (!isAuthenticated) return <Navigate to='/auth/login' replace />;
+  if (isCheckingAuth) {
+    return null;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to='/auth/login' replace />;
+  }
 
   return <>{children}</>;
 };

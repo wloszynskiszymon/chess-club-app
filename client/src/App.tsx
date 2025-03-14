@@ -11,6 +11,8 @@ import TournamentDetailsPage from './pages/TournamentDetailsPage';
 import AuthPage from './providers/AuthPage';
 import MailPage from './pages/MailPage';
 
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -87,6 +89,7 @@ function App() {
       <AuthProvider>
         <RouterProvider router={router} />
         <Toaster theme='light' richColors position='top-center' />
+        <ReactQueryDevtools initialIsOpen={false} />
       </AuthProvider>
     </QueryClientProvider>
   );
