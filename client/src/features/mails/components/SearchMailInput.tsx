@@ -1,13 +1,13 @@
 import { Input } from '@/components/ui/input';
 import { SearchIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { NavCategory } from '../types/mail';
 import useMailUrl from '../hooks/useMailUrl';
 
-const SearchInput = ({ mailType }: { mailType: NavCategory }) => {
-  const { searchParams, setSearchParams, isSearchingMail } = useMailUrl();
+const SearchInput = () => {
+  const { searchParams, setSearchParams, isSearchingMail, category } =
+    useMailUrl();
   const [query, setQuery] = useState(searchParams.get('q') || '');
-  const [isFocused, setIsFocused] = useState(false);
+  const [isInSearchMode, setIsInSearchMode] = useState(false);
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -26,16 +26,17 @@ const SearchInput = ({ mailType }: { mailType: NavCategory }) => {
   }, [searchParams]);
 
   useEffect(() => {
-    if (isFocused && !isSearchingMail) {
+    if (isInSearchMode && !isSearchingMail) {
       searchParams.set('q', '');
       setSearchParams(searchParams, { replace: true });
     }
-  }, [isFocused, searchParams, setSearchParams]);
+  }, [isInSearchMode, searchParams, setSearchParams]);
 
   const clearQuery = () => {
     searchParams.delete('q');
     setSearchParams(searchParams, { replace: true });
     setQuery('');
+    setIsInSearchMode(false);
   };
 
   return (
@@ -45,8 +46,7 @@ const SearchInput = ({ mailType }: { mailType: NavCategory }) => {
         value={query}
         className='pl-8'
         onChange={e => setQuery(e.target.value)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onFocus={() => setIsInSearchMode(true)}
         placeholder='Search...'
       />
       <XIcon

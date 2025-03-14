@@ -5,8 +5,8 @@ import MailListSkeleton from '@/features/mails/components/skeleton/MailListSkele
 
 // URL: /mail/received
 const ReceivedMails = (props: MiddlePanelProps) => {
-  const { data } = useMessagesQuery({ type: 'received' });
-  if (!data) return <MailListSkeleton amount={10} />;
+  const { data } = useMessagesQuery({ filter: 'received' });
+  if (!data) return <MailListSkeleton amount={5} />;
   return <MailsList mails={data} {...props} />;
 };
 

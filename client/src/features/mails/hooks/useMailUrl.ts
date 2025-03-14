@@ -11,11 +11,12 @@ const useMailUrl = () => {
     );
   }
 
-  const isReceived = location.pathname.includes('/mail/received');
-  const isSent = location.pathname.includes('/mail/sent');
-  const isSaved = location.pathname.includes('/mail/saved');
-  const isNewMail = location.pathname.includes('/mail/new');
   const isSearchingMail = searchParams.has('q');
+  const isReceived =
+    location.pathname.includes('/mail/received') && !isSearchingMail;
+  const isSent = location.pathname.includes('/mail/sent') && !isSearchingMail;
+  const isSaved = location.pathname.includes('/mail/saved') && !isSearchingMail;
+  const isNewMail = location.pathname.includes('/mail/new') && !isSearchingMail;
 
   return {
     isReceived,

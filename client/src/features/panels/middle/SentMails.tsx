@@ -4,8 +4,8 @@ import MailsList from './MailsList';
 import MailListSkeleton from '@/features/mails/components/skeleton/MailListSkeleton';
 
 const SentMails = (props: MiddlePanelProps) => {
-  const { data } = useMessagesQuery({ type: 'sent' });
-  if (!data) return <MailListSkeleton amount={10} />;
+  const { data } = useMessagesQuery({ filter: 'sent' });
+  if (!data) return <MailListSkeleton amount={5} />;
   return <MailsList mails={data} {...props} />;
 };
 

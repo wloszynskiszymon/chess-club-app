@@ -51,7 +51,7 @@ export const getMailCounts = async (req: Request, res: Response) => {
 export const getMails = async (req: Request, res: Response) => {
   try {
     const userId = res.locals.user.id as string;
-    const { filter } = req.query; // EXPECTED: received, sent, saved
+    const { filter, query, page = 1, limit = 10 } = req.query; // EXPECTED: received, sent, saved
 
     let whereClause: any = {};
 
@@ -83,6 +83,13 @@ export const getMails = async (req: Request, res: Response) => {
           },
         };
         break;
+    }
+
+    if (query) {
+      whereClause.OR = [
+        { subject: { contains: query as string, mode: 'insensitive' } },
+        { body: { contains: query as string, mode: 'insensitive' } },
+      ];
     }
 
     const mails = await prisma.message.findMany({
@@ -122,6 +129,8 @@ export const getMails = async (req: Request, res: Response) => {
       orderBy: {
         createdAt: 'desc',
       },
+      skip: (Number(page) - 1) * Number(limit),
+      take: Number(limit),
     });
 
     return res.status(200).json(mails);
