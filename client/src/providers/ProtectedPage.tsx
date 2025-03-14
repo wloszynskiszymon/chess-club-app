@@ -12,8 +12,6 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   const { token, setToken, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  if (!isAuthenticated) return <Navigate to='/auth/login' replace />;
-
   // Fetch initial token
   useEffect(() => {
     const fetchToken = async () => {
@@ -75,6 +73,8 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
       api.interceptors.response.eject(responseInterceptor);
     };
   }, [token]);
+
+  if (!isAuthenticated) return <Navigate to='/auth/login' replace />;
 
   return <>{children}</>;
 };
