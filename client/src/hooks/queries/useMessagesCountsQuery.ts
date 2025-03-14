@@ -8,6 +8,12 @@ const useMessagesCountsQuery = () => {
     queryFn: getMailCounts,
     staleTime: 1000 * 60 * 5,
     notifyOnChangeProps: 'all',
+    placeholderData: {
+      unread: 0,
+      total: 0,
+      saved: 0,
+      sent: 0,
+    },
   });
 };
 

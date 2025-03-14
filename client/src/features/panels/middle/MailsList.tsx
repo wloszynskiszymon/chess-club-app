@@ -5,7 +5,7 @@ import MailCard from '../../mails/components/MailCard';
 import MailSectionHeader from '../../mails/components/MailSectionHeader';
 import MailSectionHeading from '../../mails/components/MailSectionHeading';
 import { Separator } from '@radix-ui/react-select';
-import SearchMailInput from '../../mails/components/SearchMailInput';
+import SearchInput from '../../mails/components/SearchMailInput';
 import { NavCategory } from '../../mails/types/mail';
 import useUserQuery from '@/hooks/queries/useUserQuery';
 
@@ -32,7 +32,7 @@ const MailsList = ({ mails, category, activeMailId }: MailsListProps) => {
       <Separator />
 
       <div className='px-2 my-4'>
-        <SearchMailInput type={category} />
+        <SearchInput mailType={category} />
       </div>
       <ScrollArea className='h-full pl-2 pr-4 pb-32'>
         {data &&

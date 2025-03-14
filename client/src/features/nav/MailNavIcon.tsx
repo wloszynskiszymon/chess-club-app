@@ -7,7 +7,7 @@ import useMessagesCountsQuery from '@/hooks/queries/useMessagesCountsQuery';
 const MailNavIcon = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data } = useMessagesCountsQuery();
+  const { data, isLoading } = useMessagesCountsQuery();
 
   const handleClick = () => {
     navigate('/mail/received');
@@ -31,7 +31,7 @@ const MailNavIcon = () => {
       onClick={handleClick}
     >
       <MailIcon width={25} height={25} />
-      {data && data.unread > 0 && (
+      {!isLoading && data && data?.unread > 0 && (
         <div className='absolute -top-[4px] -right-[5px] size-3 rounded-full bg-orange-500 border border-white shadow-md'></div>
       )}
     </div>
