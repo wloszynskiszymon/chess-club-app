@@ -1,8 +1,8 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Message } from '@/types/mail';
 import { useNavigate } from 'react-router-dom';
-import MailCard from '../../mails/components/MailCard';
-import { NavCategory } from '../../mails/types/mail';
+import MailCard from '../../components/MailCard';
+import { NavCategory } from '../../types/mail';
 import useUserQuery from '@/hooks/queries/useUserQuery';
 
 type MailsListProps = {

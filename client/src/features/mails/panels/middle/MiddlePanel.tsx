@@ -1,4 +1,4 @@
-import { NavCategory } from '../../mails/types/mail';
+import { NavCategory } from '../../types/mail';
 import ReceivedMails from './ReceivedMails';
 import SentMails from './SentMails';
 import SavedMails from './SavedMails';
@@ -6,7 +6,7 @@ import useMailUrl from '@/features/mails/hooks/useMailUrl';
 import MailSectionHeader from '@/features/mails/components/MailSectionHeader';
 import MailSectionHeading from '@/features/mails/components/MailSectionHeading';
 import { Separator } from '@radix-ui/react-select';
-import SearchInput from '@/features/mails/components/SearchMailInput';
+import SearchInput from '@/features/mails/panels/middle/SearchMailInput';
 import SearchResultMails from './SearchResultMails';
 
 export type MiddlePanelProps = {
@@ -17,8 +17,6 @@ export type MiddlePanelProps = {
 const MiddlePanel = () => {
   const { isReceived, isSaved, isSent, mailId, category, isSearchingMail } =
     useMailUrl();
-
-  console.log(`isReceived: ${isReceived}`);
 
   return (
     <section className='h-full'>

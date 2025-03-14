@@ -60,7 +60,7 @@ export const authenticate = (
   try {
     const authHeader = req.headers['authorization'];
     if (!authHeader) return res.status(401).send('Unauthorized');
-    const token = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
+    const token = authHeader.trim().split(' ')[1]; // Extract token from "Bearer <token>"
     jwt.verify(token, process.env.JWT_ACCESS_KEY, async (err, decoded) => {
       if (err) {
         if (err.name === 'TokenExpiredError') {

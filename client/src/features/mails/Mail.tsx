@@ -3,9 +3,9 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
-import MailNav from './components/MailNav';
-import MiddlePanel from '../panels/middle/MiddlePanel';
-import RightPanel from '../panels/right/RightPanel';
+import MailNav from './panels/left/MailNav';
+import MiddlePanel from './panels/middle/MiddlePanel';
+import RightPanel from './panels/right/RightPanel';
 import useMailUrl from './hooks/useMailUrl';
 
 const Mail = () => {

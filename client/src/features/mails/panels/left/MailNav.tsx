@@ -1,21 +1,14 @@
-import {
-  HeartIcon,
-  InboxIcon,
-  MessageSquareIcon,
-  SendToBackIcon,
-} from 'lucide-react';
+import { HeartIcon, InboxIcon, SendToBackIcon } from 'lucide-react';
 import MailNavLink from './MailNavLink';
 import { MailLink } from '@/types/mail';
-import { Link } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
-import MailSectionHeading from './MailSectionHeading';
+import MailSectionHeading from '../../components/MailSectionHeading';
 import { Separator } from '@/components/ui/separator';
-import MailSectionHeader from './MailSectionHeader';
+import MailSectionHeader from '../../components/MailSectionHeader';
 import useMessagesCountsQuery from '@/hooks/queries/useMessagesCountsQuery';
 import { useQueryClient, QueryClient } from '@tanstack/react-query';
 import { getMails } from '@/api/mail';
-import { NavCategory } from '../types/mail';
+import { NavCategory } from '../../types/mail';
+import NewMessageButtonLink from './NewMessageButtonLink';
 
 const prefetchMail = (queryClient: QueryClient, mailType: NavCategory) => {
   const queryKey = ['mails', mailType];
@@ -35,21 +28,21 @@ function MailNav() {
   const links: MailLink[] = [
     {
       title: 'Received',
-      label: counts.unread.toString(),
+      label: counts?.unread.toString() || '0',
       url: '/mail/received',
       icon: InboxIcon,
       prefetch: () => prefetchMail(queryClient, 'received'),
     },
     {
       title: 'Sent',
-      label: counts.sent.toString(),
+      label: counts?.sent.toString() || '0',
       url: '/mail/sent',
       icon: SendToBackIcon,
       prefetch: () => prefetchMail(queryClient, 'sent'),
     },
     {
       title: 'Saved',
-      label: counts.saved.toString(),
+      label: counts?.saved.toString() || '0',
       url: '/mail/saved',
       icon: HeartIcon,
       prefetch: () => prefetchMail(queryClient, 'saved'),
@@ -68,19 +61,7 @@ function MailNav() {
             <MailNavLink key={index} link={link} />
           ))}
         </nav>
-        <Link
-          to='/mail/new'
-          className={cn(
-            buttonVariants({
-              variant: 'outline',
-              size: 'sm',
-            }),
-            'dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white mx-2 mt-auto'
-          )}
-        >
-          <MessageSquareIcon className='mr-2 h-4 w-4' />
-          <span>New message</span>
-        </Link>
+        <NewMessageButtonLink className='mx-2 mt-auto' />
       </div>
     </section>
   );

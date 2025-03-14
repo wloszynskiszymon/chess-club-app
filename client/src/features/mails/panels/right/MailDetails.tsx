@@ -1,8 +1,8 @@
 import { Separator } from '@/components/ui/separator';
-import MailSectionHeading from '../../mails/components/MailSectionHeading';
-import MailSectionHeader from '../../mails/components/MailSectionHeader';
+import MailSectionHeading from '../../components/MailSectionHeading';
+import MailSectionHeader from '../../components/MailSectionHeader';
 import moment from 'moment';
-import SaveButton from '../../mails/components/SaveButton';
+import SaveButton from './SaveButton';
 import useMailUrl from '@/features/mails/hooks/useMailUrl';
 import useMailDetailsQuery from '@/hooks/queries/useMailDetailsQuery';
 import useMarkMailAsRead from '@/features/mails/hooks/useMarkMailAsRead';

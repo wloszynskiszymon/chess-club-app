@@ -1,7 +1,7 @@
 import { Input } from '@/components/ui/input';
 import { SearchIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import useMailUrl from '../hooks/useMailUrl';
+import useMailUrl from '../../hooks/useMailUrl';
 
 const SearchInput = () => {
   const { searchParams, setSearchParams, isSearchingMail, category } =
