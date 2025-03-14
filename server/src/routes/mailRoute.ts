@@ -6,6 +6,7 @@ import {
   saveMail,
   getMailCounts,
   setMailAsRead,
+  getMailDetails,
 } from '../controllers/mail';
 import { validateMail } from '../middleware/mail';
 
@@ -14,5 +15,6 @@ export const mailRouter = Router();
 mailRouter.get('/', authenticate, getMails);
 mailRouter.get('/counts', authenticate, getMailCounts);
 mailRouter.post('/send', authenticate, validateMail, sendMail);
+mailRouter.get('/:id', authenticate, getMailDetails);
 mailRouter.post('/:id/save', authenticate, saveMail);
 mailRouter.post('/:id/read', authenticate, setMailAsRead);

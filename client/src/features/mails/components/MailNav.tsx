@@ -35,7 +35,7 @@ function MailNav() {
   const links: MailLink[] = [
     {
       title: 'Received',
-      label: counts.total.toString(),
+      label: counts.unread.toString(),
       url: '/mail/received',
       icon: InboxIcon,
       prefetch: () => prefetchMail(queryClient, 'received'),

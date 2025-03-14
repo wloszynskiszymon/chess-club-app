@@ -10,6 +10,7 @@ import useMailUrl from './hooks/useMailUrl';
 
 const Mail = () => {
   const { isNewMail } = useMailUrl();
+
   return (
     <ResizablePanelGroup
       direction='horizontal'

@@ -3,6 +3,8 @@ import { Card } from '@/components/ui/card';
 import { Message } from '@/types/mail';
 import moment from 'moment';
 import useMailUrl from '../hooks/useMailUrl';
+import { useQueryClient } from '@tanstack/react-query';
+import { getMailDetails } from '@/api/mail';
 
 const MailCard = ({
   activeMailId,
@@ -16,13 +18,30 @@ const MailCard = ({
   handleClick: (id: string) => void;
 }) => {
   const { category } = useMailUrl();
+  const queryClient = useQueryClient();
   const isRead = mail.recipients.some(
     r => r.recipient.email === userEmail && r.isRead
   );
 
+  const handlePrefetch = async (id: string) => {
+    const cacheKey = ['mails', 'details', id];
+
+    const existingData = queryClient.getQueryData(cacheKey);
+    const queryState = queryClient.getQueryState(cacheKey);
+
+    if (!existingData && queryState?.fetchStatus !== 'fetching') {
+      console.log('Prefetching mail with id:', id);
+      await queryClient.prefetchQuery({
+        queryKey: cacheKey,
+        queryFn: getMailDetails.bind(null, id),
+      });
+    }
+  };
+
   return (
     <Card
       key={mail.id}
+      onMouseOver={handlePrefetch.bind(null, mail.id)}
       onClick={handleClick.bind(null, mail.id)}
       className={`px-4 py-2 h-36  hover:bg-muted mb-2 cursor-pointer ${
         activeMailId === mail.id ? 'bg-muted' : 'bg-gray-50'

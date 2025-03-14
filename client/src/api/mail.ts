@@ -6,6 +6,11 @@ export const getMails = async (filter: NavCategory) => {
   return res.data;
 };
 
+export const getMailDetails = async (mailId: string) => {
+  const res = await api.get(`/api/mail/${mailId}`);
+  return res.data.message;
+};
+
 export const getMailCounts = async () => {
   const res = await api.get('/api/mail/counts');
   return res.data;

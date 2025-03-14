@@ -6,45 +6,35 @@ export const getMailCounts = async (req: Request, res: Response) => {
   try {
     const userId = res.locals.user.id as string;
 
-    const totalMails = await prisma.message.count({
-      where: {
-        recipients: {
-          some: {
-            recipientId: userId,
-            isDeleted: false,
+    const [totalMails, unreadMails, savedMails, sentMails] = await Promise.all([
+      prisma.message.count({
+        where: {
+          recipients: {
+            some: { recipientId: userId, isDeleted: false },
           },
         },
-      },
-    });
-
-    const unreadMails = await prisma.message.count({
-      where: {
-        recipients: {
-          some: {
-            recipientId: userId,
-            isRead: false,
+      }),
+      prisma.message.count({
+        where: {
+          recipients: {
+            some: { recipientId: userId, isRead: false },
           },
         },
-      },
-    });
-
-    const savedMails = await prisma.message.count({
-      where: {
-        recipients: {
-          some: {
-            recipientId: userId,
-            isSaved: true,
+      }),
+      prisma.message.count({
+        where: {
+          recipients: {
+            some: { recipientId: userId, isSaved: true },
           },
         },
-      },
-    });
-
-    const sentMails = await prisma.message.count({
-      where: {
-        senderId: userId,
-        isDeleted: false,
-      },
-    });
+      }),
+      prisma.message.count({
+        where: {
+          senderId: userId,
+          isDeleted: false,
+        },
+      }),
+    ]);
 
     return res.status(200).json({
       total: totalMails,
@@ -270,5 +260,53 @@ export const setMailAsRead = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error setting mail as read:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const getMailDetails = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const message = await prisma.message.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        subject: true,
+        body: true,
+        sender: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+        recipients: {
+          select: {
+            isRead: true,
+            isArchived: true,
+            isDeleted: true,
+            isSaved: true,
+            recipient: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!message) {
+      return res.status(404).json({ error: 'Mail not found' });
+    }
+
+    return res.status(200).json({ message });
+  } catch (error) {
+    console.error('Error fetching mail details:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
