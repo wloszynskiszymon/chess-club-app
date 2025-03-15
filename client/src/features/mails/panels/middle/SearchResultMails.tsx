@@ -1,4 +1,4 @@
-import useMessagesQuery from '@/hooks/queries/useMessagesQuery';
+import useMailsQuery from '@/hooks/queries/useMailsQuery';
 import MailsList from './MailsList';
 import { MiddlePanelProps } from './MiddlePanel';
 import useMailUrl from '@/features/mails/hooks/useMailUrl';
@@ -9,7 +9,7 @@ const SearchResultMails = (props: MiddlePanelProps) => {
   const { category, searchParams } = useMailUrl();
   const query = searchParams.get('q');
 
-  const { data, isLoading } = useMessagesQuery({
+  const { data, isLoading } = useMailsQuery({
     filter: category as NavCategory,
     query: query ? query : undefined,
   });

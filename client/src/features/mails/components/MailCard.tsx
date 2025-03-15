@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { Message } from '@/types/mail';
+import { Mail } from '@/types/mail';
 import moment from 'moment';
 import useMailUrl from '../hooks/useMailUrl';
 import { useQueryClient } from '@tanstack/react-query';
@@ -14,7 +14,7 @@ const MailCard = ({
   userEmail,
 }: {
   activeMailId: string | undefined;
-  mail: Message;
+  mail: Mail;
   userEmail: string;
   handleClick: (id: string) => void;
 }) => {

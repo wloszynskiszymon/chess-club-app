@@ -1,8 +1,8 @@
 import { Separator } from '@/components/ui/separator';
-import { Message } from '@/types/mail';
+import { Mail } from '@/types/mail';
 import moment from 'moment';
 
-const MailDetailsContent = ({ mail }: { mail: Message }) => {
+const MailDetailsContent = ({ mail }: { mail: Mail }) => {
   return (
     <article className='flex-1 p-4'>
       <div className='w-full'>

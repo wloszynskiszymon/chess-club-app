@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { HeartIcon } from 'lucide-react';
-import { Message } from '@/types/mail';
+import { Mail } from '@/types/mail';
 import { saveMail } from '@/api/mail';
 
-const SaveButton = ({ mail }: { mail: Message }) => {
+const SaveButton = ({ mail }: { mail: Mail }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -20,13 +20,13 @@ const SaveButton = ({ mail }: { mail: Message }) => {
         'mail',
         'details',
         mail.id,
-      ]) as Message;
+      ]) as Mail;
       const savedMails = queryClient.getQueryData(['mails', 'saved']);
 
       if (savedMails) {
         queryClient.setQueryData(
           ['mails', 'saved'],
-          (oldSaved: Message[] = []) => {
+          (oldSaved: Mail[] = []) => {
             if (mail.recipients[0].isSaved) {
               const updatedSavedMails = oldSaved.filter(
                 savedMail => savedMail.id !== mail.id
@@ -43,7 +43,7 @@ const SaveButton = ({ mail }: { mail: Message }) => {
       // Optimistically toggle isSaved
       queryClient.setQueryData(
         ['mail', 'details', mail.id],
-        (oldMail: Message | undefined) => {
+        (oldMail: Mail | undefined) => {
           if (!oldMail) return oldMail;
           return {
             ...oldMail,

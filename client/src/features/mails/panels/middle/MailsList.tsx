@@ -1,5 +1,5 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Message } from '@/types/mail';
+import { Mail } from '@/types/mail';
 import { useNavigate } from 'react-router-dom';
 import MailCard from '../../components/MailCard';
 import { NavCategory } from '../../types/mail';
@@ -7,10 +7,10 @@ import useUserQuery from '@/hooks/queries/useUserQuery';
 import MailCardSkeleton from '../../components/skeleton/MailCardSkeleton';
 
 type MailsListProps = {
-  mails: Message[];
+  mails: Mail[];
   category: NavCategory;
   activeMailId: string | undefined;
-  isLoading: boolean; // Add isLoading prop
+  isLoading: boolean;
   callbackText?: string;
 };
 

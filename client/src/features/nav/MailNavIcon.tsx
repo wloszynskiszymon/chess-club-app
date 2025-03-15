@@ -2,12 +2,12 @@ import { MailIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { getMails } from '@/api/mail';
-import useMessagesCountsQuery from '@/hooks/queries/useMessagesCountsQuery';
+import useMailsCounts from '@/hooks/queries/useMailsCounts';
 
 const MailNavIcon = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { data, isLoading } = useMessagesCountsQuery();
+  const { data, isLoading } = useMailsCounts();
 
   const handleClick = () => {
     navigate('/mail/received');

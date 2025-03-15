@@ -1,4 +1,4 @@
-import { Message } from '@/types/mail';
+import { Mail } from '@/types/mail';
 import React from 'react';
 import MailSectionHeader from '../../components/MailSectionHeader';
 import MailSectionHeading from '../../components/MailSectionHeading';
@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 type MailDetailsLayoutProps = {
   children?: React.ReactNode;
-  mail?: Message;
+  mail?: Mail;
   renderSkeleton?: boolean;
 };
 

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { MessageCounts } from '@/types/mail';
+import { MailsCounts } from '@/types/mail';
 import { getMailCounts } from '@/api/mail';
 
-const useMessagesCountsQuery = () => {
-  return useQuery<MessageCounts>({
+const useMailsCounts = () => {
+  return useQuery<MailsCounts>({
     queryKey: ['mails', 'counts'],
     queryFn: getMailCounts,
     staleTime: 1000 * 60 * 5,
@@ -17,4 +17,4 @@ const useMessagesCountsQuery = () => {
   });
 };
 
-export default useMessagesCountsQuery;
+export default useMailsCounts;

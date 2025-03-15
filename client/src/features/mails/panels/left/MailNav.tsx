@@ -4,7 +4,7 @@ import { MailLink } from '@/types/mail';
 import MailSectionHeading from '../../components/MailSectionHeading';
 import { Separator } from '@/components/ui/separator';
 import MailSectionHeader from '../../components/MailSectionHeader';
-import useMessagesCountsQuery from '@/hooks/queries/useMessagesCountsQuery';
+import useMailsCounts from '@/hooks/queries/useMailsCounts';
 import { useQueryClient, QueryClient } from '@tanstack/react-query';
 import { getMails } from '@/api/mail';
 import { NavCategory } from '../../types/mail';
@@ -22,7 +22,7 @@ const prefetchMail = (queryClient: QueryClient, mailType: NavCategory) => {
 };
 
 function MailNav() {
-  const { data: counts } = useMessagesCountsQuery();
+  const { data: counts } = useMailsCounts();
   const queryClient = useQueryClient();
 
   const links: MailLink[] = [

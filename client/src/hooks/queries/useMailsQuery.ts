@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import api from '../../api/axios';
-import { Message } from '@/types/mail';
+import { Mail } from '@/types/mail';
 import { NavCategory } from '@/features/mails/types/mail';
 
 type GetMailParams = {
@@ -10,13 +10,13 @@ type GetMailParams = {
   page?: number;
 };
 
-const useMessagesQuery = (
+const useMailsQuery = (
   params: GetMailParams,
-  useQueryParams?: UseQueryOptions<Message[]>
+  useQueryParams?: UseQueryOptions<Mail[]>
 ) => {
-  return useQuery<Message[]>({
+  return useQuery<Mail[]>({
     queryKey: ['mails', params.filter],
-    queryFn: async (): Promise<Message[]> => {
+    queryFn: async (): Promise<Mail[]> => {
       const res = await api.get('/api/mail', {
         params: {
           filter: params.filter,
@@ -33,4 +33,4 @@ const useMessagesQuery = (
   });
 };
 
-export default useMessagesQuery;
+export default useMailsQuery;

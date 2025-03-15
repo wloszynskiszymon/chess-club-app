@@ -16,7 +16,7 @@ export type Recipient = {
   email: string;
 };
 
-export type MessageRecipientEntry = {
+export type MailRecipientEntry = {
   id: string;
   isRead: boolean;
   isArchived: boolean;
@@ -25,22 +25,22 @@ export type MessageRecipientEntry = {
   recipient: Recipient;
 };
 
-export type Message = {
+export type Mail = {
   id: string;
   subject: string;
   body: string;
   senderId: string;
   sender: Recipient;
-  parent: Message | null;
-  replies: Message[];
-  recipients: MessageRecipientEntry[];
+  parent: Mail | null;
+  replies: Mail[];
+  recipients: MailRecipientEntry[];
   isForwarded: boolean;
   isDraft: boolean;
   isDeleted: boolean;
   createdAt: Date;
 };
 
-export type MessageCounts = {
+export type MailsCounts = {
   total: number;
   unread: number;
   saved: number;
