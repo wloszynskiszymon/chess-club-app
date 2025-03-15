@@ -1,12 +1,12 @@
 import MailsList from './MailsList';
-import { MiddlePanelProps } from '../../types/mail';
+import { MailMiddlePanelProps } from '@/types/mail';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import useInfiniteMailsQuery from '../../hooks/useInfiniteMails';
 import useMailUrl from '../../hooks/useMailUrl';
 
 // URL: /mail/received
-const FilterMailsList = (props: MiddlePanelProps) => {
+const FilterMailsList = (props: MailMiddlePanelProps) => {
   const { filter } = useMailUrl();
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteMailsQuery({ filter: filter });

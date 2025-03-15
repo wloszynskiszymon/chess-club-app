@@ -1,4 +1,4 @@
-import { MailFilter } from '@/features/mails/types/mail';
+import { MailFilter } from '@/types/mail';
 import api from './axios';
 
 export const getMails = async (filter: MailFilter) => {
@@ -8,6 +8,7 @@ export const getMails = async (filter: MailFilter) => {
 
 export const getMailDetails = async (mailId: string) => {
   const res = await api.get(`/api/mail/${mailId}`);
+  if (res.status === 404) return {};
   return res.data.message;
 };
 

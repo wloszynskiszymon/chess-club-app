@@ -7,10 +7,12 @@ import MailDetailsContentSkeleton from '../../components/skeleton/MailDetailsCon
 
 const MailDetails = () => {
   const { mailId } = useMailUrl();
-  const { data: mailDetails, isLoading } = useMailDetailsQuery(
-    mailId as string,
-    { enabled: !!mailId }
-  );
+  const {
+    data: mailDetails,
+    isLoading,
+    isError,
+  } = useMailDetailsQuery(mailId as string, { enabled: !!mailId });
+
   useMarkMailAsRead(mailDetails);
 
   if (isLoading)
@@ -20,7 +22,7 @@ const MailDetails = () => {
       </MailDetailsLayout>
     );
 
-  if (!mailDetails)
+  if (!mailDetails || isError)
     return (
       <MailDetailsLayout>
         <p className='text-sm text-muted-foreground text-center mt-4'>
