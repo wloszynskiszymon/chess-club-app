@@ -24,7 +24,6 @@ const FilterMailsList = (props: MailMiddlePanelProps) => {
   return (
     <MailsList
       mails={mails}
-      filter={filter}
       isLoading={isLoading}
       isFetchingNextPage={isFetchingNextPage}
       loadingRef={ref}

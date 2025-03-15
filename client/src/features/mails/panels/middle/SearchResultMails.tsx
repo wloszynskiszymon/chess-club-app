@@ -36,7 +36,6 @@ const SearchResultMails = (props: MailMiddlePanelProps) => {
   return (
     <MailsList
       callbackText='No results found'
-      filter={filter}
       mails={mails || []}
       isLoading={isLoading}
       isFetchingNextPage={isFetchingNextPage}

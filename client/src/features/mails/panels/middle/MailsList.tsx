@@ -2,13 +2,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Mail } from '@/types/mail';
 import { useNavigate } from 'react-router-dom';
 import MailCard from '../../components/MailCard';
-import { MailFilter } from '@/types/mail';
 import useUserQuery from '@/hooks/queries/user/useUserQuery';
 import MailCardSkeleton from '../../components/skeleton/MailCardSkeleton';
+import useMailUrl from '../../hooks/useMailUrl';
 
 type MailsListProps = {
   mails: Mail[];
-  filter: MailFilter;
   activeMailId: string | undefined;
   isLoading: boolean;
   isFetchingNextPage: boolean;
@@ -18,18 +17,21 @@ type MailsListProps = {
 
 const MailsList = ({
   mails,
-  filter,
   activeMailId,
   isLoading,
   isFetchingNextPage,
   loadingRef,
   callbackText = 'Your inbox is empty',
 }: MailsListProps) => {
+  const { filter, isSearchingMail, searchParams } = useMailUrl();
   const navigate = useNavigate();
+
   const { data } = useUserQuery();
 
   const handleClick = (id: string) => {
-    navigate(`/mail/${filter}/${id}`);
+    navigate(
+      `/mail/${filter}/${id}${isSearchingMail ? '?' + searchParams : ''}`
+    );
   };
 
   return (

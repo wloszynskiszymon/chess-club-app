@@ -9,6 +9,7 @@ import { useQueryClient, QueryClient } from '@tanstack/react-query';
 import { getMails } from '@/api/mail';
 import { MailFilter } from '@/types/mail';
 import NewMessageButtonLink from './NewMessageButtonLink';
+import useMailUrl from '../../hooks/useMailUrl';
 
 const prefetchMail = (queryClient: QueryClient, mailType: MailFilter) => {
   const queryKey = ['mails', mailType];
@@ -24,26 +25,29 @@ const prefetchMail = (queryClient: QueryClient, mailType: MailFilter) => {
 function MailNav() {
   const { data: counts } = useMailsCounts();
   const queryClient = useQueryClient();
+  const { searchParams } = useMailUrl();
+
+  const queryString = searchParams.toString() ? `?${searchParams}` : '';
 
   const links: MailLink[] = [
     {
       title: 'Received',
       label: counts?.unread.toString() || '0',
-      url: '/mail/received',
+      url: `/mail/received${queryString}`,
       icon: InboxIcon,
       prefetch: () => prefetchMail(queryClient, 'received'),
     },
     {
       title: 'Sent',
       label: counts?.sent.toString() || '0',
-      url: '/mail/sent',
+      url: `/mail/sent${queryString}`,
       icon: SendToBackIcon,
       prefetch: () => prefetchMail(queryClient, 'sent'),
     },
     {
       title: 'Saved',
       label: counts?.saved.toString() || '0',
-      url: '/mail/saved',
+      url: `/mail/saved${queryString}`,
       icon: HeartIcon,
       prefetch: () => prefetchMail(queryClient, 'saved'),
     },

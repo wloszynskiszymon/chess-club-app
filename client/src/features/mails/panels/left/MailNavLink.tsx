@@ -6,7 +6,7 @@ import useMailUrl from '../../hooks/useMailUrl';
 
 const MailNavLink = ({ link }: { link: MailLink }) => {
   const { filter } = useMailUrl();
-  const isActive = link.url === '/mail/' + filter;
+  const isActive = link.url.includes('/mail/' + filter);
 
   return (
     <Link
