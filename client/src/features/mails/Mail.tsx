@@ -4,10 +4,10 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable';
 import MailNav from './panels/left/MailNav';
-import NewMailPanel from './panels/NewMailPanel';
 import useMailUrl from './hooks/useMailUrl';
 import MiddlePanel from './panels/middle/MiddlePanel';
 import MailDetails from './panels/right/MailDetails';
+import MailForm from '@/components/forms/MailForm';
 
 const Mail = () => {
   const { isNewMail } = useMailUrl();
@@ -20,9 +20,11 @@ const Mail = () => {
       direction='horizontal'
       className='w-full rounded-lg border'
     >
+      {/* Left Panel */}
       <ResizablePanel
         className='flex'
         minSize={15}
+        maxSize={25}
         defaultSize={navPanelSize}
         id='left-panel'
         order={1}
@@ -30,18 +32,22 @@ const Mail = () => {
         <MailNav />
       </ResizablePanel>
       <ResizableHandle />
+      {/* Main Panel */}
       <ResizablePanel
         className='flex'
         defaultSize={mainPanelSize}
+        minSize={isNewMail ? 25 : 50}
         id='main-panel'
         order={2}
       >
-        {!isNewMail ? (
+        {isNewMail ? (
+          <MailForm className='p-4' />
+        ) : (
           <ResizablePanelGroup direction='horizontal'>
             <ResizablePanel
               className='h-full'
               minSize={25}
-              defaultSize={30}
+              defaultSize={35}
               id='middle-panel'
               order={1}
             >
@@ -50,19 +56,14 @@ const Mail = () => {
             <ResizableHandle />
             <ResizablePanel
               className='h-full'
-              minSize={25}
-              defaultSize={70}
+              minSize={40}
+              defaultSize={65}
               id='right-panel'
               order={2}
             >
               <MailDetails />
             </ResizablePanel>
           </ResizablePanelGroup>
-        ) : (
-          <>
-            <ResizableHandle />
-            <NewMailPanel mainPanelSize={mainPanelSize} />
-          </>
         )}
       </ResizablePanel>
     </ResizablePanelGroup>
