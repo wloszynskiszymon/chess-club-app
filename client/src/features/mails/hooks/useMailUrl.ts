@@ -1,16 +1,16 @@
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { MailFilter } from '@/types/mail';
 
 const useMailUrl = () => {
   const location = useLocation();
-  const { category, mailId } = useParams();
+  const { filter: rawFilter, mailId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  if (!category) {
-    throw new Error(
-      'Category or mailId is missing, component cannot be used here!'
-    );
+  if (!rawFilter) {
+    throw new Error('Filter or mailId is missing, hook cannot be used here!');
   }
 
+  const filter = rawFilter as MailFilter;
   const isSearchingMail = searchParams.has('q');
   const isReceived =
     location.pathname.includes('/mail/received') && !isSearchingMail;
@@ -23,7 +23,7 @@ const useMailUrl = () => {
     isSent,
     isSaved,
     isNewMail,
-    category,
+    filter,
     mailId,
     searchParams,
     setSearchParams,

@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import useMailUrl from '../../hooks/useMailUrl';
 
 const SearchInput = () => {
-  const { searchParams, setSearchParams, isSearchingMail, category } =
-    useMailUrl();
+  const { searchParams, setSearchParams, isSearchingMail } = useMailUrl();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [isInSearchMode, setIsInSearchMode] = useState(false);
 

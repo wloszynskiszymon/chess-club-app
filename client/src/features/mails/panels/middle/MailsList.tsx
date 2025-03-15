@@ -2,30 +2,34 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Mail } from '@/types/mail';
 import { useNavigate } from 'react-router-dom';
 import MailCard from '../../components/MailCard';
-import { NavCategory } from '../../types/mail';
+import { MailFilter } from '@/types/mail';
 import useUserQuery from '@/hooks/queries/user/useUserQuery';
 import MailCardSkeleton from '../../components/skeleton/MailCardSkeleton';
 
 type MailsListProps = {
   mails: Mail[];
-  category: NavCategory;
+  filter: MailFilter;
   activeMailId: string | undefined;
   isLoading: boolean;
+  isFetchingNextPage: boolean;
+  loadingRef: (node?: Element | null) => void;
   callbackText?: string;
 };
 
 const MailsList = ({
   mails,
-  category,
+  filter,
   activeMailId,
   isLoading,
+  isFetchingNextPage,
+  loadingRef,
   callbackText = 'Your inbox is empty',
 }: MailsListProps) => {
   const navigate = useNavigate();
   const { data } = useUserQuery();
 
   const handleClick = (id: string) => {
-    navigate(`/mail/${category}/${id}`);
+    navigate(`/mail/${filter}/${id}`);
   };
 
   return (
@@ -48,6 +52,11 @@ const MailsList = ({
               userEmail={data?.email}
             />
           ))}
+      {isFetchingNextPage &&
+        Array.from({ length: 3 }).map((_, index) => (
+          <MailCardSkeleton key={`next-${index}`} />
+        ))}
+      <div ref={loadingRef} className='h-10' />
     </ScrollArea>
   );
 };

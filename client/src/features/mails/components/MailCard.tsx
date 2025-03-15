@@ -18,7 +18,7 @@ const MailCard = ({
   userEmail: string;
   handleClick: (id: string) => void;
 }) => {
-  const { category } = useMailUrl();
+  const { filter } = useMailUrl();
   const queryClient = useQueryClient();
   const isRead = mail?.recipients?.some(
     r => r.recipient.email === userEmail && r.isRead
@@ -53,7 +53,7 @@ const MailCard = ({
       <div className='flex items-center justify-between'>
         <h2 className='text-lg font-semibold line-clamp-1'>{mail.subject}</h2>
         <div className='flex-center'>
-          {!isRead && category === 'received' && (
+          {!isRead && filter === 'received' && (
             <Badge variant='secondary'>New</Badge>
           )}
           <p className='text-muted-foreground text-nowrap pl-4 text-sm'>

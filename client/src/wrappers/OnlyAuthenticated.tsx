@@ -8,7 +8,11 @@ type CustomInternalAxiosRequestConfig = InternalAxiosRequestConfig & {
   _retry?: boolean;
 };
 
-export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
+export const OnlyAuthenticated = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const { token, setToken, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
@@ -87,4 +91,4 @@ export const ProtectedPage = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-export default ProtectedPage;
+export default OnlyAuthenticated;

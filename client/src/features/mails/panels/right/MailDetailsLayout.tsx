@@ -18,14 +18,14 @@ const MailDetailsLayout = ({
   mail,
   renderSkeleton = false,
 }: MailDetailsLayoutProps) => {
-  const { category } = useMailUrl();
+  const { filter } = useMailUrl();
   return (
     <section>
       <MailSectionHeader className='flex justify-between items-center'>
         <MailSectionHeading>Content of your mail</MailSectionHeading>
 
         <div className='flex justify-between items-center pr-6'>
-          {!renderSkeleton && category !== 'sent' && mail && (
+          {!renderSkeleton && filter !== 'sent' && mail && (
             <SaveButton mail={mail} />
           )}
           {renderSkeleton && <Skeleton className='w-6 h-6' />}

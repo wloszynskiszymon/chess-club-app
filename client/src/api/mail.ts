@@ -1,7 +1,7 @@
-import { NavCategory } from '@/features/mails/types/mail';
+import { MailFilter } from '@/features/mails/types/mail';
 import api from './axios';
 
-export const getMails = async (filter: NavCategory) => {
+export const getMails = async (filter: MailFilter) => {
   const res = await api.get('/api/mail?filter=' + filter);
   return res.data;
 };

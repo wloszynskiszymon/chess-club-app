@@ -7,10 +7,10 @@ import MailSectionHeader from '../../components/MailSectionHeader';
 import useMailsCounts from '@/hooks/queries/mail/useMailsCounts';
 import { useQueryClient, QueryClient } from '@tanstack/react-query';
 import { getMails } from '@/api/mail';
-import { NavCategory } from '../../types/mail';
+import { MailFilter } from '../../types/mail';
 import NewMessageButtonLink from './NewMessageButtonLink';
 
-const prefetchMail = (queryClient: QueryClient, mailType: NavCategory) => {
+const prefetchMail = (queryClient: QueryClient, mailType: MailFilter) => {
   const queryKey = ['mails', mailType];
   const queryState = queryClient.getQueryState(queryKey);
   if (!queryState) {

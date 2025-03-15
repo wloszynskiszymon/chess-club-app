@@ -1,5 +1,13 @@
-import { NavCategory } from '@/features/mails/types/mail';
+import { MailFilter } from '@/features/mails/types/mail';
 import { LucideIcon } from 'lucide-react';
+
+import { appConfig } from '@/lib/config';
+
+export type MailFilter = (typeof appConfig.mail.filters)[number];
+
+export type MailMiddlePanelProps = {
+  activeMailId: string;
+};
 
 export type MailLink = {
   icon: LucideIcon;
@@ -48,7 +56,7 @@ export type MailsCounts = {
 };
 
 export type MailFilters = {
-  type: NavCategory;
+  type: MailFilter;
   search?: string;
   page?: number;
   limit?: number;

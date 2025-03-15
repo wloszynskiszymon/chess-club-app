@@ -6,7 +6,7 @@ import useMailUrl from './useMailUrl';
 
 // This hook is used to mark a mail as read when the user navigates to the mail details page.
 const useMarkMailAsRead = (mail?: Mail) => {
-  const { category } = useMailUrl();
+  const { filter } = useMailUrl();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -22,11 +22,11 @@ const useMarkMailAsRead = (mail?: Mail) => {
     if (!mail) return;
     if (mail.recipients?.[0]?.isRead) return;
 
-    if (category === 'received' && !mutation.isPending) {
+    if (filter === 'received' && !mutation.isPending) {
       console.log('Marking mail as read...');
       mutation.mutate();
     }
-  }, [mail, category]);
+  }, [mail, filter]);
 
   return mutation;
 };

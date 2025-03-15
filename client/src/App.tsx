@@ -2,81 +2,85 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import AuthProvider from './providers/AuthProvider';
-import ProtectedPage from './providers/ProtectedPage';
+import AuthProvider from './wrappers/AuthProvider';
+import OnlyAuthenticated from './wrappers/OnlyAuthenticated';
 import { Toaster } from './components/ui/sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import TournamentsPage from './pages/TournamentsPage';
 import TournamentDetailsPage from './pages/TournamentDetailsPage';
-import AuthPage from './providers/AuthPage';
+import OnlyNotAuthenticated from './wrappers/OnlyNotAuthenticated';
 import MailPage from './pages/MailPage';
 
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import OnlyValidMailFilters from './wrappers/OnlyValidMailFilters';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <ProtectedPage>
+      <OnlyAuthenticated>
         <HomePage />
-      </ProtectedPage>
+      </OnlyAuthenticated>
     ),
   },
   {
     path: '/auth/login',
     element: (
-      <AuthPage>
+      <OnlyNotAuthenticated>
         <LoginPage />
-      </AuthPage>
+      </OnlyNotAuthenticated>
     ),
   },
   {
     path: '/auth/register',
     element: (
-      <AuthPage>
+      <OnlyNotAuthenticated>
         <RegisterPage />
-      </AuthPage>
+      </OnlyNotAuthenticated>
     ),
   },
   {
     path: '/tournaments',
     element: (
-      <ProtectedPage>
+      <OnlyAuthenticated>
         <TournamentsPage />
-      </ProtectedPage>
+      </OnlyAuthenticated>
     ),
   },
   {
     path: '/tournament/:tournamentId',
     element: (
-      <ProtectedPage>
+      <OnlyAuthenticated>
         <TournamentDetailsPage />
-      </ProtectedPage>
+      </OnlyAuthenticated>
     ),
   },
   {
-    path: '/mail/:category',
+    path: '/mail/:filter',
     element: (
-      <ProtectedPage>
-        <MailPage />
-      </ProtectedPage>
+      <OnlyAuthenticated>
+        <OnlyValidMailFilters>
+          <MailPage />
+        </OnlyValidMailFilters>
+      </OnlyAuthenticated>
     ),
   },
   {
-    path: '/mail/:category/:mailId',
+    path: '/mail/:filter/:mailId',
     element: (
-      <ProtectedPage>
-        <MailPage />
-      </ProtectedPage>
+      <OnlyAuthenticated>
+        <OnlyValidMailFilters>
+          <MailPage />
+        </OnlyValidMailFilters>
+      </OnlyAuthenticated>
     ),
   },
-
   {
     path: '*',
     element: (
-      <ProtectedPage>
+      <OnlyAuthenticated>
         <HomePage />
-      </ProtectedPage>
+      </OnlyAuthenticated>
     ),
   },
 ]);
@@ -89,7 +93,7 @@ function App() {
       <AuthProvider>
         <RouterProvider router={router} />
         <Toaster theme='light' richColors position='top-center' />
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <ReactQueryDevtools initialIsOpen={false} />
       </AuthProvider>
     </QueryClientProvider>
   );

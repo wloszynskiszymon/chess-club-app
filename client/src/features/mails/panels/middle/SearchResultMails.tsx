@@ -1,18 +1,31 @@
-import useMailsQuery from '@/hooks/queries/mail/useMailsQuery';
 import MailsList from './MailsList';
-import { MiddlePanelProps } from './MiddlePanel';
 import useMailUrl from '@/features/mails/hooks/useMailUrl';
-import { NavCategory } from '@/features/mails/types/mail';
+import { MailMiddlePanelProps, MailFilter } from '@/types/mail';
+import useInfiniteMailsQuery from '../../hooks/useInfiniteMails';
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
 
-// URL: /mail/:category/q=:query
-const SearchResultMails = (props: MiddlePanelProps) => {
-  const { category, searchParams } = useMailUrl();
+// URL: /mail/:filter/q=:query
+const SearchResultMails = (props: MailMiddlePanelProps) => {
+  const { filter, searchParams } = useMailUrl();
+  const { ref, inView } = useInView();
+
   const query = searchParams.get('q');
 
-  const { data, isLoading } = useMailsQuery({
-    filter: category as NavCategory,
-    query: query ? query : undefined,
-  });
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteMailsQuery({
+      filter: filter as MailFilter,
+      query: query ? query : undefined,
+    });
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  const mails = data?.pages.flat() || [];
+
   if (searchParams.has('q') && query?.length === 0)
     return (
       <div className='text-center text-gray-500 text-sm'>
@@ -23,8 +36,11 @@ const SearchResultMails = (props: MiddlePanelProps) => {
   return (
     <MailsList
       callbackText='No results found'
-      mails={data || []}
+      filter={filter}
+      mails={mails || []}
       isLoading={isLoading}
+      isFetchingNextPage={isFetchingNextPage}
+      loadingRef={ref}
       {...props}
     />
   );
