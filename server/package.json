@@ -1,7 +1,7 @@
 {
-  "name": "chess-club-app",
-  "version": "1.0.0",
-  "description": "A simple chess club app",
+  "name": "chess-club-app-server",
+  "version": "0.0.1",
+  "description": "Server for a simple chess clubs app",
   "main": "src/index.ts",
   "dependencies": {
     "@prisma/client": "^6.0.1",
