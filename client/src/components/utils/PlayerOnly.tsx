@@ -1,5 +1,5 @@
 import React from 'react';
-import useUserQuery from '../../hooks/queries/useUserQuery';
+import useUserQuery from '@/hooks/queries/user/useUserQuery';
 
 const PlayerOnly = ({ children }: React.PropsWithChildren) => {
   const { data, isSuccess } = useUserQuery();

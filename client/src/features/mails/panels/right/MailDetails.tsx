@@ -1,5 +1,5 @@
 import useMailUrl from '@/features/mails/hooks/useMailUrl';
-import useMailDetailsQuery from '@/hooks/queries/useMailDetailsQuery';
+import useMailDetailsQuery from '@/hooks/queries/mail/useMailDetailsQuery';
 import useMarkMailAsRead from '@/features/mails/hooks/useMarkMailAsRead';
 import MailDetailsLayout from './MailDetailsLayout';
 import MailDetailsContent from './MailDetailsContent';

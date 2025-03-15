@@ -4,7 +4,7 @@ import { MailLink } from '@/types/mail';
 import MailSectionHeading from '../../components/MailSectionHeading';
 import { Separator } from '@/components/ui/separator';
 import MailSectionHeader from '../../components/MailSectionHeader';
-import useMailsCounts from '@/hooks/queries/useMailsCounts';
+import useMailsCounts from '@/hooks/queries/mail/useMailsCounts';
 import { useQueryClient, QueryClient } from '@tanstack/react-query';
 import { getMails } from '@/api/mail';
 import { NavCategory } from '../../types/mail';

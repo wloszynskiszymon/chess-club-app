@@ -12,8 +12,8 @@ import {
   TournamentSchema,
 } from '../../schemas/tournamentSchema';
 import { TournamentSheetProps } from '../../types/sheet';
-import useTournamentQuery from '../queries/useTournamentQuery';
-import useTournamentsQuery from '../queries/useTournamentsQuery';
+import useTournamentQuery from '../queries/tournament/useTournamentQuery';
+import useTournamentsQuery from '../queries/tournament/useTournamentsQuery';
 
 const defaultValues: TournamentSchema = {
   title: '',

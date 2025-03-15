@@ -12,7 +12,7 @@ import { Tournament } from '../../types/server';
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-import useTournamentQuery from '../queries/useTournamentQuery';
+import useTournamentQuery from '../queries/tournament/useTournamentQuery';
 
 const useTournamentParticipantsForm = ({
   participants,

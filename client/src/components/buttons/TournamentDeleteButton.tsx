@@ -13,7 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
-import useTournamentsQuery from '../../hooks/queries/useTournamentsQuery';
+import useTournamentsQuery from '@/hooks/queries/tournament/useTournamentsQuery';
 
 type TournamentDeleteButtonProps = PropsWithChildren & {
   tournamentId: string;

@@ -1,4 +1,4 @@
-import useUserQuery from '../../hooks/queries/useUserQuery';
+import useUserQuery from '@/hooks/queries/user/useUserQuery';
 import { ParticipantResult } from '../../types/server';
 import {
   Table,

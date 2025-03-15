@@ -1,4 +1,4 @@
-import useUserQuery from '../hooks/queries/useUserQuery';
+import useUserQuery from '@/hooks/queries/user/useUserQuery';
 import LoadingScreen from '../components/utils/LoadingScreen';
 
 import Nav from '@/features/nav/Nav';

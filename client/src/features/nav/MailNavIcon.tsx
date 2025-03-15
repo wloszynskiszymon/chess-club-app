@@ -2,7 +2,7 @@ import { MailIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { getMails } from '@/api/mail';
-import useMailsCounts from '@/hooks/queries/useMailsCounts';
+import useMailsCounts from '@/hooks/queries/mail/useMailsCounts';
 
 const MailNavIcon = () => {
   const navigate = useNavigate();

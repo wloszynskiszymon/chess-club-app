@@ -1,5 +1,5 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
-import api from '../../api/axios';
+import api from '../../../api/axios';
 import { Mail } from '@/types/mail';
 import { NavCategory } from '@/features/mails/types/mail';
 

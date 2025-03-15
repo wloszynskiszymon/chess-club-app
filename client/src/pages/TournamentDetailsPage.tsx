@@ -11,11 +11,11 @@ import TournamentSheet from '../components/utils/TournamentSheet';
 import { Tournament } from '../types/server';
 import TournamentDeleteButton from '../components/buttons/TournamentDeleteButton';
 import TournamentParticipantsTableForm from '../components/forms/TournamentParticipantsTableForm';
-import useTournamentQuery from '../hooks/queries/useTournamentQuery';
+import useTournamentQuery from '@/hooks/queries/tournament/useTournamentQuery';
 import PlayerOnly from '../components/utils/PlayerOnly';
 import CoordinatorOnly from '../components/utils/CoordinatorOnly';
 import ParticipantResults from '../components/utils/ParticipantResults';
-import useUserResultsQuery from '../hooks/queries/useUserResultsQuery';
+import useUserResultsQuery from '@/hooks/queries/user/useUserResultsQuery';
 
 const TournamentDetailsPage = () => {
   const params = useParams();

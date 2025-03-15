@@ -1,4 +1,4 @@
-import useMailsQuery from '@/hooks/queries/useMailsQuery';
+import useMailsQuery from '@/hooks/queries/mail/useMailsQuery';
 import { MiddlePanelProps } from './MiddlePanel';
 import MailsList from './MailsList';
 

@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import api from '../../api/axios';
-import { User } from '../../types/zod';
+import api from '@/api/axios';
+import { User } from '@/types/zod';
 
 // Stable data, will not change
 const useUserQuery = (useQueryOptions?: UseQueryOptions<User, unknown>) => {

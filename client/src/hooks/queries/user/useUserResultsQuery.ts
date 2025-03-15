@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import api from '../../api/axios';
-import { ParticipantResult } from '../../types/server';
+import api from '@/api/axios';
 import useUserQuery from './useUserQuery';
+import { ParticipantResult } from '@/types/server';
 
 const useUserResultsQuery = (tournamentId?: string) => {
   const { data } = useUserQuery();
