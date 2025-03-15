@@ -1,14 +1,6 @@
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import api from '../../../api/axios';
-import { Mail } from '@/types/mail';
-import { MailFilter } from '@/features/mails/types/mail';
-
-type GetMailParams = {
-  filter?: MailFilter;
-  query?: string;
-  limit?: number;
-  page?: number;
-};
+import { GetMailParams, Mail } from '@/types/mail';
 
 const useMailsQuery = (
   params: GetMailParams,

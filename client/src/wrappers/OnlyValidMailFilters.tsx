@@ -7,7 +7,9 @@ const OnlyValidMailFilters = ({ children }: PropsWithChildren) => {
   if (!filter)
     throw new Error('Filter is missing, component cannot be used here!');
 
-  const isValid = appConfig.mail.filters.includes(filter as string);
+  const isValid = appConfig.mail.filters.includes(
+    filter as 'received' | 'sent' | 'saved'
+  );
 
   if (!isValid) return <Navigate to={`/mail/received`} replace />;
 

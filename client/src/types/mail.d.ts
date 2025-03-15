@@ -1,4 +1,3 @@
-import { MailFilter } from '@/features/mails/types/mail';
 import { LucideIcon } from 'lucide-react';
 
 import { appConfig } from '@/lib/config';
@@ -55,8 +54,9 @@ export type MailsCounts = {
   sent: number;
 };
 
-export type MailFilters = {
-  type: MailFilter;
+export type GetMailParams = {
+  filter: MailFilter;
+  query?: string;
   search?: string;
   page?: number;
   limit?: number;

@@ -1,13 +1,7 @@
+import { GetMailParams } from '@/types/mail';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import api from '../../../api/axios';
 import { Mail } from '@/types/mail';
-import { MailFilter } from '@/features/mails/types/mail';
-
-type GetMailParams = {
-  filter?: MailFilter;
-  query?: string;
-  limit?: number;
-};
 
 const useInfiniteMailsQuery = (params: GetMailParams) => {
   return useInfiniteQuery<Mail[], Error>({
