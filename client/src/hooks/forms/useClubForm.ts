@@ -18,7 +18,6 @@ const useClubForm = () => {
 
   const handleSubmit = async (data: ClubSchema) => {
     try {
-      console.log(data);
       const res = await api.post('/api/club', data);
       if (res.status === 201) {
         refetch();

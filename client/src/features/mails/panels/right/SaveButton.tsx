@@ -31,7 +31,6 @@ const SaveButton = ({ mail }: { mail: Mail }) => {
               const updatedSavedMails = oldSaved.filter(
                 savedMail => savedMail.id !== mail.id
               );
-              console.log(updatedSavedMails);
               return updatedSavedMails;
             } else {
               return [...oldSaved, mail];

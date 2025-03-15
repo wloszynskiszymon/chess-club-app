@@ -23,7 +23,6 @@ const useMarkMailAsRead = (mail?: Mail) => {
     if (mail.recipients?.[0]?.isRead) return;
 
     if (filter === 'received' && !mutation.isPending) {
-      console.log('Marking mail as read...');
       mutation.mutate();
     }
   }, [mail, filter]);

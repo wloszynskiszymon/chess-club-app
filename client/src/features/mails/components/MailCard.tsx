@@ -31,7 +31,6 @@ const MailCard = ({
     const queryState = queryClient.getQueryState(cacheKey);
 
     if (!existingData && queryState?.fetchStatus !== 'fetching') {
-      console.log('Prefetching mail with id:', id);
       await queryClient.prefetchQuery({
         queryKey: cacheKey,
         queryFn: getMailDetails.bind(null, id),
