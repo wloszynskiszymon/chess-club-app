@@ -11,7 +11,6 @@ import TournamentDetailsPage from './pages/TournamentDetailsPage';
 import OnlyNotAuthenticated from './wrappers/OnlyNotAuthenticated';
 import MailPage from './pages/MailPage';
 
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import OnlyValidMailFilters from './wrappers/OnlyValidMailFilters';
 
 const router = createBrowserRouter([
@@ -93,7 +92,6 @@ function App() {
       <AuthProvider>
         <RouterProvider router={router} />
         <Toaster theme='light' richColors position='top-center' />
-        <ReactQueryDevtools initialIsOpen={false} />
       </AuthProvider>
     </QueryClientProvider>
   );
