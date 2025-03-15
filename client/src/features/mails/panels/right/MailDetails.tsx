@@ -3,6 +3,7 @@ import useMailDetailsQuery from '@/hooks/queries/useMailDetailsQuery';
 import useMarkMailAsRead from '@/features/mails/hooks/useMarkMailAsRead';
 import MailDetailsLayout from './MailDetailsLayout';
 import MailDetailsContent from './MailDetailsContent';
+import MailDetailsContentSkeleton from '../../components/skeleton/MailDetailsContentSkeleton';
 
 const MailDetails = () => {
   const { mailId } = useMailUrl();
@@ -14,10 +15,8 @@ const MailDetails = () => {
 
   if (isLoading)
     return (
-      <MailDetailsLayout>
-        <p className='text-sm text-muted-foreground text-center mt-4'>
-          Loading...
-        </p>
+      <MailDetailsLayout renderSkeleton>
+        <MailDetailsContentSkeleton />
       </MailDetailsLayout>
     );
 

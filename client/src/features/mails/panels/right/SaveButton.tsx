@@ -21,11 +21,7 @@ const SaveButton = ({ mail }: { mail: Message }) => {
   const isSaved = mail.recipients[0].isSaved;
 
   return (
-    <button
-      className='mr-4'
-      onClick={() => mutation.mutate()}
-      disabled={mutation.isPending}
-    >
+    <button onClick={() => mutation.mutate()} disabled={mutation.isPending}>
       <HeartIcon fill={isSaved ? 'indianred' : 'none'} className='h-6 w-6' />
     </button>
   );
