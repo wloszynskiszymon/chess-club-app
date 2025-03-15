@@ -38,7 +38,8 @@ const MailsList = ({
             <MailCardSkeleton key={index} />
           ))
         : data &&
-          mails?.map(mail => (
+          mails &&
+          mails.map(mail => (
             <MailCard
               key={mail.id}
               activeMailId={activeMailId}

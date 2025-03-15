@@ -15,7 +15,7 @@ const useMessagesQuery = (
   useQueryParams?: UseQueryOptions<Message[]>
 ) => {
   return useQuery<Message[]>({
-    queryKey: ['mails', params],
+    queryKey: ['mails', params.filter],
     queryFn: async (): Promise<Message[]> => {
       const res = await api.get('/api/mail', {
         params: {

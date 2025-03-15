@@ -17,11 +17,11 @@ export const getMailCounts = async () => {
 };
 
 export const saveMail = async (mailId: string) => {
-  const res = await api.post(`/api/mail/${mailId}/save`, { mailId });
-  return res.data;
+  const res = await api.patch(`/api/mail/${mailId}/save`, { mailId });
+  if (res.status === 204) return;
 };
 
 export const setMailAsRead = async (mailId: string) => {
-  const res = await api.post(`/api/mail/${mailId}/read`, { mailId });
+  const res = await api.patch(`/api/mail/${mailId}/read`, { mailId });
   return res.data;
 };

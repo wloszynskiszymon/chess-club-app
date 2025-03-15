@@ -3,13 +3,13 @@ import { Request, Response } from 'express';
 
 export const generateAccessToken = (userId: string) => {
   return jwt.sign({ id: userId }, process.env.JWT_ACCESS_KEY, {
-    expiresIn: '15m',
+    expiresIn: '1h',
   });
 };
 
 export const generateRefreshToken = (userId: string) => {
   return jwt.sign({ id: userId }, process.env.JWT_REFRESH_KEY, {
-    expiresIn: '7d',
+    expiresIn: '28d',
   });
 };
 

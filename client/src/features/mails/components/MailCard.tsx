@@ -25,7 +25,7 @@ const MailCard = ({
   );
 
   const handlePrefetch = async (id: string) => {
-    const cacheKey = ['mails', 'details', id];
+    const cacheKey = ['mail', 'details', id];
 
     const existingData = queryClient.getQueryData(cacheKey);
     const queryState = queryClient.getQueryState(cacheKey);

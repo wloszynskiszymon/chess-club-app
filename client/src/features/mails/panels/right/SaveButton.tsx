@@ -7,13 +7,83 @@ const SaveButton = ({ mail }: { mail: Message }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationKey: ['mails', 'save', mail.id],
+    mutationKey: ['mail', 'save', mail.id],
     mutationFn: () => saveMail(mail.id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['mails', 'counts'] });
-      queryClient.invalidateQueries({ queryKey: ['mails', 'saved'] });
-      queryClient.invalidateQueries({
+    onMutate: async () => {
+      await queryClient.cancelQueries({
         queryKey: ['mail', 'details', mail.id],
+      });
+      await queryClient.cancelQueries({ queryKey: ['mails', 'counts'] });
+      await queryClient.cancelQueries({ queryKey: ['mails', 'saved'] });
+      const previousCounts = queryClient.getQueryData(['mails', 'counts']);
+      const previousMail = queryClient.getQueryData([
+        'mail',
+        'details',
+        mail.id,
+      ]) as Message;
+      const savedMails = queryClient.getQueryData(['mails', 'saved']);
+
+      if (savedMails) {
+        queryClient.setQueryData(
+          ['mails', 'saved'],
+          (oldSaved: Message[] = []) => {
+            if (mail.recipients[0].isSaved) {
+              const updatedSavedMails = oldSaved.filter(
+                savedMail => savedMail.id !== mail.id
+              );
+              console.log(updatedSavedMails);
+              return updatedSavedMails;
+            } else {
+              return [...oldSaved, mail];
+            }
+          }
+        );
+      }
+
+      // Optimistically toggle isSaved
+      queryClient.setQueryData(
+        ['mail', 'details', mail.id],
+        (oldMail: Message | undefined) => {
+          if (!oldMail) return oldMail;
+          return {
+            ...oldMail,
+            recipients: oldMail.recipients.map(r =>
+              r.id === mail.recipients[0].id ? { ...r, isSaved: !r.isSaved } : r
+            ),
+          };
+        }
+      );
+
+      // Optimistically update count
+      queryClient.setQueryData(['mails', 'counts'], (oldCounts: any) => {
+        if (!oldCounts) return oldCounts;
+        return {
+          ...oldCounts,
+          saved: mail.recipients[0].isSaved
+            ? oldCounts.saved - 1
+            : oldCounts.saved + 1,
+        };
+      });
+
+      return { previousMail, previousCounts, savedMails };
+    },
+    onError: (_err, _newData, context) => {
+      if (context?.previousMail) {
+        queryClient.setQueryData(
+          ['mail', 'details', mail.id],
+          context.previousMail
+        );
+      }
+      if (context?.previousCounts) {
+        queryClient.setQueryData(['mails', 'counts'], context.previousCounts);
+      }
+      if (context?.savedMails) {
+        queryClient.setQueryData(['mails', 'saved'], context.savedMails);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        predicate: query => query.queryKey[0] === 'mails',
       });
     },
   });

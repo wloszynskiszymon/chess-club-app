@@ -198,27 +198,24 @@ export const saveMail = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Recipient not found' });
     }
 
-    const newIsSaved = !recipient.isSaved;
-
     const updatedMessage = await prisma.message.update({
       where: { id: mailId },
       data: {
         recipients: {
           updateMany: {
             where: { recipientId: user.id },
-            data: { isSaved: newIsSaved },
+            data: { isSaved: !recipient.isSaved },
           },
         },
       },
       include: { recipients: true },
     });
 
-    const updatedRecipient = updatedMessage.recipients.find(
-      r => r.recipientId === user.id
-    );
+    if (!updatedMessage) {
+      return res.status(404).json({ error: 'Mail not found' });
+    }
 
-    console.log(updatedRecipient);
-    return res.status(200).json({ recipient: updatedRecipient });
+    return res.status(204).send();
   } catch (error) {
     console.error('Error saving message:', error);
     res.status(500).json({ error: 'Internal server error' });
