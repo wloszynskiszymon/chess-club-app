@@ -1,7 +1,6 @@
 import useMessagesQuery from '@/hooks/queries/useMessagesQuery';
 import MailsList from './MailsList';
 import { MiddlePanelProps } from './MiddlePanel';
-import MailListSkeleton from '@/features/mails/components/skeleton/MailListSkeleton';
 import useMailUrl from '@/features/mails/hooks/useMailUrl';
 import { NavCategory } from '@/features/mails/types/mail';
 
@@ -10,7 +9,7 @@ const SearchResultMails = (props: MiddlePanelProps) => {
   const { category, searchParams } = useMailUrl();
   const query = searchParams.get('q');
 
-  const { data } = useMessagesQuery({
+  const { data, isLoading } = useMessagesQuery({
     filter: category as NavCategory,
     query: query ? query : undefined,
   });
@@ -21,12 +20,14 @@ const SearchResultMails = (props: MiddlePanelProps) => {
       </div>
     );
 
-  if (!data) return <MailListSkeleton amount={5} />;
-  if (data.length === 0)
-    return (
-      <div className='text-center text-gray-500 text-sm'>No mails found</div>
-    );
-  return <MailsList mails={data} {...props} />;
+  return (
+    <MailsList
+      callbackText='No results found'
+      mails={data || []}
+      isLoading={isLoading}
+      {...props}
+    />
+  );
 };
 
 export default SearchResultMails;

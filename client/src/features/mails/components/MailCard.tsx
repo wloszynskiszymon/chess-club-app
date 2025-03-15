@@ -5,6 +5,7 @@ import moment from 'moment';
 import useMailUrl from '../hooks/useMailUrl';
 import { useQueryClient } from '@tanstack/react-query';
 import { getMailDetails } from '@/api/mail';
+import MailCardSkeleton from './skeleton/MailCardSkeleton';
 
 const MailCard = ({
   activeMailId,
@@ -19,7 +20,7 @@ const MailCard = ({
 }) => {
   const { category } = useMailUrl();
   const queryClient = useQueryClient();
-  const isRead = mail.recipients.some(
+  const isRead = mail?.recipients?.some(
     r => r.recipient.email === userEmail && r.isRead
   );
 
@@ -38,12 +39,14 @@ const MailCard = ({
     }
   };
 
+  if (!mail) return <MailCardSkeleton />;
+
   return (
     <Card
       key={mail.id}
       onMouseOver={handlePrefetch.bind(null, mail.id)}
       onClick={handleClick.bind(null, mail.id)}
-      className={`px-4 py-2 h-36  hover:bg-muted mb-2 cursor-pointer ${
+      className={`px-4 py-2 h-36 hover:bg-muted mb-2 cursor-pointer ${
         activeMailId === mail.id ? 'bg-muted' : 'bg-gray-50'
       }`}
     >
