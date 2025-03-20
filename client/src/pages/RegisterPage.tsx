@@ -6,12 +6,12 @@ import Logo from '@/features/nav/Logo';
 
 const RegisterPage = () => {
   return (
-    <AppLayout className='flex-center flex-col gap-12'>
+    <AppLayout className='flex-center flex-col gap-12 px-4'>
       <header>
-        <Logo className='w-[20rem]' />
+        <Logo className='w-[15rem] lg:w-[20rem]' />
       </header>
-      <Card className='w-[30rem] h-full p-4'>
-        <h1 className=' font-bold text-xl uppercase text-center mb-4'>
+      <Card className='w-full max-w-[30rem] h-full p-4'>
+        <h1 className='font-bold text-xl uppercase text-center mb-4'>
           Registration
         </h1>
         <RegisterForm />

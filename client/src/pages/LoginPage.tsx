@@ -6,11 +6,11 @@ import AuthFooter from '@/components/utils/AuthFooter';
 
 const LoginPage = () => {
   return (
-    <AppLayout className='flex-center flex-col gap-12'>
+    <AppLayout className='px-4 flex-center flex-col gap-12'>
       <header>
-        <Logo className='w-[20rem]' />
+        <Logo className='w-[15rem] lg:w-[20rem]' />
       </header>
-      <Card className='w-[30rem] h-full p-4'>
+      <Card className='w-full max-w-[30rem] h-full p-4'>
         <h1 className='text-center font-bold text-xl uppercase mb-4'>Login</h1>
         <LoginForm />
       </Card>
