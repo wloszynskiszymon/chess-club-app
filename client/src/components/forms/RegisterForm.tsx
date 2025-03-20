@@ -15,32 +15,38 @@ const RegisterForm = () => {
   return (
     <Form {...form}>
       <form
-        className='flex flex-col gap-3'
+        className='flex flex-col gap-3 mt-3'
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <FormField
-          control={form.control}
-          name='firstName'
-          render={({ field }) => (
-            <div>
-              <FormLabel>First Name</FormLabel>
-              <Input {...field} type='text' placeholder='Your first name...' />
-              <ErrorMessage>{errors?.firstName?.message}</ErrorMessage>
-            </div>
-          )}
-        />
+        <div className='flex gap-2 flex-1'>
+          <FormField
+            control={form.control}
+            name='firstName'
+            render={({ field }) => (
+              <div className='w-full'>
+                <FormLabel>First Name</FormLabel>
+                <Input
+                  {...field}
+                  type='text'
+                  placeholder='Your first name...'
+                />
+                <ErrorMessage>{errors?.firstName?.message}</ErrorMessage>
+              </div>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name='lastName'
-          render={({ field }) => (
-            <div>
-              <FormLabel>Last name</FormLabel>
-              <Input {...field} type='text' placeholder='Your last name...' />
-              <ErrorMessage>{errors?.lastName?.message}</ErrorMessage>
-            </div>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name='lastName'
+            render={({ field }) => (
+              <div className='w-full'>
+                <FormLabel>Last name</FormLabel>
+                <Input {...field} type='text' placeholder='Your last name...' />
+                <ErrorMessage>{errors?.lastName?.message}</ErrorMessage>
+              </div>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
@@ -64,28 +70,30 @@ const RegisterForm = () => {
             </div>
           )}
         />
-        <FormField
-          control={form.control}
-          name='password'
-          render={({ field }) => (
-            <div>
-              <FormLabel>Password</FormLabel>
-              <Input {...field} type='password' placeholder='********' />
-              <ErrorMessage>{errors?.password?.message}</ErrorMessage>
-            </div>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='confirmPassword'
-          render={({ field }) => (
-            <div>
-              <FormLabel>Confirm Password</FormLabel>
-              <Input {...field} type='password' placeholder='*********' />
-              <ErrorMessage>{errors?.confirmPassword?.message}</ErrorMessage>
-            </div>
-          )}
-        />
+        <div className='flex gap-2 flex-1'>
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field }) => (
+              <div className='w-full'>
+                <FormLabel>Password</FormLabel>
+                <Input {...field} type='password' placeholder='********' />
+                <ErrorMessage>{errors?.password?.message}</ErrorMessage>
+              </div>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='confirmPassword'
+            render={({ field }) => (
+              <div className='w-full'>
+                <FormLabel>Confirm Password</FormLabel>
+                <Input {...field} type='password' placeholder='*********' />
+                <ErrorMessage>{errors?.confirmPassword?.message}</ErrorMessage>
+              </div>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name='role'

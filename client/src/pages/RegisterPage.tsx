@@ -1,14 +1,22 @@
+import AuthFooter from '@/components/utils/AuthFooter';
 import RegisterForm from '../components/forms/RegisterForm';
 import { Card } from '../components/ui/card';
 import AppLayout from '../components/utils/AppLayout';
+import Logo from '@/features/nav/Logo';
 
 const RegisterPage = () => {
   return (
-    <AppLayout className='flex-center'>
+    <AppLayout className='flex-center flex-col gap-12'>
+      <header>
+        <Logo className='w-[20rem]' />
+      </header>
       <Card className='w-[30rem] h-full p-4'>
-        <h1 className='text-center font-bold text-2xl uppercase'>Sign up!</h1>
+        <h1 className=' font-bold text-xl uppercase text-center mb-4'>
+          Registration
+        </h1>
         <RegisterForm />
       </Card>
+      <AuthFooter />
     </AppLayout>
   );
 };
