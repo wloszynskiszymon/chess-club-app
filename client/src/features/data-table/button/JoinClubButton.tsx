@@ -6,7 +6,7 @@ import { isErrorMessage } from '../../../api/errors';
 import { Row } from '@tanstack/react-table';
 import useUserQuery from '@/hooks/queries/user/useUserQuery';
 import { useMutation } from '@tanstack/react-query';
-import { useJoinClubContext } from './JoinClubContext';
+import { useJoinClubContext } from '../columns/JoinClubContext';
 
 const JoinClubButton = ({ row }: { row: Row<Club> }) => {
   const { refetch: refetchUserData, isFetching: isFetchingUserData } =

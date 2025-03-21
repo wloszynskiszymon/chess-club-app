@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import JoinClubButton from '../button/JoinClubButton';
+import { DataTableColumnHeader } from '../DataTableColumnHeader';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -24,7 +25,9 @@ export const clubColumns: ColumnDef<Club>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'club name',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='club name' />
+    ),
   },
   {
     accessorFn: row => `${row.owner.firstName} ${row.owner.lastName}`,

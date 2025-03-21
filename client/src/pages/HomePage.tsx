@@ -23,8 +23,8 @@ const HomePage = () => {
     <AppLayout>
       <Nav disabled={isFirstCoordinatorLogin || isFirstChessPlayerLogin} />
       <section
-        className={`pt-16 px-4 w-full flex ${
-          isFirstLogin ? 'mt-0 flex-center h-screen' : ''
+        className={` px-4 w-full flex ${
+          isFirstLogin ? 'justify-center pt-24' : 'pt-16'
         }`}
       >
         {isFirstCoordinatorLogin && <CoordinatorClubCard />}
