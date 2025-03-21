@@ -4,13 +4,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { getMails } from '@/api/mail';
 import useMailsCounts from '@/hooks/queries/mail/useMailsCounts';
 
-const MailNavIcon = () => {
+const MailNavIcon = ({ disabled }: { disabled?: boolean }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data, isLoading } = useMailsCounts();
 
   const handleClick = () => {
-    navigate('/mail/received');
+    !disabled && navigate('/mail/received');
   };
 
   const prefetchData = () => {

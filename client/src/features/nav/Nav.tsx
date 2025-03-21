@@ -20,7 +20,7 @@ const Nav = ({ disabled }: { disabled?: boolean }) => {
       </div>
 
       <div className='flex-center gap-8'>
-        <MailNavIcon />
+        <MailNavIcon disabled={disabled} />
         <LogoutButton />
       </div>
     </nav>
