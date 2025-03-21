@@ -16,7 +16,12 @@ const Tournaments = ({
   }
 
   return (
-    <div {...props} className={cn(`${className} grid grid-cols-3 gap-2`)}>
+    <div
+      {...props}
+      className={cn(
+        `${className} grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2`
+      )}
+    >
       {tournaments.map(tournament => (
         <TournamentCard key={tournament.id} tournament={tournament} />
       ))}

@@ -6,7 +6,7 @@ const Heading = ({ children, className = '', ...props }: HeadingProps) => {
   return (
     <h1
       {...props}
-      className={cn(`${className} text-2xl font-bold uppercase text-gray-800 
+      className={cn(`${className} text-xl md:text-2xl font-bold uppercase text-gray-800 
      `)}
     >
       {children}
