@@ -30,9 +30,9 @@ const ParticipantsTable = ({ tournament }: ParticipantsTableProps) => {
       </TableHeader>
       <TableBody>
         {tournament.participants.map(({ id, firstName, lastName }, i) => (
-          <TableRow key={id}>
+          <TableRow className='h-full' key={id}>
             <TableCell>{i + 1}</TableCell>
-            <TableCell className='text-xs md:text-sm lg:text-md text-ellipsis line-clamp-1 text-nowrap'>
+            <TableCell className='text-xs md:text-sm lg:text-md text-ellipsis'>
               <div className='hidden md:block'>
                 {firstName + ' ' + lastName}
               </div>

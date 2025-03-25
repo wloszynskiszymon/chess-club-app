@@ -33,7 +33,7 @@ const ParticipantResults = ({
       <TableBody>
         <TableRow>
           <TableCell>1</TableCell>
-          <TableCell className='w-30 h-4 line-clamp-1 text-ellipsis text-xs md:text-sm lg:text-md'>
+          <TableCell className='w-30 line-clamp-1 text-ellipsis text-xs md:text-sm lg:text-md'>
             {userData?.firstName + ' ' + userData?.lastName}
           </TableCell>
           <TableCell className='w-10 h-4'>{wins}</TableCell>
