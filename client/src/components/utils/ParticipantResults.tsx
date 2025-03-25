@@ -22,7 +22,7 @@ const ParticipantResults = ({
       <TableCaption>You can only see your results.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className='w-[100px]'>#</TableHead>
+          <TableHead className='w-[50px] md:w-[100px]'>#</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Wins</TableHead>
           <TableHead>Loses</TableHead>
@@ -33,23 +33,13 @@ const ParticipantResults = ({
       <TableBody>
         <TableRow>
           <TableCell>1</TableCell>
-          <TableCell>
-            <div className='w-30 h-4'>
-              {userData?.firstName + ' ' + userData?.lastName}
-            </div>
+          <TableCell className='w-30 h-4 line-clamp-1 text-ellipsis text-xs md:text-sm lg:text-md'>
+            {userData?.firstName + ' ' + userData?.lastName}
           </TableCell>
-          <TableCell>
-            <div className='w-10 h-4'>{wins}</div>
-          </TableCell>
-          <TableCell>
-            <div className='w-10 h-4'>{losses}</div>
-          </TableCell>
-          <TableCell>
-            <div className='w-10 h-4'>{draws}</div>
-          </TableCell>
-          <TableCell>
-            <div className='w-10 h-4'>{rating}</div>
-          </TableCell>
+          <TableCell className='w-10 h-4'>{wins}</TableCell>
+          <TableCell className='w-10 h-4'>{losses}</TableCell>
+          <TableCell className='w-10 h-4'>{draws}</TableCell>
+          <TableCell className='w-10 h-4'>{rating}</TableCell>
         </TableRow>
       </TableBody>
     </Table>

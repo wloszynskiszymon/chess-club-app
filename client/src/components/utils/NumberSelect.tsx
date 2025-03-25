@@ -32,7 +32,7 @@ const NumberSelect = ({ name, amount }: NumberSelectProps) => {
           value={field.value + ''}
         >
           <FormControl>
-            <SelectTrigger className='w-20'>
+            <SelectTrigger className='text-xs sm:text-sm md:text-md w-16 md:w-20'>
               <SelectValue>{field.value}</SelectValue>
             </SelectTrigger>
           </FormControl>

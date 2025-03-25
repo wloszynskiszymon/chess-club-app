@@ -20,7 +20,7 @@ const ParticipantsTable = ({ tournament }: ParticipantsTableProps) => {
       <TableCaption>List of tournament participants.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className='w-[100px]'>#</TableHead>
+          <TableHead className='w-[50px] md:w-[100px]'>#</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Wins</TableHead>
           <TableHead>Loses</TableHead>
@@ -32,7 +32,14 @@ const ParticipantsTable = ({ tournament }: ParticipantsTableProps) => {
         {tournament.participants.map(({ id, firstName, lastName }, i) => (
           <TableRow key={id}>
             <TableCell>{i + 1}</TableCell>
-            <TableCell>{firstName + ' ' + lastName}</TableCell>
+            <TableCell className='text-xs md:text-sm lg:text-md text-ellipsis line-clamp-1 text-nowrap'>
+              <div className='hidden md:block'>
+                {firstName + ' ' + lastName}
+              </div>
+              <div className='block md:hidden'>
+                {firstName.slice(0, 1) + '. ' + lastName}
+              </div>
+            </TableCell>
             <TableCell>
               <NumberSelect name={`${id}.wins`} amount={tournament.rounds} />
             </TableCell>
