@@ -12,7 +12,7 @@ const MailSectionHeading = ({
     <h2
       {...props}
       className={cn(
-        `${className} text-2xl capitalize pl-4 text-black font-semibold`
+        `${className} text-lg md:text-xl xl:text-2xl capitalize pl-4 text-black font-semibold`
       )}
     >
       {children}
