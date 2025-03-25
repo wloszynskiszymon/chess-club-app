@@ -1,13 +1,13 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import logoImg from '@/photos/logo.png';
+import logoImg from '@/photos/logo_sm.png';
 import { useNavigate } from 'react-router-dom';
 
 type LogoProps = React.HTMLProps<HTMLImageElement> & {
   navigateTo?: string | undefined;
 };
 
-const Logo = ({
+const LogoSmall = ({
   children,
   className = '',
   navigateTo,
@@ -30,4 +30,4 @@ const Logo = ({
   );
 };
 
-export default Logo;
+export default LogoSmall;
