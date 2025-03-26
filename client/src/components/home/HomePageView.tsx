@@ -1,6 +1,6 @@
 import Nav from '@/features/nav/Nav';
 import AppLayout from '../utils/AppLayout';
-import MembersCard from '../cards/MembersCard';
+import ClubInfo from '../cards/ClubInfo';
 import { User } from '@/types/zod';
 import { Club } from '@/features/data-table/columns/ClubListColumns';
 import AppSection from '../utils/AppSection';
@@ -12,12 +12,16 @@ const HomePageView = ({ user }: { user: User }) => {
   return (
     <AppLayout>
       <Nav />
-      <AppSection>
-        <Heading className='mb-2'>Dashboards</Heading>
-        <HeadingDescription>See all upcoming events!</HeadingDescription>
-        <article className='w-full flex gap-4 justify-between'>
-          <MembersCard club={user?.club as Club} />
-          <MailAside className='min-w-40' />
+      <AppSection className=' flex justify-between gap-4'>
+        <article>
+          <Heading className='mb-2'>Dashboards</Heading>
+          <HeadingDescription className='mb-6'>
+            See all upcoming events!
+          </HeadingDescription>
+        </article>
+        <article>
+          <ClubInfo className='mb-8' club={user?.club as Club} />
+          <MailAside />
         </article>
       </AppSection>
     </AppLayout>
