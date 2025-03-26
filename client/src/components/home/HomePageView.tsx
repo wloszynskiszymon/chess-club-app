@@ -19,8 +19,11 @@ const HomePageView = ({ user }: { user: User }) => {
             See all upcoming events!
           </HeadingDescription>
         </article>
-        <article>
-          <ClubInfo className='mb-8' club={user?.club as Club} />
+        <article className='[&>*]:rounded-md'>
+          <ClubInfo
+            className='mb-8 hover:bg-gray-100 '
+            club={user?.club as Club}
+          />
           <MailAside />
         </article>
       </AppSection>

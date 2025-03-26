@@ -6,7 +6,7 @@ type ClubInfoProps = React.HTMLProps<HTMLDivElement> & {
 };
 const ClubInfo = ({ className = '', club }: ClubInfoProps) => {
   return (
-    <div className={`${className}`}>
+    <div className={`${className} `}>
       <HeadingSecondary className='font-bold text-lg uppercase'>
         Your club:
       </HeadingSecondary>

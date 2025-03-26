@@ -8,7 +8,7 @@ const HomePage = () => {
   const { data: userData, isLoading: isLoadingUserData } = useUserQuery();
 
   if (isLoadingUserData || !userData) return <LoadingScreen />;
-  else if (!userData?.club) return <FirstLoginView />;
+  if (!userData?.club) return <FirstLoginView />;
   else return <HomePageView user={userData} />;
 };
 

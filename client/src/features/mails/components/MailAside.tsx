@@ -3,6 +3,8 @@ import HeadingSecondary from '@/components/utils/HeadingSecondary';
 import useMailsQuery from '@/hooks/queries/mail/useMailsQuery';
 import MailItem from './MailItem';
 import MailItemSkeleton from './skeleton/MailItemSkeleton';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 type MailAsideProps = React.HTMLProps<HTMLDivElement> & React.PropsWithChildren;
 const MailAside = ({ className = '', ...props }: MailAsideProps) => {
@@ -10,6 +12,7 @@ const MailAside = ({ className = '', ...props }: MailAsideProps) => {
     filter: 'received',
     limit: 5,
   });
+  const navigate = useNavigate();
 
   return (
     <aside {...props} className={`${className} `}>
@@ -27,10 +30,19 @@ const MailAside = ({ className = '', ...props }: MailAsideProps) => {
       )}
 
       {mailData?.map(mail => (
-        <div className='[&:not(:last-child)]:border-b border-gray-200'>
+        <div className='[&:not(:last-child)]:border-b border-gray-200 cursor-pointer'>
           <MailItem key={mail.id} mail={mail} />
         </div>
       ))}
+      {mailData && (
+        <Button
+          onClick={() => navigate('/mail/new')}
+          className='w-full mt-4'
+          variant='ghost'
+        >
+          New message
+        </Button>
+      )}
     </aside>
   );
 };
