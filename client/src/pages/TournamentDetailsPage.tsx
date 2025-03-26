@@ -7,9 +7,9 @@ import TournamentParticipantsTableForm from '../components/forms/TournamentParti
 import useTournamentQuery from '@/hooks/queries/tournament/useTournamentQuery';
 import PlayerOnly from '../components/utils/PlayerOnly';
 import CoordinatorOnly from '../components/utils/CoordinatorOnly';
-import ParticipantResults from '../components/utils/ParticipantResults';
+import ParticipantResults from '../components/tournaments/ParticipantResults';
 import useUserResultsQuery from '@/hooks/queries/user/useUserResultsQuery';
-import TournamentDetailsHeader from '@/components/utils/TournamentDetailsHeader';
+import TournamentDetailsHeader from '@/components/tournaments/TournamentDetailsHeader';
 
 const TournamentDetailsPage = () => {
   const params = useParams();

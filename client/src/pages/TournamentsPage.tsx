@@ -1,11 +1,11 @@
 import AppLayout from '../components/utils/AppLayout';
 import LoadingScreen from '../components/utils/LoadingScreen';
 import Nav from '@/features/nav/Nav';
-import Tournaments from '../components/utils/Tournaments';
+import Tournaments from '../components/tournaments/Tournaments';
 import useTournamentsQuery from '@/hooks/queries/tournament/useTournamentsQuery';
 import Heading from '../components/utils/Heading';
 import { Button } from '../components/ui/button';
-import TournamentSheet from '../components/utils/TournamentSheet';
+import TournamentSheet from '../components/tournaments/TournamentSheet';
 import CoordinatorOnly from '../components/utils/CoordinatorOnly';
 
 const TournamentsPage = () => {

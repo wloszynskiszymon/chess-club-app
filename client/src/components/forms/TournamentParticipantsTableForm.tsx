@@ -1,5 +1,5 @@
 import useTournamentParticipantsForm from '../../hooks/forms/useTournamentParticipantsForm';
-import ParticipantsTable from '../utils/ParticipantsTable';
+import ParticipantsTable from '../tournaments/ParticipantsTable';
 import { Tournament } from '../../types/server';
 import { Button } from '../ui/button';
 import { Form } from '../ui/form';

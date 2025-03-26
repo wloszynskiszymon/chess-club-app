@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/table';
-import NumberSelect from './NumberSelect';
+import NumberSelect from '../utils/NumberSelect';
 
 type ParticipantsTableProps = {
   tournament: Tournament;

@@ -1,9 +1,9 @@
 import { Tournament } from '@/types/server';
-import Heading from './Heading';
-import CoordinatorOnly from './CoordinatorOnly';
+import Heading from '../utils/Heading';
+import CoordinatorOnly from '../utils/CoordinatorOnly';
 import TournamentSheet from './TournamentSheet';
 import { Button } from '../ui/button';
-import TournamentDeleteButton from '../buttons/TournamentDeleteButton';
+import TournamentDeleteButton from './TournamentDeleteButton';
 import { Trash } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import moment from 'moment';
