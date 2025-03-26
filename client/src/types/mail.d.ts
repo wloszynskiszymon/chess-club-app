@@ -38,13 +38,8 @@ export type Mail = {
   body: string;
   senderId: string;
   sender: Recipient;
-  parent: Mail | null;
-  replies: Mail[];
   recipients: MailRecipientEntry[];
-  isForwarded: boolean;
-  isDraft: boolean;
-  isDeleted: boolean;
-  createdAt: Date;
+  createdAt: string;
 };
 
 export type MailsCounts = {

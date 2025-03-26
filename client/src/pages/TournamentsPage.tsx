@@ -8,6 +8,7 @@ import { Button } from '../components/ui/button';
 import TournamentSheet from '../components/tournaments/TournamentSheet';
 import CoordinatorOnly from '../components/utils/CoordinatorOnly';
 import AppSection from '@/components/utils/AppSection';
+import HeadingDescription from '@/components/utils/HeadingDescription';
 
 const TournamentsPage = () => {
   const { data: tournamentData, isLoading: isLoadingTournamentData } =
@@ -22,9 +23,9 @@ const TournamentsPage = () => {
         <div className='flex justify-between items-center mb-8'>
           <div>
             <Heading>Tournaments</Heading>
-            <p className='text-muted-foreground mb-4 text-xs md:text-sm lg:text-md'>
+            <HeadingDescription className='mb-4'>
               Here you can see all your tournaments.
-            </p>
+            </HeadingDescription>
           </div>
           <CoordinatorOnly>
             <TournamentSheet formType='ADD'>

@@ -7,6 +7,7 @@ import TournamentDeleteButton from './TournamentDeleteButton';
 import { Trash } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import moment from 'moment';
+import HeadingDescription from '../utils/HeadingDescription';
 
 const TournamentDetailsHeader = ({
   tournament,
@@ -39,9 +40,9 @@ const TournamentDetailsHeader = ({
         <Badge>{time}</Badge>
         <Badge>{tournament.rounds} rounds</Badge>
       </div>
-      <p className='mb-6 text-xs md:text-sm lg:text-md'>
+      <HeadingDescription className='mb-6'>
         {tournament.description}
-      </p>
+      </HeadingDescription>
     </header>
   );
 };
