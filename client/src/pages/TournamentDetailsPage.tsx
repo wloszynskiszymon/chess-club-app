@@ -10,6 +10,7 @@ import CoordinatorOnly from '../components/utils/CoordinatorOnly';
 import ParticipantResults from '../components/tournaments/ParticipantResults';
 import useUserResultsQuery from '@/hooks/queries/user/useUserResultsQuery';
 import TournamentDetailsHeader from '@/components/tournaments/TournamentDetailsHeader';
+import AppSection from '@/components/utils/AppSection';
 
 const TournamentDetailsPage = () => {
   const params = useParams();
@@ -24,25 +25,23 @@ const TournamentDetailsPage = () => {
   return (
     <AppLayout>
       <Nav />
-      <section className='px-4 pt-24 flex gap-2'>
-        <article className='w-full mx-2 md:mx-10 lg:mx-20'>
-          <TournamentDetailsHeader tournament={tournamentData as Tournament} />
+      <AppSection className='flex flex-col gap-2'>
+        <TournamentDetailsHeader tournament={tournamentData as Tournament} />
 
-          <CoordinatorOnly>
-            <TournamentParticipantsTableForm tournament={tournamentData} />
-          </CoordinatorOnly>
+        <CoordinatorOnly>
+          <TournamentParticipantsTableForm tournament={tournamentData} />
+        </CoordinatorOnly>
 
-          <PlayerOnly>
-            {resultData ? (
-              <ParticipantResults tournamentResults={resultData} />
-            ) : (
-              <p className='text-muted-foreground text-center text-xs md:text-sm lg:text-md'>
-                You did not participate in this tournament.
-              </p>
-            )}
-          </PlayerOnly>
-        </article>
-      </section>
+        <PlayerOnly>
+          {resultData ? (
+            <ParticipantResults tournamentResults={resultData} />
+          ) : (
+            <p className='text-muted-foreground text-center text-xs md:text-sm lg:text-md'>
+              You did not participate in this tournament.
+            </p>
+          )}
+        </PlayerOnly>
+      </AppSection>
     </AppLayout>
   );
 };

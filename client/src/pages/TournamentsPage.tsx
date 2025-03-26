@@ -7,6 +7,7 @@ import Heading from '../components/utils/Heading';
 import { Button } from '../components/ui/button';
 import TournamentSheet from '../components/tournaments/TournamentSheet';
 import CoordinatorOnly from '../components/utils/CoordinatorOnly';
+import AppSection from '@/components/utils/AppSection';
 
 const TournamentsPage = () => {
   const { data: tournamentData, isLoading: isLoadingTournamentData } =
@@ -17,7 +18,7 @@ const TournamentsPage = () => {
   return (
     <AppLayout>
       <Nav />
-      <section className='mx-3  md:mx-8 lg:mx-12 pt-24 xl:mx-20'>
+      <AppSection>
         <div className='flex justify-between items-center mb-8'>
           <div>
             <Heading>Tournaments</Heading>
@@ -34,7 +35,7 @@ const TournamentsPage = () => {
           </CoordinatorOnly>
         </div>
         <Tournaments tournaments={tournamentData} />
-      </section>
+      </AppSection>
     </AppLayout>
   );
 };

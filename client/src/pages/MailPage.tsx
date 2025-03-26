@@ -2,14 +2,15 @@ import AppLayout from '@/components/utils/AppLayout';
 import Nav from '@/features/nav/Nav';
 
 import Mail from '@/features/mails/Mail';
+import AppSection from '@/components/utils/AppSection';
 
 const MailPage = () => {
   return (
     <AppLayout className='overflow-y-hidden'>
       <Nav />
-      <section className='pt-24 min-w-[900px] w-full px-2 sm:px-6 md:px-10 h-[90vh] overflow-hidden  bg-gray-50'>
+      <AppSection className='min-w-[900px] h-[90vh] overflow-hidden bg-gray-50'>
         <Mail />
-      </section>
+      </AppSection>
     </AppLayout>
   );
 };
