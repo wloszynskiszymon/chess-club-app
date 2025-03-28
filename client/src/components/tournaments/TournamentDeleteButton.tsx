@@ -13,7 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../ui/alert-dialog';
-import useTournamentsQuery from '@/hooks/queries/tournament/useTournamentsQuery';
+import { useQueryClient } from '@tanstack/react-query';
 
 type TournamentDeleteButtonProps = PropsWithChildren & {
   tournamentId: string;
@@ -30,13 +30,13 @@ const TournamentDeleteButton = ({
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const { refetch } = useTournamentsQuery();
+  const queryClient = useQueryClient();
 
   const handleDelete = async () => {
     try {
       setLoading(true);
       const res = await api.delete(`/api/tournament/${tournamentId}`);
-      await refetch();
+      await queryClient.invalidateQueries({ queryKey: ['tournaments'] });
       toast.success(res.data.message);
       if (shouldNavigate) navigate(navigatePath);
       setOpen(false);

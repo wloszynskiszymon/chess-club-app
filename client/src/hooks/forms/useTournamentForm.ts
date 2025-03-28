@@ -12,8 +12,7 @@ import {
   TournamentSchema,
 } from '../../schemas/tournamentSchema';
 import { TournamentSheetProps } from '../../types/sheet';
-import useTournamentQuery from '../queries/tournament/useTournamentQuery';
-import useTournamentsQuery from '../queries/tournament/useTournamentsQuery';
+import { useQueryClient } from '@tanstack/react-query';
 
 const defaultValues: TournamentSchema = {
   title: '',
@@ -28,10 +27,7 @@ const useTournamentForm = ({
   tournament,
   onSubmitSuccess,
 }: TournamentSheetProps) => {
-  const { refetch: refetchTournament } = useTournamentQuery(
-    tournament?.id as string
-  );
-  const { refetch: refetchTournaments } = useTournamentsQuery();
+  const queryClient = useQueryClient();
 
   const defaultFormValues = useMemo(() => {
     if (formType === 'ADD') {
@@ -91,10 +87,12 @@ const useTournamentForm = ({
       );
 
       if (isUpdate) {
-        await refetchTournament();
-      } else {
-        await refetchTournaments();
+        await queryClient.invalidateQueries({
+          queryKey: [`tournament-${tournament.id}`],
+        });
       }
+
+      await queryClient.invalidateQueries({ queryKey: ['tournaments'] });
 
       form.reset();
       onSubmitSuccess?.();

@@ -12,14 +12,14 @@ import { Tournament } from '../../types/server';
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-import useTournamentQuery from '../queries/tournament/useTournamentQuery';
+import { useQueryClient } from '@tanstack/react-query';
 
 const useTournamentParticipantsForm = ({
   participants,
   id,
   rounds,
 }: Tournament) => {
-  const { refetch } = useTournamentQuery(id);
+  const queryClient = useQueryClient();
   const participantsSchema = generateParticipantsSchema(participants, rounds);
   const defaultValues = generateParticipantsDefaultValues(participants);
   type ParticipantsSchema = z.infer<typeof participantsSchema>;
@@ -46,8 +46,9 @@ const useTournamentParticipantsForm = ({
         data,
       });
 
+      await queryClient.invalidateQueries({ queryKey: [`tournament-${id}`] });
+
       toast.success('Changes saved successfully!');
-      refetch();
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
       const errorData = axiosError.response?.data as unknown;

@@ -4,14 +4,12 @@ import api from '../../../api/axios';
 import { toast } from 'sonner';
 import { isErrorMessage } from '../../../api/errors';
 import { Row } from '@tanstack/react-table';
-import useUserQuery from '@/hooks/queries/user/useUserQuery';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useJoinClubContext } from '../columns/JoinClubContext';
 
 const JoinClubButton = ({ row }: { row: Row<Club> }) => {
-  const { refetch: refetchUserData, isFetching: isFetchingUserData } =
-    useUserQuery();
   const { isJoining, setIsJoining } = useJoinClubContext();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ['joinClub'],
@@ -23,7 +21,7 @@ const JoinClubButton = ({ row }: { row: Row<Club> }) => {
     },
     onSuccess: async () => {
       toast.success('You have joined the club!');
-      await refetchUserData();
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     onError: error => {
       if (isErrorMessage(error)) toast.error(error.message);
@@ -38,7 +36,7 @@ const JoinClubButton = ({ row }: { row: Row<Club> }) => {
     <Button
       variant='outline'
       onClick={() => mutate(row.original.id)}
-      disabled={isJoining || isPending || isFetchingUserData}
+      disabled={isJoining || isPending}
     >
       {isPending ? 'Joining...' : 'Join'}
     </Button>
