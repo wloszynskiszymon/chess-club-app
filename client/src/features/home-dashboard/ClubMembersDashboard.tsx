@@ -1,12 +1,15 @@
+import HeadingDescription from '@/components/utils/HeadingDescription';
+import HeadingSecondary from '@/components/utils/HeadingSecondary';
+import MildCard from '@/components/utils/MildCard';
 import { Club } from '@/features/data-table/columns/ClubListColumns';
-import HeadingSecondary from '../utils/HeadingSecondary';
-import MildCard from './MildCard';
-import HeadingDescription from '../utils/HeadingDescription';
 
-type ClubInfoProps = React.HTMLProps<HTMLDivElement> & {
+type ClubMembersDashboardProps = React.HTMLProps<HTMLDivElement> & {
   club: Club;
 };
-const ClubInfo = ({ className = '', club }: ClubInfoProps) => {
+const ClubMembersDashboard = ({
+  className = '',
+  club,
+}: ClubMembersDashboardProps) => {
   return (
     <article className={`${className}`}>
       <HeadingSecondary className='mb-1'>
@@ -16,7 +19,7 @@ const ClubInfo = ({ className = '', club }: ClubInfoProps) => {
         See the members of your club and their roles.
       </HeadingDescription>
 
-      <div className='grid grid-cols-3 gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4'>
         {club.members.map(member => (
           <MildCard
             key={member.id}
@@ -31,4 +34,4 @@ const ClubInfo = ({ className = '', club }: ClubInfoProps) => {
   );
 };
 
-export default ClubInfo;
+export default ClubMembersDashboard;
