@@ -4,7 +4,7 @@ import ClubMembersDashboard from './ClubMembersDashboard';
 import { User } from '@/types/zod';
 import { Club } from '@/features/data-table/columns/ClubListColumns';
 import AppSection from '../../components/utils/AppSection';
-import MailAside from '@/features/mails/components/MailAside';
+import MailDashboard from '@/features/home-dashboard/MailDashboard';
 import TournamentDashboard from './TournamentDashboard';
 import Heading from '../../components/utils/Heading';
 import { Card, CardContent, CardHeader } from '../../components/ui/card';
@@ -31,7 +31,7 @@ const HomePageView = ({ user }: { user: User }) => {
               />
             </article>
             <article>
-              <MailAside />
+              <MailDashboard />
             </article>
           </CardContent>
         </Card>

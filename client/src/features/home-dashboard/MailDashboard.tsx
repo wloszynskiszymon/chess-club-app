@@ -1,12 +1,13 @@
 import HeadingDescription from '@/components/utils/HeadingDescription';
 import HeadingSecondary from '@/components/utils/HeadingSecondary';
 import useMailsQuery from '@/hooks/queries/mail/useMailsQuery';
-import MailItemSkeleton from './skeleton/MailItemSkeleton';
-import NewMessageButtonLink from '../panels/left/NewMessageButtonLink';
+import NewMessageButtonLink from '../mails/panels/left/NewMessageButtonLink';
 import MildCard from '@/components/utils/MildCard';
+import MildCardSkeleton from '@/components/utils/MildCardSkeleton';
 
-type MailAsideProps = React.HTMLProps<HTMLDivElement> & React.PropsWithChildren;
-const MailAside = ({ className = '', ...props }: MailAsideProps) => {
+type MailDashboardProps = React.HTMLProps<HTMLDivElement> &
+  React.PropsWithChildren;
+const MailDashboard = ({ className = '', ...props }: MailDashboardProps) => {
   const { data: mailData, isLoading } = useMailsQuery({
     filter: 'received',
     limit: 3,
@@ -21,7 +22,7 @@ const MailAside = ({ className = '', ...props }: MailAsideProps) => {
       <div className='flex flex-col gap-4'>
         {isLoading &&
           Array.from({ length: 3 }).map((_, index) => (
-            <MailItemSkeleton key={'mail-loading-' + index} />
+            <MildCardSkeleton key={'mail-loading-' + index} />
           ))}
 
         {mailData?.length === 0 && (
@@ -53,4 +54,4 @@ const MailAside = ({ className = '', ...props }: MailAsideProps) => {
   );
 };
 
-export default MailAside;
+export default MailDashboard;

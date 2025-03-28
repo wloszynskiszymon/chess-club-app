@@ -6,21 +6,15 @@ import HeadingSecondary from '@/components/utils/HeadingSecondary';
 import HeadingDescription from '@/components/utils/HeadingDescription';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import MildCardSkeleton from '@/components/utils/MildCardSkeleton';
 
 type TournamentDashboardProps = React.HTMLAttributes<HTMLDivElement>;
+
 const TournamentDashboard = ({
   className = '',
   ...props
 }: TournamentDashboardProps) => {
-  const { data: tournamentData, isLoading } = useTournamentsQuery({
-    limit: 3,
-  });
-
-  if (isLoading)
-    return <div className='text-center text-muted-foreground'>Loading...</div>;
-
-  if (tournamentData?.length === 0)
-    return <div className='text-center text-muted-foreground'>No conntent</div>;
+  const { data: tournamentData, isLoading } = useTournamentsQuery({ limit: 3 });
 
   return (
     <div {...props} className={cn(className)}>
@@ -30,26 +24,32 @@ const TournamentDashboard = ({
       </HeadingDescription>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4'>
-        {tournamentData?.map(tournament => {
-          return (
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, index) => (
+            <MildCardSkeleton key={`tournament-loading-${index}`} />
+          ))
+        ) : tournamentData?.length ? (
+          tournamentData.map(tournament => (
             <MildCard
               key={tournament.id}
               title={tournament.title}
               description={tournament.description}
-              footer={tournament.participants.length + ' participants'}
+              footer={`${tournament.participants.length} participants`}
             />
-          );
-        })}
+          ))
+        ) : (
+          <div className='col-span-full text-center text-muted-foreground'>
+            No tournaments available
+          </div>
+        )}
       </div>
 
-      <Button className='mt-4 self-center' variant='ghost'>
-        <Link
-          className='text-center underline underline-offset-2 text-sm'
-          to='/tournaments'
-        >
-          See more tournaments
-        </Link>
-      </Button>
+      <Link
+        to='/tournaments'
+        className='mt-4 self-center text-center underline underline-offset-2 text-sm'
+      >
+        <Button variant='ghost'>See more tournaments</Button>
+      </Link>
     </div>
   );
 };
