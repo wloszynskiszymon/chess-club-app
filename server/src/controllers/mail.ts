@@ -51,7 +51,9 @@ export const getMailCounts = async (req: Request, res: Response) => {
 export const getMails = async (req: Request, res: Response) => {
   try {
     const userId = res.locals.user.id as string;
-    const { filter, query, page = 1, limit = 10 } = req.query; // EXPECTED: received, sent, saved
+    const { filter, query } = req.query;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
 
     let whereClause: any = {};
 
@@ -129,8 +131,8 @@ export const getMails = async (req: Request, res: Response) => {
       orderBy: {
         createdAt: 'desc',
       },
-      skip: (Number(page) - 1) * Number(limit),
-      take: Number(limit),
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
     return res.status(200).json(mails);

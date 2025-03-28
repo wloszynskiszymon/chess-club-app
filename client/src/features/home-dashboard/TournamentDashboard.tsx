@@ -12,7 +12,9 @@ const TournamentDashboard = ({
   className = '',
   ...props
 }: TournamentDashboardProps) => {
-  const { data: tournamentData, isLoading } = useTournamentsQuery();
+  const { data: tournamentData, isLoading } = useTournamentsQuery({
+    limit: 3,
+  });
 
   if (isLoading)
     return <div className='text-center text-muted-foreground'>Loading...</div>;
@@ -28,7 +30,7 @@ const TournamentDashboard = ({
       </HeadingDescription>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4'>
-        {tournamentData?.slice(0, 3).map(tournament => {
+        {tournamentData?.map(tournament => {
           return (
             <MildCard
               key={tournament.id}

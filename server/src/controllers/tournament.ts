@@ -188,14 +188,20 @@ export const deleteTournament = async (req: Request, res: Response) => {
   }
 };
 
-// GET /api/tournament/club
+// GET /api/tournament
 export const getClubTournaments = async (req: Request, res: Response) => {
   try {
     const user = res.locals.user as User;
+    const { query } = req.query;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
 
     const tournaments = await prisma.tournament.findMany({
       where: {
         clubId: user.clubId as string,
+        title: {
+          contains: query ? (query as string) : undefined,
+        },
       },
       select: {
         id: true,
@@ -217,6 +223,11 @@ export const getClubTournaments = async (req: Request, res: Response) => {
           },
         },
       },
+      orderBy: {
+        datetime: 'desc',
+      },
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
     return res.status(200).json(tournaments);
