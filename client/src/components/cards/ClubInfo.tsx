@@ -1,25 +1,33 @@
 import { Club } from '@/features/data-table/columns/ClubListColumns';
 import HeadingSecondary from '../utils/HeadingSecondary';
+import MildCard from './MildCard';
+import HeadingDescription from '../utils/HeadingDescription';
 
 type ClubInfoProps = React.HTMLProps<HTMLDivElement> & {
   club: Club;
 };
 const ClubInfo = ({ className = '', club }: ClubInfoProps) => {
   return (
-    <div className={`${className} `}>
-      <HeadingSecondary className='font-bold text-lg uppercase'>
-        Your club:
+    <article className={`${className}`}>
+      <HeadingSecondary className='mb-1'>
+        Members of your club:
       </HeadingSecondary>
-      <p className='mb-6'>{club.name}</p>
+      <HeadingDescription className='mb-4'>
+        See the members of your club and their roles.
+      </HeadingDescription>
 
-      <h3 className='font-bold text-lg'>Members:</h3>
-
-      {club.members.map(member => (
-        <p className='text-gray-700' key={member.id}>
-          {member.firstName + ' ' + member.lastName}
-        </p>
-      ))}
-    </div>
+      <div className='grid grid-cols-3 gap-4'>
+        {club.members.map(member => (
+          <MildCard
+            key={member.id}
+            title={member.firstName + ' ' + member.lastName}
+            description={member.email}
+            footer={member.role}
+            className='mb-2'
+          />
+        ))}
+      </div>
+    </article>
   );
 };
 

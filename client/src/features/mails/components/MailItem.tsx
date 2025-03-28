@@ -1,12 +1,13 @@
 import { Mail } from '@/types/mail';
 import MailDate from './MailDate';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
-type MailItemProps = {
+type MailItemProps = React.HTMLProps<HTMLDivElement> & {
   mail: Mail;
 };
 
-const MailItem = ({ mail }: MailItemProps) => {
+const MailItem = ({ mail, className = '', ...props }: MailItemProps) => {
   const navigate = useNavigate();
   const handleNavigation = (mailId: string) => {
     navigate(`/mail/received/${mailId}`);
@@ -14,7 +15,10 @@ const MailItem = ({ mail }: MailItemProps) => {
 
   return (
     <div
-      className='w-full py-2 not:border-b hover:bg-gray-100 cursor-pointer'
+      {...props}
+      className={cn(
+        `${className} w-full py-2 not:border-b hover:bg-gray-100 cursor-pointer`
+      )}
       onClick={() => handleNavigation(mail.id)}
     >
       <p className='font-bold text-ellipsis text-nowrap line-clamp-1'>

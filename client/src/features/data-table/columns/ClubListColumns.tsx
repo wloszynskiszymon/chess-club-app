@@ -10,6 +10,7 @@ type SafeUser = {
   lastName: string;
   email: string;
   birthdate: string;
+  role: 'CHESS_PLAYER' | 'COORDINATOR';
 };
 export type Club = {
   id: string;

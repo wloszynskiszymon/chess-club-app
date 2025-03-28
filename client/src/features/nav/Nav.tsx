@@ -11,7 +11,6 @@ const Nav = ({ disabled }: { disabled?: boolean }) => {
         <Logo navigateTo='/' className='h-16 hidden md:block' />
         <LogoSmall navigateTo='/' className='h-12 block md:hidden' />
       </div>
-
       <div className='flex-center gap-6'>
         <MailNavIcon disabled={disabled} />
         <DropdownNav disabled={disabled}>
