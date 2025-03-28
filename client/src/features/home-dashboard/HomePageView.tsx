@@ -1,18 +1,18 @@
 import Nav from '@/features/nav/Nav';
-import AppLayout from '../utils/AppLayout';
-import ClubInfo from '../cards/ClubInfo';
+import AppLayout from '../../components/utils/AppLayout';
+import ClubInfo from '../../components/cards/ClubInfo';
 import { User } from '@/types/zod';
 import { Club } from '@/features/data-table/columns/ClubListColumns';
-import AppSection from '../utils/AppSection';
-import HeadingDescription from '../utils/HeadingDescription';
+import AppSection from '../../components/utils/AppSection';
+import HeadingDescription from '../../components/utils/HeadingDescription';
 import MailAside from '@/features/mails/components/MailAside';
 import TournamentDashboard from './TournamentDashboard';
-import HeadingSecondary from '../utils/HeadingSecondary';
-import Heading from '../utils/Heading';
-import { Card, CardContent, CardHeader } from '../ui/card';
-import { Separator } from '../ui/separator';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
+import HeadingSecondary from '../../components/utils/HeadingSecondary';
+import Heading from '../../components/utils/Heading';
+import { Card, CardContent, CardHeader } from '../../components/ui/card';
+import { Separator } from '../../components/ui/separator';
+import { Badge } from '../../components/ui/badge';
+import { Button } from '../../components/ui/button';
 import { Link } from 'react-router-dom';
 
 const HomePageView = ({ user }: { user: User }) => {

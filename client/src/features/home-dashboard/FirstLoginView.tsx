@@ -1,10 +1,10 @@
+import ChessPlayerClubCard from '@/components/cards/ChessPlayerClubCard';
+import CoordinatorClubCard from '@/components/cards/CoordinatorClubCard';
+import AppLayout from '@/components/utils/AppLayout';
+import AppSection from '@/components/utils/AppSection';
+import CoordinatorOnly from '@/components/utils/CoordinatorOnly';
+import PlayerOnly from '@/components/utils/PlayerOnly';
 import Nav from '@/features/nav/Nav';
-import AppLayout from '../utils/AppLayout';
-import CoordinatorClubCard from '../cards/CoordinatorClubCard';
-import ChessPlayerClubCard from '../cards/ChessPlayerClubCard';
-import CoordinatorOnly from '../utils/CoordinatorOnly';
-import PlayerOnly from '../utils/PlayerOnly';
-import AppSection from '../utils/AppSection';
 
 const FirstLoginView = () => {
   return (

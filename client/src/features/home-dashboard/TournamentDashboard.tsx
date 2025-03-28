@@ -1,5 +1,5 @@
 import useTournamentsQuery from '@/hooks/queries/tournament/useTournamentsQuery';
-import MildCard from '../cards/MildCard';
+import MildCard from '../../components/cards/MildCard';
 
 const TournamentDashboard = () => {
   const { data: tournamentData, isLoading } = useTournamentsQuery();
