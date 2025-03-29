@@ -23,7 +23,7 @@ const TournamentDashboard = ({
         See some of the upcoming tournaments and their details.
       </HeadingDescription>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 mb-4'>
         {isLoading ? (
           Array.from({ length: 3 }).map((_, index) => (
             <MildCardSkeleton key={`tournament-loading-${index}`} />
@@ -38,17 +38,16 @@ const TournamentDashboard = ({
             />
           ))
         ) : (
-          <div className='col-span-full text-center text-muted-foreground'>
+          <div className='col-span-full text-center text-muted-foreground text-sm'>
             No tournaments available
           </div>
         )}
       </div>
 
-      <Link
-        to='/tournaments'
-        className='mt-4 self-center text-center underline underline-offset-2 text-sm'
-      >
-        <Button variant='ghost'>See more tournaments</Button>
+      <Link to='/tournaments' className='self-center text-center  text-sm'>
+        <Button variant='ghost' className='underline underline-offset-4'>
+          See more tournaments
+        </Button>
       </Link>
     </div>
   );
